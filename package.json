@@ -1,0 +1,23 @@
+{
+  "name": "extranet_export",
+  "version": "0.0.1",
+  "description": "Export utility from xml to json",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "privte";"true",
+  "repository": "",
+  "author": "baptiste",
+  "license": "BSD",
+  "dependencies": {
+    "underscore": "~1.5.1",
+    "wrench": "~1.5.1",
+    "xml2js": "~0.2.8",
+    "cheerio": "~0.12.2",
+    "mongoose": "~3.6.19",
+    "express": "~3.3.8",
+    "iconv": "~2.0.7",
+    "async": "~0.2.9"
+  }
+}
