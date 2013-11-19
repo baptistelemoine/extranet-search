@@ -31,7 +31,7 @@ var schema = new mongoose.Schema({
 
 var record = mongoose.model('articles', schema);
 
-var dirPath = './data/editos';
+var dirPath = './data/editos2';
 
 
 function records(req, res){
@@ -56,6 +56,10 @@ wrench.readdirRecursive(dirPath, function (error, curFiles) {
 					var article = new ExtranetFile(value, dirPath);
 					article.getArticle(function (item){
 						console.log(item);
+						var rec = new record(item);
+						rec.save(function (error){
+							if(error) console.log(error);
+						});
 					});
 				}
 			});
