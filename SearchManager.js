@@ -33,8 +33,9 @@ SearchManager.prototype = {
 			if(!exists){
 				self._createIndex();
 			}
-			// self._launchIndexing(docs);
+			self._launchIndexing(docs);
 		});
+
 	},
 
 	_launchIndexing:function(docs){
@@ -43,16 +44,17 @@ SearchManager.prototype = {
 		var self = this;
 
 		_.each(docs, function (value){
-			commands.push({
+			commands.push({'index':{
 				'_index':self.indice,
-				'_type':self.type
-			});
+				'_type':self.type,
+				'_id':value._id
+			}});
 			commands.push(value);
 		});
 
 		this._es.bulk(commands, {})
 		.on('data', function (data) {
-			console.log('Indexing Completed!');
+			console.log(data, 'Indexing Completed!');
 		})
 		.on('error', function (error) {
 			console.log(error);
@@ -61,7 +63,19 @@ SearchManager.prototype = {
 
 	_createIndex:function(){
 
-		this._es.createIndex(this.indice, {}, {})
+		var options = {
+			'mappings':{
+				'articles':{
+					'properties':{
+						'pdfcontent':{
+							'type':'attachment'
+						}
+					}
+				}
+			}
+		};
+
+		this._es.createIndex(this.indice, {}, options)
 		.on('data', function (data) {
 			console.log('Index created!');
 		})
@@ -76,7 +90,7 @@ SearchManager.prototype = {
 			host: this.host,
 			port: 9200,
 			path: '/'+this.indice,
-			method: 'GET'
+			method: 'HEAD'
 		};
 
 		var dfd = Q.defer();

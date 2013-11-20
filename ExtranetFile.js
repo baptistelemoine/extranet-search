@@ -11,7 +11,7 @@ var ExtranetFile = function(folder, dirPath){
 	//mettre l auteur
 	this.folder = folder;
 	this.dirPath = dirPath;
-	this.isPdf = false;
+	this.ispdf = false;
 	this._init();
 };
 
@@ -19,7 +19,7 @@ ExtranetFile.prototype = {
 
 	_init:function(){
 		var currentFile = path.basename(this.folder,'.data');
-		if(path.extname(currentFile) === '.pdf') this.isPdf = true;
+		if(path.extname(currentFile) === '.pdf') this.ispdf = true;
 	},
 
 	getArticle:function(callback){
@@ -35,17 +35,20 @@ ExtranetFile.prototype = {
 					self._parseContent(self.origin, callback);
 			},
 			function (data, callback){
-				if(!self.isPdf)
+				if(!self.ispdf)
 					self._cleanHTML(data, callback);
 				else callback(null, data);
 			}
 		], function (err, result){
 			if(err) console.log(err);
-			if(!self.isPdf){
+			if(!self.ispdf){
 				self.content = result.content;
 				self.links = result.links;
 			}
-			else self.content = result;
+			else {
+				// self.pdfcontent = new Buffer(result).toString('base64');
+				self.pdfcontent = result;
+			}
 			callback(self);
 		});
 	},
@@ -90,7 +93,7 @@ ExtranetFile.prototype = {
 					self.hidden = (value.hidden !== '' ? value.hidden : 'false');
 					self.title = value.title;
 					self.summary = value.summary;
-					self.date = value.date;
+					self.date = new Date(value.date);
 					self.origin = self.dirPath.concat('/', self.folder);
 				});
 				callback();
@@ -103,8 +106,8 @@ ExtranetFile.prototype = {
 
 		var p = file.substring(0, file.length - 5);
 
-		if(!this.isPdf) return fs.readFile(p, 'binary', callback);
-		else if(this.isPdf) return fs.readFile(p, 'base64', callback);
+		if(!this.ispdf) return fs.readFile(p, 'binary', callback);
+		else if(this.ispdf) return fs.readFile(p, 'base64', callback);
 	}
 	
 };

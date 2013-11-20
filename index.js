@@ -27,7 +27,9 @@ var schema = new mongoose.Schema({
 	summary:'string',
 	date:'date',
 	origin:'string',
-	content:'string'
+	content:'string',
+	ispdf:'boolean',
+	pdfcontent:'string'
 });
 
 var record = mongoose.model('articles', schema);
@@ -40,34 +42,32 @@ function records(req, res){
 	});
 }
 
-var search = new SearchManager();
-// search.index();
-
-
+/*record.find().exec(function (err, docs){
+	var search = new SearchManager();
+	search.index(docs);
+});
+*/
 //load dirs recursively, get all folder which terminates by .data
 //get all meta data, and then, parse content by opening the aspx file
 //and search for the wysiweb tag under printable one
-wrench.readdirRecursive(dirPath, function (error, curFiles) {
-	if(error) console.log(error);
+/*wrench.readdirRecursive(dirPath, function (error, curFiles) {
     if(curFiles) {
 		curFiles.forEach(function (value, index){
-			console.log(index)
 			fs.stat(dirPath.concat('/', value), function (error, file){
 				if(error) console.log(error);
 				if(file.isDirectory() && path.extname(value) === '.data'){
 					
 					var article = new ExtranetFile(value, dirPath);
 					article.getArticle(function (item){
-						// console.log(item);
-						/*var rec = new record(item);
+						var rec = new record(item);
 						rec.save(function (error){
 							if(error) console.log(error);
-						});*/
+						});
 					});
 				}
 			});
 		});
     }
 });
-
+*/
 
