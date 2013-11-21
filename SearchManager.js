@@ -63,19 +63,10 @@ SearchManager.prototype = {
 
 	_createIndex:function(){
 
-		var options = {
-			'mappings':{
-				'articles':{
-					'properties':{
-						'pdfcontent':{
-							'type':'attachment'
-						}
-					}
-				}
-			}
-		};
+		//view config/elasticsearch.yml for general config
+		//mapping, indexes, analyzers...
 
-		this._es.createIndex(this.indice, {}, options)
+		this._es.createIndex(this.indice, {}, {})
 		.on('data', function (data) {
 			console.log('Index created!');
 		})

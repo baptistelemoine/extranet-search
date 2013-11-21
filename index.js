@@ -28,8 +28,7 @@ var schema = new mongoose.Schema({
 	date:'date',
 	origin:'string',
 	content:'string',
-	ispdf:'boolean',
-	pdfcontent:'string'
+	ispdf:'boolean'
 });
 
 var record = mongoose.model('articles', schema);
@@ -42,11 +41,12 @@ function records(req, res){
 	});
 }
 
-/*record.find().exec(function (err, docs){
+record.find().exec(function (err, docs){
 	var search = new SearchManager();
 	search.index(docs);
 });
-*/
+
+
 //load dirs recursively, get all folder which terminates by .data
 //get all meta data, and then, parse content by opening the aspx file
 //and search for the wysiweb tag under printable one
