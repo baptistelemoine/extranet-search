@@ -9,7 +9,13 @@ var ExtranetFile = require('./ExtranetFile');
 var SearchManager = require('./SearchManager');
 
 var app = module.exports = express();
-app.get('/records', records);
+
+var es = new SearchManager();
+
+app.get('/search', function (req, res){
+	es.search(req, res);
+});
+
 app.configure(function () {
     app.use(express.bodyParser());
     app.use(express.static(__dirname));
@@ -35,17 +41,11 @@ var record = mongoose.model('articles', schema);
 
 var dirPath = './data/editos2';
 
-function records(req, res){
+var indexFromMongo = function(){
 	record.find().exec(function (err, docs){
-		res.send(docs);
+		search.index(docs);
 	});
 }
-
-record.find().exec(function (err, docs){
-	var search = new SearchManager();
-	search.index(docs);
-});
-
 
 //load dirs recursively, get all folder which terminates by .data
 //get all meta data, and then, parse content by opening the aspx file

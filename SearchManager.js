@@ -4,6 +4,7 @@ var ElasticSearchClient = require('elasticsearchclient');
 var _ = require('underscore');
 var http = require('http');
 var Q = require('q');
+var url = require('url');
 
 
 var SearchManager = function(){
@@ -92,6 +93,35 @@ SearchManager.prototype = {
 		}).end();
 
 		return dfd.promise;
+	},
+
+	search:function(request, response){
+
+		var query = url.parse(request.url,true).query;
+
+		var qryObj = {
+			'query':{
+				'query_string':{
+					'query':query.q
+				}
+			},
+			'from':query.from,
+			'size':query.size
+		};
+
+		this._es.search(this.indice, this.type, qryObj)
+		.on('data',
+			function (data) {
+				if(query.pretty === 'true') response.send({result:JSON.parse(data)});
+				else {
+					response.type('application/json; charset=utf-8');
+					response.send(JSON.stringify({result:JSON.parse(data)}));
+				}
+
+			}).on('error', function (error) {
+				response.send({result:error});
+			})
+			.exec();
 	}
 };
 
