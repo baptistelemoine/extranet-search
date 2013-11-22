@@ -41,10 +41,10 @@ ExtranetFile.prototype = {
 				else callback(null, data);
 			}
 		], function (err, result){
-			if(err) console.log(err);
+			// if(err) console.log(err);
 			self.content = result.content || _.first(result);
 			self.links = result.links;
-			callback(self);
+			callback(err, self);
 		});
 	},
 

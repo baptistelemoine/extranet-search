@@ -110,18 +110,17 @@ SearchManager.prototype = {
 		};
 
 		this._es.search(this.indice, this.type, qryObj)
-		.on('data',
-			function (data) {
-				if(query.pretty === 'true') response.send({result:JSON.parse(data)});
-				else {
-					response.type('application/json; charset=utf-8');
-					response.send(JSON.stringify({result:JSON.parse(data)}));
-				}
-
-			}).on('error', function (error) {
-				response.send({result:error});
-			})
-			.exec();
+		.on('data', function (data) {
+			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
+			else {
+				response.type('application/json; charset=utf-8');
+				response.send(JSON.stringify({result:JSON.parse(data)}));
+			}
+		})
+		.on('error', function (error) {
+			response.send({result:error});
+		})
+		.exec();
 	}
 };
 
