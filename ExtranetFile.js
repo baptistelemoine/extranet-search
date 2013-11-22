@@ -8,10 +8,9 @@ var cheerio = require('cheerio');
 var Iconv = require('iconv').Iconv;
 var pdfutils = require('pdfutils').pdfutils;
 
-var ExtranetFile = function(folder, dirPath){
+var ExtranetFile = function(file){
 	//mettre l auteur
-	this.folder = folder;
-	this.dirPath = dirPath;
+	this.file = file;
 	this.ispdf = false;
 	this._init();
 };
@@ -19,8 +18,7 @@ var ExtranetFile = function(folder, dirPath){
 ExtranetFile.prototype = {
 
 	_init:function(){
-		var currentFile = path.basename(this.folder,'.data');
-		if(path.extname(currentFile) === '.pdf') this.ispdf = true;
+		if(path.extname(this.file) === '.pdf') this.ispdf = true;
 	},
 
 	getArticle:function(callback){
@@ -75,12 +73,14 @@ ExtranetFile.prototype = {
 
 		var self = this;
 
-		if(path.basename(this.folder) === 'default.aspx.data') return;
-		var p = this.dirPath.concat('/', this.folder.concat('/__meta.data'));
+		var p = this.file.concat('.data/__meta.data');
 		var parser = new xml2js.Parser({explicitArray:false, ignoreAttrs:true, normalize:true});
 		
 		fs.readFile(p, function (err, data){
-			if(err) console.log(err);
+			if(err) {
+				self.origin = self.file;
+				return callback();
+			}
 			parser.parseString(data, function (err, result) {
 				if(err) console.log(err);
 				_.map(result, function (value){
@@ -88,7 +88,7 @@ ExtranetFile.prototype = {
 					self.title = value.title;
 					self.summary = value.summary;
 					self.date = new Date(value.date);
-					self.origin = self.dirPath.concat('/', self.folder);
+					self.origin = self.file;
 				});
 				callback();
 			});
@@ -100,11 +100,10 @@ ExtranetFile.prototype = {
 	_parseContent:function(file, callback){
 
 		var self = this;
-		var p = file.substring(0, file.length - 5);
 
-		if(!this.ispdf) return fs.readFile(p, 'binary', callback);
+		if(!this.ispdf) return fs.readFile(file, 'binary', callback);
 		else if(this.ispdf) {
-			pdfutils(p, function (err, doc) {
+			pdfutils(file, function (err, doc) {
 				var pages = [];
 				for (var i = 0; i < doc.length; i++) {
 					pages.push(self._parsePDF(doc[i]));

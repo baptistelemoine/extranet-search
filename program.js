@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var wrench = require('wrench');
+
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
@@ -45,19 +45,35 @@ program
 .action(function(){
 	console.log(info('read date cache...'));
 	parseDateCache().then(function (docs){
-		console.log(docs);
+		console.log(info('add docs to mongo...'));
+		processDB(docs);
+		//corrupt files
+		//050704sma_frais.pdf
+		//050920fpi_bon.pdf
+		//060110sma_cheks.pdf
+		//080624sma_fiches.pdf
+		//
+
+		/*var file = new ExtranetFile();
+		file.ispdf = true;
+		file._parseContent('./data/administratif/disp_administratives/050704sma_frais.pdf', function (err, data){
+			if(err) console.log(err);
+			console.log(data);
+		})*/
 	});
+	
 });
 
 program
 .command('index')
 .description('index documents into elasticsearch')
 .action(function(){
-	// console.log(info('launch documents indexing'));
+	console.log(info('launch documents indexing'));
 	populateES();
 });
 
 program.parse(process.argv);
+
 
 function parseDateCache(){
 
@@ -65,17 +81,20 @@ function parseDateCache(){
 
 	var docs = [];
 	new DataReader('./data/DateCache.data', { encoding: "utf8" })
-	.on ('error', function (error){
+	.on('error', function (error){
 		console.log(error);
 	})
-	.on ('line', function (line){
+	.on('line', function (line){
 		var p = line.toString().split('\t');
 		if(p[2].split('\\')[5] === 'administratif') {
-			var path = p[2].split('\\');
-			docs.push('./data/' + _.rest(path, 5).join('/'));
+			var oldPath = p[2].split('\\');
+			var newPath = './data/' + _.rest(oldPath, 5).join('/');
+			if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
+				docs.push(newPath);
+			}
 		}
 	})
-	.on ('end', function (){
+	.on('end', function (){
 		dfd.resolve(docs);
 	})
 	.read();
@@ -84,45 +103,32 @@ function parseDateCache(){
 }
 
 
-function processDB(){
+function processDB(docs){
 	//delete all records
 	mongoose.connection.collections['articles'].drop(function (err) {
 		if(err) console.log(warn('no collection or empty collection'));
 	});
 
-	//load dirs recursively, get all folder which terminates by .data
-	//get all meta data, and then, parse content by opening the aspx file
-	//and search for the wysiweb tag under printable one
-	wrench.readdirRecursive(dirPath, function (error, curFiles) {
-		if(curFiles) {
-			var errors = 0;
-			curFiles.forEach(function (value, index){
-				fs.stat(dirPath.concat('/', value), function (error, file){
-					if(error) console.log(error);
-					if(file.isDirectory() && path.extname(value) === '.data'){
-						
-						var article = new ExtranetFile(value, dirPath);
-						article.getArticle(function (err, item){
-							
-							if(err) {
-								errors++;
-								console.log(item.origin, error('ERROR'));
-							}
-							console.log(item.origin, ok('OK'));
-							
-							var rec = new record(item);
-							rec.save(function (error){
-								if(error) console.log(error);
-							});
-							if(index === curFiles.length-1){
-								console.log(ok(curFiles.length, 'success,', er(errors, 'failed')));
-								process.exit();
-							}
-						});
-					}
-				});
+	docs.forEach(function (value, index){
+		if(path.extname(value) === '.pdf') console.log(value)
+		/*var errors = 0;
+		var article = new ExtranetFile(value);
+		article.getArticle(function (err, item){
+			if(err) {
+				errors++;
+				console.log(item.origin, error('ERROR'));
+			}
+			console.log(item.origin, ok('OK'));
+			
+			var rec = new record(item);
+			rec.save(function (error){
+				if(error) console.log(error);
 			});
-		}
+			if(index === docs.length-1){
+				console.log(ok(docs.length, 'success,', er(errors, 'failed')));
+				process.exit();
+			}
+		});*/
 	});
 }
 
