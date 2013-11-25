@@ -107,20 +107,12 @@ ExtranetFile.prototype = {
 		if(!this.ispdf) return fs.readFile(file, 'binary', callback);
 		else if(this.ispdf) {
 			pdfutils(file, function (err, doc) {
-				/*var pages = [];
+				var pages = [];
 				for (var i = 0; i < doc.length; i++) {
 					pages.push(self._parsePDF(doc[i]));
 				}
 				pages.push(self._parsePDF(doc[0]));
-				async.series(pages, callback);*/
-				var output = '';
-				doc[0].asText().on('data', function (data){
-					output+=data;
-				})
-				.on('end', function(){
-					callback(null, output);
-				})
-
+				async.parallel(pages, callback);
 			});
 		}
 	},
