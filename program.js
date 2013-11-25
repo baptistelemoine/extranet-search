@@ -98,17 +98,16 @@ function processDB(docs){
 
 	var exports = [];
 	docs.forEach(function (value, index){
-		var last = index === docs.length-1 ? true : false;
-		exports.push(exportToMongo(value, {last:last, total:docs.length}));
+		exports.push(exportToMongo(value, docs.length));
+
 	});
-	async.parallel(exports, function (err, result){
-		if(err) console.log(err);
-	});
+	async.parallel(exports);
 }
 
+var count = 0;
 var errors = 0;
 
-function exportToMongo(value, info){
+function exportToMongo(value, nbDocs){
 	
 	(function (callback){
 
@@ -122,22 +121,19 @@ function exportToMongo(value, info){
 			var rec = new record(item);
 			rec.save(callback);
 
-			if(info.last){
-				console.log(ok(info.total, 'success,', er(errors, 'failed')));
-				// process.exit();
+			if(++count === nbDocs){
+				console.log(ok(count, 'success,', er(errors, 'failed')));
+				process.exit();
 			}
 		});
-
 	})();
 }
 
 function populateES(){
 	var es = new SearchManager();
-	var indexFromMongo = function(){
-		record.find().exec(function (err, docs){
-			search.index(docs);
-		});
-	};
+	record.find().exec(function (err, docs){
+		es.index(docs);
+	});
 }
 
 

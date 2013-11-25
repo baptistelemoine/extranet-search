@@ -24,7 +24,7 @@ ExtranetFile.prototype = {
 		if(path.extname(this.file) === '.pdf') this.ispdf = true;
 	},
 
-	getArticle:function(callback){
+	getArticle:function(cb){
 
 		var self = this;
 
@@ -45,7 +45,7 @@ ExtranetFile.prototype = {
 			// if(err) console.log(err);
 			self.content = result.content || _.first(result);
 			self.links = result.links;
-			callback(err, self);
+			cb(err, self);
 		});
 	},
 
