@@ -12,6 +12,9 @@ var ExtranetFile = function(file){
 	//mettre l auteur
 	this.file = file;
 	this.ispdf = false;
+	this.hidden = false;
+	this.summary = '';
+	this.date = new Date();
 	this._init();
 };
 
@@ -104,11 +107,20 @@ ExtranetFile.prototype = {
 		if(!this.ispdf) return fs.readFile(file, 'binary', callback);
 		else if(this.ispdf) {
 			pdfutils(file, function (err, doc) {
-				var pages = [];
+				/*var pages = [];
 				for (var i = 0; i < doc.length; i++) {
 					pages.push(self._parsePDF(doc[i]));
 				}
-				async.series(pages, callback);
+				pages.push(self._parsePDF(doc[0]));
+				async.series(pages, callback);*/
+				var output = '';
+				doc[0].asText().on('data', function (data){
+					output+=data;
+				})
+				.on('end', function(){
+					callback(null, output);
+				})
+
 			});
 		}
 	},

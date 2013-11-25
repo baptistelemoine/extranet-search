@@ -20,6 +20,7 @@ var info = clc.blue;
 
 mongoose.connect('mongodb://localhost/extranet_fnsea', function (err){
 	if(err) console.log(er(err));
+	else console.log(info('connected to mongo database OK'));
 });
 
 var schema = new mongoose.Schema({
@@ -47,19 +48,6 @@ program
 	parseDateCache().then(function (docs){
 		console.log(info('add docs to mongo...'));
 		processDB(docs);
-		//corrupt files
-		//050704sma_frais.pdf
-		//050920fpi_bon.pdf
-		//060110sma_cheks.pdf
-		//080624sma_fiches.pdf
-		//
-
-		/*var file = new ExtranetFile();
-		file.ispdf = true;
-		file._parseContent('./data/administratif/disp_administratives/050704sma_frais.pdf', function (err, data){
-			if(err) console.log(err);
-			console.log(data);
-		})*/
 	});
 	
 });
@@ -102,16 +90,28 @@ function parseDateCache(){
 	return dfd.promise;
 }
 
-
 function processDB(docs){
 	//delete all records
-	mongoose.connection.collections['articles'].drop(function (err) {
+	mongoose.connection.collections['articles'].drop(function (err, data) {
 		if(err) console.log(warn('no collection or empty collection'));
 	});
 
+	var exports = [];
 	docs.forEach(function (value, index){
-		if(path.extname(value) === '.pdf') console.log(value)
-		/*var errors = 0;
+		var last = index === docs.length-1 ? true : false;
+		exports.push(exportToMongo(value, {last:last, total:docs.length}));
+	});
+	async.parallel(exports, function (err, result){
+		if(err) console.log(err);
+	});
+}
+
+var errors = 0;
+
+function exportToMongo(value, info){
+	
+	(function (callback){
+
 		var article = new ExtranetFile(value);
 		article.getArticle(function (err, item){
 			if(err) {
@@ -119,17 +119,16 @@ function processDB(docs){
 				console.log(item.origin, error('ERROR'));
 			}
 			console.log(item.origin, ok('OK'));
-			
 			var rec = new record(item);
-			rec.save(function (error){
-				if(error) console.log(error);
-			});
-			if(index === docs.length-1){
-				console.log(ok(docs.length, 'success,', er(errors, 'failed')));
-				process.exit();
+			rec.save(callback);
+
+			if(info.last){
+				console.log(ok(info.total, 'success,', er(errors, 'failed')));
+				// process.exit();
 			}
-		});*/
-	});
+		});
+
+	})();
 }
 
 function populateES(){
