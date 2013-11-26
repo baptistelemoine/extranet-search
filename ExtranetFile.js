@@ -43,8 +43,10 @@ ExtranetFile.prototype = {
 			}
 		], function (err, result){
 			// if(err) console.log(err);
-			self.content = result.content || _.first(result);
-			self.links = result.links;
+			if(result){
+				self.content = result.content || _.first(result);
+				self.links = result.links;
+			}
 			cb(err, self);
 		});
 	},
@@ -106,14 +108,15 @@ ExtranetFile.prototype = {
 
 		if(!this.ispdf) return fs.readFile(file, 'binary', callback);
 		else if(this.ispdf) {
-			pdfutils(file, function (err, doc) {
+			/*pdfutils(file, function (err, doc) {
 				var pages = [];
 				for (var i = 0; i < doc.length; i++) {
 					pages.push(self._parsePDF(doc[i]));
 				}
 				pages.push(self._parsePDF(doc[0]));
 				async.parallel(pages, callback);
-			});
+			});*/
+			callback(null, ['']);
 		}
 	},
 

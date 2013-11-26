@@ -12,6 +12,7 @@ var BufferedReader = require('buffered-reader');
 var DataReader = BufferedReader.DataReader;
 var Q = require('q');
 var _ = require('underscore');
+var PFParser = require("pdf2json/pdfparser");
 
 var er = clc.red.bold;
 var warn = clc.yellow;
@@ -45,10 +46,28 @@ program
 .description('export document to mongodb')
 .action(function(){
 	console.log(info('read date cache...'));
-	parseDateCache().then(function (docs){
+	/*parseDateCache().then(function (docs){
 		console.log(info('add docs to mongo...'));
 		processDB(docs);
+	});*/
+	
+	var p = './data/structures_territoires/050113vhe1_1.pdf';
+	var parser = new PFParser();
+	parser.on('pdfParser_dataReady', function (result){
+		var pages = _.map(result.data.Pages, function (value){
+			return _.map(value.Texts, function (val){
+				return _.map(val.R, function (v){
+					return v.T;
+				});
+			});
+		});
+		console.log(decodeURIComponent(_.flatten(pages[0]).join(' ')));
 	});
+	parser.on('pdfParser_dataError', function (error){
+		console.log(error);
+	});
+	parser.loadPDF(p);
+
 	
 });
 
@@ -74,7 +93,7 @@ function parseDateCache(){
 	})
 	.on('line', function (line){
 		var p = line.toString().split('\t');
-		if(p[2].split('\\')[5] === 'administratif') {
+		if(p[2].split('\\')[5] === 'structures_territoires') {
 			var oldPath = p[2].split('\\');
 			var newPath = './data/' + _.rest(oldPath, 5).join('/');
 			if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
@@ -115,7 +134,7 @@ function exportToMongo(value, nbDocs){
 		article.getArticle(function (err, item){
 			if(err) {
 				errors++;
-				console.log(item.origin, error('ERROR'));
+				console.log(item.origin, er('ERROR'));
 			}
 			console.log(item.origin, ok('OK'));
 			var rec = new record(item);
