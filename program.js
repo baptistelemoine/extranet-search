@@ -12,7 +12,6 @@ var BufferedReader = require('buffered-reader');
 var DataReader = BufferedReader.DataReader;
 var Q = require('q');
 var _ = require('underscore');
-var PFParser = require("pdf2json/pdfparser");
 
 var er = clc.red.bold;
 var warn = clc.yellow;
@@ -46,28 +45,10 @@ program
 .description('export document to mongodb')
 .action(function(){
 	console.log(info('read date cache...'));
-	/*parseDateCache().then(function (docs){
+	parseDateCache().then(function (docs){
 		console.log(info('add docs to mongo...'));
 		processDB(docs);
-	});*/
-	
-	var p = './data/structures_territoires/050113vhe1_1.pdf';
-	var parser = new PFParser();
-	parser.on('pdfParser_dataReady', function (result){
-		var pages = _.map(result.data.Pages, function (value){
-			return _.map(value.Texts, function (val){
-				return _.map(val.R, function (v){
-					return v.T;
-				});
-			});
-		});
-		console.log(decodeURIComponent(_.flatten(pages[0]).join(' ')));
 	});
-	parser.on('pdfParser_dataError', function (error){
-		console.log(error);
-	});
-	parser.loadPDF(p);
-
 	
 });
 
@@ -118,7 +99,6 @@ function processDB(docs){
 	var exports = [];
 	docs.forEach(function (value, index){
 		exports.push(exportToMongo(value, docs.length));
-
 	});
 	async.parallel(exports);
 }
@@ -136,9 +116,11 @@ function exportToMongo(value, nbDocs){
 				errors++;
 				console.log(item.origin, er('ERROR'));
 			}
-			console.log(item.origin, ok('OK'));
-			var rec = new record(item);
-			rec.save(callback);
+			else{
+				console.log(item.origin, ok('OK'));
+				var rec = new record(item);
+				rec.save(callback);
+			}
 
 			if(++count === nbDocs){
 				console.log(ok(count, 'success,', er(errors, 'failed')));

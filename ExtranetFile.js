@@ -6,7 +6,7 @@ var _ = require('underscore');
 var async = require('async');
 var cheerio = require('cheerio');
 var Iconv = require('iconv').Iconv;
-var pdfutils = require('pdfutils').pdfutils;
+var PFParser = require("pdf2json/pdfparser");
 
 var ExtranetFile = function(file){
 	//mettre l auteur
@@ -106,32 +106,30 @@ ExtranetFile.prototype = {
 
 		var self = this;
 
-		if(!this.ispdf) return fs.readFile(file, 'binary', callback);
+		if(!this.ispdf) return fs.readFile(file, 'binary', callback);		
 		else if(this.ispdf) {
-			/*pdfutils(file, function (err, doc) {
-				var pages = [];
-				for (var i = 0; i < doc.length; i++) {
-					pages.push(self._parsePDF(doc[i]));
-				}
-				pages.push(self._parsePDF(doc[0]));
-				async.parallel(pages, callback);
-			});*/
-			callback(null, ['']);
-		}
-	},
-
-	_parsePDF:function (doc){
-		return function (callback){
-			var output = '';
-			doc.asText().on('data', function (data){
-				output+=data;
-			})
-			.on('end', function(){
+			/*var parser = new PFParser();
+			parser.on('pdfParser_dataReady', function (result){
+				var pages = _.map(result.data.Pages, function (value){
+					return _.map(value.Texts, function (val){
+						return _.map(val.R, function (v){
+							return v.T;
+						});
+					});
+				});
+				var output = '';
+				_.each(pages, function (page){
+					output += decodeURIComponent(_.flatten(page).join(' '));
+				});
 				callback(null, output);
 			});
-		};
+			parser.on('pdfParser_dataError', function (error){
+				callback(error);
+			});
+			parser.loadPDF(file);*/
+			callback(null, ['']);
+		}
 	}
-	
 };
 
 module.exports = ExtranetFile;
