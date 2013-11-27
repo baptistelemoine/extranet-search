@@ -48,6 +48,7 @@ program
 	parseDateCache().then(function (docs){
 		console.log(info('add docs to mongo...'));
 		processDB(docs);
+
 	});
 	
 });
@@ -74,7 +75,7 @@ function parseDateCache(){
 	})
 	.on('line', function (line){
 		var p = line.toString().split('\t');
-		if(p[2].split('\\')[5] === 'structures_territoires') {
+		if(p[2].split('\\')[5] === 'administratif') {
 			var oldPath = p[2].split('\\');
 			var newPath = './data/' + _.rest(oldPath, 5).join('/');
 			if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
@@ -90,44 +91,53 @@ function parseDateCache(){
 	return dfd.promise;
 }
 
+var docsdocs = [];
+
 function processDB(docs){
 	//delete all records
 	mongoose.connection.collections['articles'].drop(function (err, data) {
 		if(err) console.log(warn('no collection or empty collection'));
 	});
 
-	var exports = [];
+	/*var exports = [];
 	docs.forEach(function (value, index){
-		exports.push(exportToMongo(value, docs.length));
+		exportToMongo(value, docs.length);
 	});
-	async.parallel(exports);
+*/	// async.parallel(exports);
+	// exportToMongo(docs[1], docs.length);
+	docsdocs = docs;
+	console.log(info(docsdocs.length, 'articles to export'));
+	exportToMongo();
 }
 
-var count = 0;
 var errors = 0;
-
-function exportToMongo(value, nbDocs){
+var count = 0;
+var es = new SearchManager();
+var result = [];
+function exportToMongo(){
 	
-	(function (callback){
-
-		var article = new ExtranetFile(value);
+		var article = new ExtranetFile(docsdocs.shift());
 		article.getArticle(function (err, item){
 			if(err) {
 				errors++;
 				console.log(item.origin, er('ERROR'));
 			}
 			else{
-				console.log(item.origin, ok('OK'));
-				var rec = new record(item);
-				rec.save(callback);
+				count++;
+				console.log(item.origin, ok('OK'), info('remaining :', docsdocs.length));
+				/*var rec = new record(item);
+				rec.save();*/
+				result.push(item);
 			}
 
-			if(++count === nbDocs){
+			if(!docsdocs.length){
 				console.log(ok(count, 'success,', er(errors, 'failed')));
-				process.exit();
+				es.index(result);
+				// process.exit();
 			}
+			else exportToMongo();
+
 		});
-	})();
 }
 
 function populateES(){

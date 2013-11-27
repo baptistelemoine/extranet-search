@@ -1,0 +1,59 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/baptiste/.nvm/v0.10.22/bin/node',
+1 verbose cli   '/Users/baptiste/.nvm/v0.10.22/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'base64Stream' ]
+2 info using npm@1.3.14
+3 info using node@v0.10.22
+4 warn package.json mongoose@3.6.19 bugs.email field must be a string email. Deleted.
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'base64Stream', null ]
+7 verbose cache add name=undefined spec="base64Stream" args=["base64Stream",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'base64Stream',
+8 verbose parsed url   path: 'base64Stream',
+8 verbose parsed url   href: 'base64Stream' }
+9 silly lockFile da65e7fb-base64Stream base64Stream
+10 verbose lock base64Stream /Users/baptiste/.npm/da65e7fb-base64Stream.lock
+11 silly lockFile da65e7fb-base64Stream base64Stream
+12 silly lockFile da65e7fb-base64Stream base64Stream
+13 verbose addNamed [ 'base64Stream', '' ]
+14 verbose addNamed [ null, '*' ]
+15 silly lockFile a7fd2089-base64Stream base64Stream@
+16 verbose lock base64Stream@ /Users/baptiste/.npm/a7fd2089-base64Stream.lock
+17 silly addNameRange { name: 'base64Stream', range: '*', hasData: false }
+18 verbose url raw base64Stream
+19 verbose url resolving [ 'https://registry.npmjs.org/', './base64Stream' ]
+20 verbose url resolved https://registry.npmjs.org/base64Stream
+21 info trying registry request attempt 1 at 16:14:47
+22 http GET https://registry.npmjs.org/base64Stream
+23 http 404 https://registry.npmjs.org/base64Stream
+24 silly registry.get cb [ 404,
+24 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R15B03)',
+24 silly registry.get     date: 'Wed, 27 Nov 2013 15:14:49 GMT',
+24 silly registry.get     'content-type': 'application/json',
+24 silly registry.get     'content-length': '52',
+24 silly registry.get     'cache-control': 'must-revalidate' } ]
+25 silly lockFile a7fd2089-base64Stream base64Stream@
+26 silly lockFile a7fd2089-base64Stream base64Stream@
+27 error 404 'base64Stream' is not in the npm registry.
+27 error 404 You should bug the author to publish it
+27 error 404
+27 error 404 Note that you can also install from a
+27 error 404 tarball, folder, or http url, or git url.
+28 error System Darwin 13.0.0
+29 error command "/Users/baptiste/.nvm/v0.10.22/bin/node" "/Users/baptiste/.nvm/v0.10.22/bin/npm" "install" "--save" "base64Stream"
+30 error cwd /Users/baptiste/dev/extranet_export
+31 error node -v v0.10.22
+32 error npm -v 1.3.14
+33 error code E404
+34 verbose exit [ 1, true ]

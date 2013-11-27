@@ -33,8 +33,12 @@ ExtranetFile.prototype = {
 				self._getMetaData(callback);
 			},
 			function (callback){
-				if(self.origin)
-					self._parseContent(self.origin, callback);
+				if(self.origin){
+					if(!self.ispdf) fs.readFile(self.origin, 'binary', callback);
+					// else self._parsePDF(self.origin, callback);
+					else fs.readFile(self.origin, 'base64', callback);
+				}
+				else callback('err');
 			},
 			function (data, callback){
 				if(!self.ispdf)
@@ -42,10 +46,19 @@ ExtranetFile.prototype = {
 				else callback(null, data);
 			}
 		], function (err, result){
-			// if(err) console.log(err);
+			if(err) console.log(err);
 			if(result){
-				self.content = result.content || _.first(result);
-				self.links = result.links;
+				if(!self.ispdf){
+					self.content = result.content || result;
+					self.links = result.links;
+				}
+				else {
+					self.pdfcontent = {
+						'_content_type' : 'application/pdf',
+						'_name' : self.origin,
+						'content' : result
+					};
+				}
 			}
 			cb(err, self);
 		});
@@ -100,35 +113,27 @@ ExtranetFile.prototype = {
 		});
 	},
 
-	//parse html from aspx file, by passing the corresponding data folder
-	//or get content if file is pdf
-	_parseContent:function(file, callback){
+	_parsePDF:function(file, callback){
 
-		var self = this;
-
-		if(!this.ispdf) return fs.readFile(file, 'binary', callback);		
-		else if(this.ispdf) {
-			/*var parser = new PFParser();
-			parser.on('pdfParser_dataReady', function (result){
-				var pages = _.map(result.data.Pages, function (value){
-					return _.map(value.Texts, function (val){
-						return _.map(val.R, function (v){
-							return v.T;
-						});
+		var parser = new PFParser();
+		parser.on('pdfParser_dataReady', function (result){
+			var pages = _.map(result.data.Pages, function (value){
+				return _.map(value.Texts, function (val){
+					return _.map(val.R, function (v){
+						return v.T;
 					});
 				});
-				var output = '';
-				_.each(pages, function (page){
-					output += decodeURIComponent(_.flatten(page).join(' '));
-				});
-				callback(null, output);
 			});
-			parser.on('pdfParser_dataError', function (error){
-				callback(error);
+			var output = '';
+			_.each(pages, function (page){
+				output += decodeURIComponent(_.flatten(page).join(' '));
 			});
-			parser.loadPDF(file);*/
-			callback(null, ['']);
-		}
+			callback(null, output);
+		});
+		parser.on('pdfParser_dataError', function (error){
+			callback(error);
+		});
+		parser.loadPDF(file);
 	}
 };
 
