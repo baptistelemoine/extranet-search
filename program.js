@@ -75,7 +75,7 @@ function parseDateCache(){
 	})
 	.on('line', function (line){
 		var p = line.toString().split('\t');
-		if(p[2].split('\\')[5] === 'structures_territoires') {
+		if(p[2].split('\\')[5] === 'communication') {
 			var oldPath = p[2].split('\\');
 			var newPath = './data/' + _.rest(oldPath, 5).join('/');
 			if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
