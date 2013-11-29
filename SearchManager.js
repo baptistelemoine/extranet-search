@@ -25,21 +25,26 @@ SearchManager.prototype = {
 			secure: false
 		};
 		this._es = new ElasticSearchClient(serverOptions);
-	},
-
-	index:function(docs){
-
-		var self = this;
 		this._check().then(function (exists){
 			if(!exists){
 				self._createIndex();
 			}
-			self._launchIndexing(docs);
 		});
-
 	},
 
-	_launchIndexing:function(docs){
+	index:function(doc, callback){
+
+		this._es.index(this.indice, this.type, doc)
+		.on('data', function (data){
+			callback(null, 'ok');
+		})
+		.on('error', function (error){
+			callback(error);
+		})
+		.exec();
+	},
+
+	bulk:function(docs){
 
 		var commands = [];
 		var self = this;
@@ -47,8 +52,7 @@ SearchManager.prototype = {
 		_.each(docs, function (value){
 			commands.push({'index':{
 				'_index':self.indice,
-				'_type':self.type,
-				'_id':value._id
+				'_type':self.type
 			}});
 			commands.push(value);
 		});
@@ -65,7 +69,7 @@ SearchManager.prototype = {
 	_createIndex:function(){
 
 		//view config/elasticsearch.yml for general config
-		//mapping, indexes, analyzers...
+		//or default-mapping.json for mapping
 
 		this._es.createIndex(this.indice, {}, {})
 		.on('data', function (data) {
@@ -121,6 +125,44 @@ SearchManager.prototype = {
 			response.send({result:error});
 		})
 		.exec();
+	},
+
+	origin:function(request, response){
+
+		var rootPath = url.parse(request.url).pathname.substring(4);
+		//return all docs that starts with rootpath equal to nice url
+		var qryObj = {
+			'query':{
+				'match_phrase_prefix' : {
+					'origin' : {
+						'query':'.'+rootPath,
+						'max_expansions': 1
+					}
+				}
+			},
+			'sort':{
+				'date':{'order':'desc'}
+			},
+			'from':request.query.from,
+			'size':request.query.size
+		};
+
+		this._es.search(this.indice, this.type, qryObj)
+		.on('data',
+			function (data) {
+			// res.send({result:JSON.parse(data)});
+				if(request.query.pretty === 'true') {
+					response.send({response:JSON.parse(data)});
+				}
+				else {
+					response.type('application/json; charset=utf-8');
+					response.send(JSON.stringify({result:JSON.parse(data)}));
+				}
+
+		}).on('error', function (error) {
+			response.send({result:error});
+		}).exec();
+
 	}
 };
 

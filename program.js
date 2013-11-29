@@ -75,7 +75,7 @@ function parseDateCache(){
 	})
 	.on('line', function (line){
 		var p = line.toString().split('\t');
-		if(p[2].split('\\')[5] === 'administratif') {
+		if(p[2].split('\\')[5] === 'structures_territoires') {
 			var oldPath = p[2].split('\\');
 			var newPath = './data/' + _.rest(oldPath, 5).join('/');
 			if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
@@ -114,6 +114,7 @@ var errors = 0;
 var count = 0;
 var es = new SearchManager();
 var result = [];
+
 function exportToMongo(){
 	
 		var article = new ExtranetFile(docsdocs.shift());
@@ -124,18 +125,18 @@ function exportToMongo(){
 			}
 			else{
 				count++;
-				console.log(item.origin, ok('OK'), info('remaining :', docsdocs.length));
-				/*var rec = new record(item);
-				rec.save();*/
-				result.push(item);
-			}
+				console.log(item.origin, ok('Parsing OK'), info('remaining :', docsdocs.length));
 
-			if(!docsdocs.length){
-				console.log(ok(count, 'success,', er(errors, 'failed')));
-				es.index(result);
-				// process.exit();
+				es.index(item, function (error, status){
+					if(error) console.log(er('error when indexing this document'));
+						else console.log(warn('document properly indexed'));
+					if(!docsdocs.length){
+						console.log(ok(count, 'success,', er(errors, 'failed')));
+						process.exit();
+					}
+					else exportToMongo();
+				});
 			}
-			else exportToMongo();
 
 		});
 }

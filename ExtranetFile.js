@@ -53,11 +53,12 @@ ExtranetFile.prototype = {
 					self.links = result.links;
 				}
 				else {
-					self.pdfcontent = {
+					/*self.pdfcontent = {
 						'_content_type' : 'application/pdf',
 						'_name' : self.origin,
 						'content' : result
-					};
+					};*/
+					self.pdfcontent = result;
 				}
 			}
 			cb(err, self);
