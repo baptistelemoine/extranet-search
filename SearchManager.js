@@ -1,5 +1,4 @@
 
-var mongoose = require('mongoose');
 var ElasticSearchClient = require('elasticsearchclient');
 var _ = require('underscore');
 var http = require('http');
@@ -25,11 +24,12 @@ SearchManager.prototype = {
 			secure: false
 		};
 		this._es = new ElasticSearchClient(serverOptions);
-		this._check().then(function (exists){
-			if(!exists){
+		this._check(function (response){
+			if(response.statusCode !== 200){
 				self._createIndex();
 			}
 		});
+
 	},
 
 	index:function(doc, callback){
@@ -70,7 +70,6 @@ SearchManager.prototype = {
 
 		//view config/elasticsearch.yml for general config
 		//or default-mapping.json for mapping
-
 		this._es.createIndex(this.indice, {}, {})
 		.on('data', function (data) {
 			console.log('Index created!');
@@ -80,7 +79,7 @@ SearchManager.prototype = {
 		}).exec();
 	},
 
-	_check:function(){
+	_check:function(callback){
 		
 		var options = {
 			host: this.host,
@@ -88,15 +87,7 @@ SearchManager.prototype = {
 			path: '/'+this.indice,
 			method: 'HEAD'
 		};
-
-		var dfd = Q.defer();
-
-		http.request(options, function (response){
-			if(response.statusCode === 200) return dfd.resolve(true);
-			return dfd.resolve(false);
-		}).end();
-
-		return dfd.promise;
+		return http.request(options, callback);
 	},
 
 	search:function(request, response){
