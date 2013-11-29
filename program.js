@@ -1,41 +1,7 @@
 #!/usr/bin/env node
 
-
-var path = require('path');
-var fs = require('fs');
-var mongoose = require('mongoose');
-var ExtranetFile = require('./ExtranetFile');
-var SearchManager = require('./SearchManager');
+var Prog = require('./Prog');
 var program = require('commander');
-var clc = require('cli-color');
-var BufferedReader = require('buffered-reader');
-var DataReader = BufferedReader.DataReader;
-var Q = require('q');
-var _ = require('underscore');
-
-var er = clc.red.bold;
-var warn = clc.yellow;
-var ok = clc.green;
-var info = clc.blue;
-
-mongoose.connect('mongodb://localhost/extranet_fnsea', function (err){
-	if(err) console.log(er(err));
-	else console.log(info('connected to mongo database OK'));
-});
-
-var schema = new mongoose.Schema({
-	hidden:'boolean',
-	title:'string',
-	summary:'string',
-	date:'date',
-	origin:'string',
-	content:'string',
-	ispdf:'boolean'
-});
-
-var record = mongoose.model('articles', schema);
-
-var dirPath = './data/administratif';
 
 program
 .version('0.0.1');
@@ -44,29 +10,12 @@ program
 .command('export')
 .description('export document to mongodb')
 .action(function(){
-	console.log(info('read date cache...'));
-	parseDateCache().then(function (docs){
-		console.log(info('add docs to mongo...'));
-		processDB(docs);
-
-	});
-	
-});
-
-program
-.command('index')
-.description('index documents into elasticsearch')
-.action(function(){
-	console.log(info('launch documents indexing'));
-	populateES();
+	var prog = new Prog();
 });
 
 program.parse(process.argv);
 
-
-function parseDateCache(){
-
-	var dfd = Q.defer();
+/*function parseDateCache(callback){
 
 	var docs = [];
 	new DataReader('./data/DateCache.data', { encoding: "utf8" })
@@ -75,7 +24,9 @@ function parseDateCache(){
 	})
 	.on('line', function (line){
 		var p = line.toString().split('\t');
-		if(p[2].split('\\')[5] === 'communication') {
+		var rub = p[2].split('\\')[5];
+		var rubs = ['communication', 'structures_territoires', 'administratif'];
+		if( _.indexOf(rubs, rub) !== -1) {
 			var oldPath = p[2].split('\\');
 			var newPath = './data/' + _.rest(oldPath, 5).join('/');
 			if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
@@ -83,12 +34,10 @@ function parseDateCache(){
 			}
 		}
 	})
-	.on('end', function (){
-		dfd.resolve(docs);
+	.on('end', function(){
+		callback(docs);
 	})
 	.read();
-
-	return dfd.promise;
 }
 
 var docsdocs = [];
@@ -99,11 +48,11 @@ function processDB(docs){
 		if(err) console.log(warn('no collection or empty collection'));
 	});
 
-	/*var exports = [];
+	var exports = [];
 	docs.forEach(function (value, index){
 		exportToMongo(value, docs.length);
 	});
-*/	// async.parallel(exports);
+	// async.parallel(exports);
 	// exportToMongo(docs[1], docs.length);
 	docsdocs = docs;
 	console.log(info(docsdocs.length, 'articles to export'));
@@ -115,8 +64,8 @@ var count = 0;
 var es = new SearchManager();
 var result = [];
 
-function exportToMongo(){
-	
+function scanIndex(docs){
+		
 		var article = new ExtranetFile(docsdocs.shift());
 		article.getArticle(function (err, item){
 			if(err) {
@@ -133,7 +82,7 @@ function exportToMongo(){
 						console.log(ok(count, 'success,', er(errors, 'failed')));
 						process.exit();
 					}
-					else exportToMongo();
+					else scanIndex();
 				});
 			}
 
@@ -147,6 +96,6 @@ function populateES(){
 	});
 }
 
-
+*/
 
 

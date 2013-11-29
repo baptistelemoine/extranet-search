@@ -2,7 +2,6 @@
 var ElasticSearchClient = require('elasticsearchclient');
 var _ = require('underscore');
 var http = require('http');
-var Q = require('q');
 var url = require('url');
 
 
