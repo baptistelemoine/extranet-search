@@ -125,11 +125,10 @@ function exportToMongo(){
 			}
 			else{
 				count++;
-				console.log(item.origin, ok('Parsing OK'), info('remaining :', docsdocs.length));
 
 				es.index(item, function (error, status){
-					if(error) console.log(er('error when indexing this document'));
-						else console.log(warn('document properly indexed'));
+					if(error) console.log(item.origin, ok('parsing OK'), er('document not indexed'), info('remaining :', docsdocs.length));
+						else console.log(item.origin, ok('parsing OK'), warn('document indexed'), info('remaining :', docsdocs.length));
 					if(!docsdocs.length){
 						console.log(ok(count, 'success,', er(errors, 'failed')));
 						process.exit();

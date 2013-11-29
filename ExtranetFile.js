@@ -6,7 +6,6 @@ var _ = require('underscore');
 var async = require('async');
 var cheerio = require('cheerio');
 var Iconv = require('iconv').Iconv;
-var PFParser = require("pdf2json/pdfparser");
 
 var ExtranetFile = function(file){
 	//mettre l auteur
@@ -33,12 +32,8 @@ ExtranetFile.prototype = {
 				self._getMetaData(callback);
 			},
 			function (callback){
-				if(self.origin){
-					if(!self.ispdf) fs.readFile(self.origin, 'binary', callback);
-					// else self._parsePDF(self.origin, callback);
+				if(!self.ispdf) fs.readFile(self.origin, 'binary', callback);
 					else fs.readFile(self.origin, 'base64', callback);
-				}
-				else callback('err');
 			},
 			function (data, callback){
 				if(!self.ispdf)
@@ -53,11 +48,6 @@ ExtranetFile.prototype = {
 					self.links = result.links;
 				}
 				else {
-					/*self.pdfcontent = {
-						'_content_type' : 'application/pdf',
-						'_name' : self.origin,
-						'content' : result
-					};*/
 					self.pdfcontent = result;
 				}
 			}
@@ -86,8 +76,6 @@ ExtranetFile.prototype = {
 		callback(null, obj);
 	},
 
-	//open the meta data folder, and populate the current object
-	//exclude all default files
 	_getMetaData:function(callback){
 
 		var self = this;
@@ -100,7 +88,10 @@ ExtranetFile.prototype = {
 				self.origin = self.file;
 				return callback();
 			}
+			//amazing trick ! http://www.multiasking.com/blog/xml2js-sax-js-non-whitespace-before-first-tag/
+			data = data.toString().replace("\ufeff", "");
 			parser.parseString(data, function (err, result) {
+
 				if(err) console.log(err);
 				_.map(result, function (value){
 					self.hidden = (value.hidden !== '' ? value.hidden : 'false');
@@ -112,29 +103,6 @@ ExtranetFile.prototype = {
 				callback();
 			});
 		});
-	},
-
-	_parsePDF:function(file, callback){
-
-		var parser = new PFParser();
-		parser.on('pdfParser_dataReady', function (result){
-			var pages = _.map(result.data.Pages, function (value){
-				return _.map(value.Texts, function (val){
-					return _.map(val.R, function (v){
-						return v.T;
-					});
-				});
-			});
-			var output = '';
-			_.each(pages, function (page){
-				output += decodeURIComponent(_.flatten(page).join(' '));
-			});
-			callback(null, output);
-		});
-		parser.on('pdfParser_dataError', function (error){
-			callback(error);
-		});
-		parser.loadPDF(file);
 	}
 };
 
