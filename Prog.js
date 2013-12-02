@@ -26,7 +26,6 @@ Prog.prototype = {
 		var self = this;
 		this.es = new SearchManager();
 		this._parseDateCache(function (docs){
-			self.docs = docs;
 			self.totalfiles = docs.length;
 			self._scanIndex(docs);
 		});
@@ -59,10 +58,10 @@ Prog.prototype = {
 		.read();
 	},
 
-	_scanIndex:function(){
+	_scanIndex:function(docs){
 
 		var self = this;
-		var article = new ExtranetFile(self.docs.shift());
+		var article = new ExtranetFile(docs.shift());
 		article.getArticle(function (err, item){
 			if(err) {
 				self.errors++;
@@ -72,13 +71,13 @@ Prog.prototype = {
 				self.i++;
 
 				self.es.index(item, function (error, status){
-					if(error) console.log(item.origin, ok('parsing OK'), er('document not indexed'), info('remaining :', self.totalfiles));
-					else console.log(item.origin, ok('parsing OK'), warn('document indexed'), info('remaining :', self.totalfiles));
-					if(!self.docs.length){
-						console.log(ok(self.i, 'success,', er(self.errors, 'failed')));
+					if(error) console.log(item.origin, ok('parsing OK,'), er('indexing ERROR,'), info('remaining :', docs.length));
+					else console.log(item.origin, ok('parsing OK,'), warn('indexing OK,'), info('remaining :', docs.length));
+					if(!docs.length){
+						console.log(ok(self.i-self.errors, 'success,', er(self.errors, 'failed')));
 						process.exit();
 					}
-					else self._scanIndex();
+					else self._scanIndex(docs);
 				});
 			}
 
