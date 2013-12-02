@@ -24,9 +24,7 @@
     "commander": "~2.1.0",
     "cli-color": "~0.2.3",
     "buffered-reader": "~1.0.1",
-    "pdf2json": "~0.5.7"
-  },
-  "devDependencies": {
+    "pdf2json": "~0.5.7",
     "iconv": "~2.0.7"
   }
 }
