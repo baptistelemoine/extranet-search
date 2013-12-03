@@ -44,7 +44,7 @@ ExtranetFile.prototype = {
 			if(err) console.log(err);
 			if(result){
 				if(!self.ispdf){
-					self.content = result.content || result;
+					self.content = result.content || "";
 					self.links = result.links;
 				}
 				else {
