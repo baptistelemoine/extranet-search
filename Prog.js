@@ -66,6 +66,7 @@ Prog.prototype = {
 			if(err) {
 				self.errors++;
 				console.log(item.origin, er('ERROR'));
+				self._scanIndex(docs);
 			}
 			else{
 				self.i++;
