@@ -1,6 +1,7 @@
 var express = require('express');
 var app = module.exports = express();
-var SearchManager = require('./SearchManager');
+var SearchManager = require('./src/SearchManager');
+var path = require('path');
 
 var es = new SearchManager();
 
@@ -13,6 +14,6 @@ app.get('/api/*:path', function (req, res){
 
 app.configure(function () {
     app.use(express.bodyParser());
-    app.use(express.static(__dirname));
+    app.use(express.static(path.join(__dirname, 'app')));
 });
-app.listen(2312);
+app.listen(process.env.PORT || 3000);
