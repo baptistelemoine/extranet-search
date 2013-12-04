@@ -12,9 +12,12 @@
   <link rel='stylesheet' href='css/vendor/bootstrap.css'>
 
 </head>
+
 <body>
 
-  <script src="lib/angular/angular.js"></script>
+  <div ng-view></div>
+
+  <script src="lib/angular/angular.min.js"></script>
   <script src="lib/angular/angular-route.min.js"></script>
   <script src="lib/angular/angular-sanitize.min.js"></script>
   <!-- 3rd party library -->
@@ -26,7 +29,6 @@
   <script src="js/services/SearchManager.js"></script>
   <script src="js/controllers/SearchController.js"></script>
   <script src="js/controllers/HomeController.js"></script>
-  <script src="js/filters/filters.js"></script>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 app.services.factory('SearchManager', [
 	'$http', 'ConfigManager', '$rootScope', function ($http, ConfigManager, $rootScope){
@@ -9,9 +9,9 @@ app.services.factory('SearchManager', [
 		url:ConfigManager.searchUrl,
 		busy:false,
 		term:'',
-		currentPage:1,
+		currentPage:0,
 		perPage:10,
-		reset:true,
+		pretty:true,
 
 		nextPage:function(term){
 
@@ -20,12 +20,12 @@ app.services.factory('SearchManager', [
 			if (this.busy) return;
 			this.busy = true;
 			
-			$http.get(this.url, {params:{q:term, page:this.currentPage, source:this.source, size:this.perPage}, cache:true})
-			.success(function (data){				
-				var dataSource = data.items ? data.items : data[self.source];
-				angular.forEach(dataSource, function (value, key){
+			$http.get(this.url, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, pretty:this.pretty}, cache:true})
+			.success(function (data){
+				console.log(data);
+				/*angular.forEach(dataSource, function (value, key){
 					self.items.push(value);
-				});
+				});*/
 				self.term = term;
 				self.currentPage++;
 				self.busy = false;

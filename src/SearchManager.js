@@ -89,22 +89,17 @@ SearchManager.prototype = {
 		return http.request(options, callback);
 	},
 
-	search:function(request, response){
+	_launchSearch:function(request, response, q){
 
 		var query = url.parse(request.url,true).query;
 
-		var qryObj = {
-			'query':{
-				'query_string':{
-					'query':query.q
-				}
-			},
+		var common = {
 			'fields':query.fields.split(','),
 			'from':query.from,
 			'size':query.size
 		};
 
-		this._es.search(this.indice, this.type, qryObj)
+		this._es.search(this.indice, this.type, _.extend(common,q))
 		.on('data', function (data) {
 			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
 			else {
@@ -116,6 +111,19 @@ SearchManager.prototype = {
 			response.send({result:error});
 		})
 		.exec();
+	},
+
+	search:function(request, response){
+
+		var query = url.parse(request.url,true).query;
+		var qryObj = {
+			'query':{
+				'query_string':{
+					'query':query.q
+				}
+			}
+		};
+		this._launchSearch(request, response, qryObj);
 	},
 
 	origin:function(request, response){
@@ -133,28 +141,9 @@ SearchManager.prototype = {
 			},
 			'sort':{
 				'date':{'order':'desc'}
-			},
-			'fields':query.fields.split(','),
-			'from':request.query.from,
-			'size':request.query.size
+			}
 		};
-
-		this._es.search(this.indice, this.type, qryObj)
-		.on('data',
-			function (data) {
-			// res.send({result:JSON.parse(data)});
-				if(request.query.pretty === 'true') {
-					response.send({response:JSON.parse(data)});
-				}
-				else {
-					response.type('application/json; charset=utf-8');
-					response.send(JSON.stringify({result:JSON.parse(data)}));
-				}
-
-		}).on('error', function (error) {
-			response.send({result:error});
-		}).exec();
-
+		this._launchSearch(request, response, qryObj);
 	}
 };
 

@@ -8,8 +8,7 @@ var app = angular.module('fnsea', [
   'fnsea.directives',
   'fnsea.controllers',
   'ngSanitize',
-  'infinite-scroll',
-  'underscore'
+  'infinite-scroll'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {templateUrl:'partials/home.html', controller:'HomeController'});
