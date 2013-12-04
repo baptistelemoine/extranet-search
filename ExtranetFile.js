@@ -9,10 +9,12 @@ var Iconv = require('iconv').Iconv;
 
 var ExtranetFile = function(file){
 	//mettre l auteur
-	this.file = file;
+	this.file = '';
+	this.origin = file;
 	this.ispdf = false;
 	this.hidden = false;
 	this.summary = '';
+	this.author = '';
 	this.date = new Date();
 	this._init();
 };
@@ -20,7 +22,12 @@ var ExtranetFile = function(file){
 ExtranetFile.prototype = {
 
 	_init:function(){
+
+		this.file = './data/' + _.rest(this.origin.split('\\'), 5).join('/');
+		this.origin = 'http://extranet.fnsea.fr/' + _.rest(this.origin.split('\\'), 3).join('/');
+
 		if(path.extname(this.file) === '.pdf') this.ispdf = true;
+
 	},
 
 	getArticle:function(cb){
@@ -32,8 +39,8 @@ ExtranetFile.prototype = {
 				self._getMetaData(callback);
 			},
 			function (callback){
-				if(!self.ispdf) fs.readFile(self.origin, 'binary', callback);
-					else fs.readFile(self.origin, 'base64', callback);
+				if(!self.ispdf) fs.readFile(self.file, 'binary', callback);
+					else fs.readFile(self.file, 'base64', callback);
 			},
 			function (data, callback){
 				if(!self.ispdf)
@@ -51,7 +58,7 @@ ExtranetFile.prototype = {
 					self.pdfcontent = result;
 				}
 			}
-			cb(err, self);
+			cb(err, _.pick(self, ['ispdf', 'hidden', 'title', 'summary', 'date', 'author', 'links', 'origin','content','pdfcontent']));
 		});
 	},
 
@@ -82,10 +89,9 @@ ExtranetFile.prototype = {
 
 		var p = this.file.concat('.data/__meta.data');
 		var parser = new xml2js.Parser({explicitArray:false, ignoreAttrs:true, normalize:true});
-		
+
 		fs.readFile(p, function (err, data){
 			if(err) {
-				self.origin = self.file;
 				return callback();
 			}
 			//amazing trick ! http://www.multiasking.com/blog/xml2js-sax-js-non-whitespace-before-first-tag/
@@ -94,11 +100,19 @@ ExtranetFile.prototype = {
 
 				if(err) console.log(err);
 				_.map(result, function (value){
-					self.hidden = (value.hidden !== '' ? value.hidden : 'false');
+					var d = [];
+					var dt = value.date;
+					//2 date format : 01/01/1970 or 19700101
+					//so split '/' or reorder number d whit this french format : [day, month, year]
+					if(dt) {
+						if(dt.indexOf('/') !== -1) d = dt.split('/');
+						else if(dt.length === 8) d = [dt.substring(6, 8), dt.substring(4, 6), dt.substring(0, 4)];
+					}
+					self.hidden = (value.hidden !== '' ? value.hidden : 'false') || self.hidden;
 					self.title = value.title;
-					self.summary = value.summary;
-					self.date = new Date(value.date);
-					self.origin = self.file;
+					self.summary = value.summary || self.summary;
+					self.author = value.author || self.author;
+					self.date = dt ? new Date(d[2], d[1]-1, d[0]) : new Date();
 				});
 				callback();
 			});

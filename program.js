@@ -8,7 +8,7 @@ program
 
 program
 .command('export')
-.description('export document to mongodb')
+.description('index document into elasticsearch')
 .action(function(){
 	var prog = new Prog();
 });

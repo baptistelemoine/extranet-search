@@ -43,10 +43,9 @@ Prog.prototype = {
 		.on('line', function (line){
 			var p = line.toString().split('\t');
 			var rub = p[2].split('\\')[5];
-			var rubs = ['communication', 'structures_territoires', 'administratif'];
+			var rubs = ['administratif'];
 			if( _.indexOf(rubs, rub) !== -1) {
-				var oldPath = p[2].split('\\');
-				var newPath = './data/' + _.rest(oldPath, 5).join('/');
+				var newPath = p[2];
 				if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
 					docs.push(newPath);
 				}
@@ -70,7 +69,6 @@ Prog.prototype = {
 			}
 			else{
 				self.i++;
-
 				self.es.index(item, function (error, status){
 					if(error) console.log(item.origin, ok('parsing OK,'), er('indexing ERROR,'), info('remaining :', docs.length));
 					else console.log(item.origin, ok('parsing OK,'), warn('indexing OK,'), info('remaining :', docs.length));
