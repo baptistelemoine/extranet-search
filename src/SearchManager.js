@@ -99,6 +99,7 @@ SearchManager.prototype = {
 					'query':query.q
 				}
 			},
+			'fields':query.fields.split(','),
 			'from':query.from,
 			'size':query.size
 		};
@@ -133,6 +134,7 @@ SearchManager.prototype = {
 			'sort':{
 				'date':{'order':'desc'}
 			},
+			'fields':query.fields.split(','),
 			'from':request.query.from,
 			'size':request.query.size
 		};
