@@ -8,11 +8,11 @@ var app = angular.module('fnsea', [
   'fnsea.directives',
   'fnsea.controllers',
   'ngSanitize',
-  'infinite-scroll'
+  'infinite-scroll',
+  'underscore'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/', {templateUrl:'partials/home.html', controller:'HomeController'});
-  $routeProvider.when('/search', {templateUrl: 'partials/searchResult.html', controller: 'SearchController'});
+  $routeProvider.when('/search', {templateUrl: 'partials/search.html', controller: 'SearchController'});
   $routeProvider.otherwise({redirectTo: '/'});
 }]);
 

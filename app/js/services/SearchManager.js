@@ -12,6 +12,7 @@ app.services.factory('SearchManager', [
 		currentPage:0,
 		perPage:10,
 		pretty:true,
+		fields:'',
 
 		nextPage:function(term){
 
@@ -22,10 +23,10 @@ app.services.factory('SearchManager', [
 			
 			$http.get(this.url, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, pretty:this.pretty}, cache:true})
 			.success(function (data){
-				console.log(data);
-				/*angular.forEach(dataSource, function (value, key){
-					self.items.push(value);
-				});*/
+				var dataSource = data.result.hits.hits;
+				angular.forEach(dataSource, function (value, key){
+					self.items.push(value.fields);
+				});
 				self.term = term;
 				self.currentPage++;
 				self.busy = false;

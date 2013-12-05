@@ -1,0 +1,11 @@
+<form action="{{term | searchURL:fields}}">
+	<input type="search" class="searchbox" ng-model="term" placeholder="Rechercher" />
+	<button type="submit" ng-click="onClick($event, this)">Valider</button>
+</form>
+<div id="main-content">
+	<div infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
+		<div ng-repeat="item in search.items">
+			<p>{{item.title}}</p>
+		</div>
+	</div>
+</div>
