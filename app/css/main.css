@@ -4,6 +4,7 @@ body{
 #search-form{
 	line-height: 0;
 	padding: 30px;
+	margin: auto;
 }
 
 #search-form h1{ 
@@ -22,10 +23,22 @@ body{
 	margin-right: 15px;
 }
 
+#main-content{
+	max-width: 650px;
+	margin: auto;
+}
+
 #main-content .container{
 	margin: 20px;
 	padding: 20px;
 	background-color: white;
+}
+#main-content .title{
+	font-size: 16px;
+}
+#main-content .summary{
+	color:#666;
+	font-size: 12px;
 }
 
 .item-header{
@@ -42,3 +55,11 @@ body{
 	color:#999;
 	float: right;
 }
+
+
+
+
+
+
+
+

@@ -14,8 +14,9 @@
 					<span class="badge {{item.origin | rubrique}}">{{item.origin | rubrique}}</span>
 					<span class="time">il y a 2 jours</span>
 				</div>
-				<p>{{item.title}}</p>
-				<p>{{item.summary || item.date}}</p>
+				<p class="title">{{item.title}}</p>
+				<p class="summary">{{item.summary || item.date}}</p>
+				<!-- <p ng-bind-html="item.content"></p> -->
 				<p><a ng-href="{{item.origin}}" target="_blank">Voir le doc sur l'extranet</a></p>
 			</div>
 		</div>
