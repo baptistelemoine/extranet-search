@@ -808,23 +808,6 @@ pre code {
   clear: both;
 }
 
-@media (min-width: 768px) {
-  .container {
-    width: 750px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    width: 970px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    width: 1170px;
-  }
-}
 
 .row {
   margin-right: -15px;
@@ -5250,16 +5233,11 @@ a.list-group-item.active > .badge,
 
 @media screen and (min-width: 768px) {
   .jumbotron {
-    padding-top: 48px;
-    padding-bottom: 48px;
+
   }
   .container .jumbotron {
     padding-right: 60px;
     padding-left: 60px;
-  }
-  .jumbotron h1,
-  .jumbotron .h1 {
-    font-size: 63px;
   }
 }
 

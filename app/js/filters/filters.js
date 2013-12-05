@@ -5,3 +5,9 @@ app.filters.filter('searchURL', [function (){
         return '#/search?q='+term+'&fields='+fields;
     };
 }]);
+
+app.filters.filter('rubrique', [function (){
+    return function (input) {
+        return input.split('/')[5];
+    };
+}]);

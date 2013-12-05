@@ -1,0 +1,44 @@
+body{
+	background-color:#f3f3f3;
+}
+#search-form{
+	line-height: 0;
+	padding: 30px;
+}
+
+#search-form h1{ 
+	margin-bottom: 5px;
+}
+
+#search-form h5{ 
+	margin-top: 0;
+	color: #999;
+	font-weight: normal;
+}
+
+#search-form .search-box{
+	width:300px;
+	float: left;
+	margin-right: 15px;
+}
+
+#main-content .container{
+	margin: 20px;
+	padding: 20px;
+	background-color: white;
+}
+
+.item-header{
+	margin-bottom: 10px;
+}
+.item-header .badge{
+	border-radius: 0;
+	text-transform: uppercase;
+	font-weight: normal;
+	padding: 6px;
+	font-size: 10px;
+}
+.item-header .time{
+	color:#999;
+	float: right;
+}

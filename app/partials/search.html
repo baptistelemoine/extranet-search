@@ -1,11 +1,23 @@
-<form action="{{term | searchURL:fields}}">
-	<input type="search" class="searchbox" ng-model="term" placeholder="Rechercher" />
-	<button type="submit" ng-click="onClick($event, this)">Valider</button>
-</form>
+<div id="search-form">
+	<h2>Extranet FNSEA</h2>
+	<h5>Rechercher sur l'extranet de la FNSEA</h5>
+	<form class="form-inline" action="{{term | searchURL:fields}}">
+		<input type="search" class="form-control search-box" ng-model="term" placeholder="Rechercher" />
+		<button class="btn btn-primary" type="submit">Valider</button>
+	</form>
+</div>
 <div id="main-content">
-	<div infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
+	<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
 		<div ng-repeat="item in search.items">
-			<p>{{item.title}}</p>
+			<div class="container">
+				<div class="item-header">
+					<span class="badge {{item.origin | rubrique}}">{{item.origin | rubrique}}</span>
+					<span class="time">il y a 2 jours</span>
+				</div>
+				<p>{{item.title}}</p>
+				<p>{{item.summary || item.date}}</p>
+				<p><a ng-href="{{item.origin}}" target="_blank">Voir le doc sur l'extranet</a></p>
+			</div>
 		</div>
 	</div>
 </div>

@@ -8,12 +8,18 @@ app.controllers.controller('SearchController',[
 	$scope.search = SearchManager;
 	SearchManager.fields = $scope.fields;
 
-	$scope.term = $location.search().q
-	
-	$scope.$on('$locationChangeSuccess', function (e){
+	$scope.initSearch = function(){
 		SearchManager.currentPage = 0;
 		SearchManager.items = [];
-		SearchManager.nextPage($scope.term);
-	});
+		if($location.search().q){
+			$scope.term = $location.search().q;
+			SearchManager.nextPage($scope.term);
+		}
+	};
 
+	$scope.initSearch();
+
+	$scope.$on('$locationChangeSuccess', function (e){
+		$scope.initSearch();
+	});
 }]);
