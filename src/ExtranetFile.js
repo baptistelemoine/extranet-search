@@ -16,6 +16,7 @@ var ExtranetFile = function(file){
 	this.summary = '';
 	this.author = '';
 	this.date = new Date();
+	this.suggest = {};
 	this._init();
 };
 
@@ -58,7 +59,7 @@ ExtranetFile.prototype = {
 					self.pdfcontent = result;
 				}
 			}
-			cb(err, _.pick(self, ['ispdf', 'hidden', 'title', 'summary', 'date', 'author', 'links', 'origin','content','pdfcontent']));
+			cb(err, _.pick(self, ['ispdf', 'hidden', 'title', 'summary', 'date', 'author', 'links', 'origin', 'suggest', 'content','pdfcontent']));
 		});
 	},
 
@@ -113,6 +114,7 @@ ExtranetFile.prototype = {
 					self.summary = value.summary || self.summary;
 					self.author = value.author || self.author;
 					self.date = dt ? new Date(d[2], d[1]-1, d[0]) : new Date();
+					self.suggest = {"input":value.title};
 				});
 				callback();
 			});

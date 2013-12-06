@@ -43,7 +43,7 @@ Prog.prototype = {
 		.on('line', function (line){
 			var p = line.toString().split('\t');
 			var rub = p[2].split('\\')[5];
-			var rubs = ['communication'];
+			var rubs = ['administratif'];
 			if( _.indexOf(rubs, rub) !== -1) {
 				var newPath = p[2];
 				if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){

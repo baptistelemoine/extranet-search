@@ -3,6 +3,7 @@ var ElasticSearchClient = require('elasticsearchclient');
 var _ = require('underscore');
 var http = require('http');
 var url = require('url');
+var querystring = require('querystring');
 
 
 var SearchManager = function(){
@@ -144,6 +145,57 @@ SearchManager.prototype = {
 			}
 		};
 		this._launchSearch(request, response, qryObj);
+	},
+
+	suggest:function(request, response){
+
+		var query = url.parse(request.url,true).query;
+
+		var qryObj = {
+			"title-suggest" : {
+				"text" : query.q,
+				"completion" : {
+					"field" : "suggest"
+				}
+			}
+		};
+
+		this._es.suggest(this.indice, qryObj)
+		.on('data', function (data){
+			response.send({result:JSON.parse(data)});
+		})
+		.on('error', function (error) {
+			response.send({result:error});
+		})
+		.exec();
+
+		/*var data = querystring.stringify({
+			"title-suggest" : {
+				"text" : query.q,
+				"completion" : {
+					"field" : "suggest"
+				}
+			}
+		});
+		var options = {
+			host: this.host,
+			port: 9200,
+			path: '/'+this.indice.concat('/_suggest'),
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Content-Length': Buffer.byteLength(data)
+			}
+		};
+		var req = http.request(options, function (res){
+			res.on('data', function (data){
+				response.send({result:JSON.parse(data)});
+			});
+		});
+		
+		req.write(data);
+		req.end();*/
+
 	}
 };
 

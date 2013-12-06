@@ -11,6 +11,9 @@ app.get('/search', function (req, res){
 app.get('/api/*:path', function (req, res){
 	es.origin(req, res);
 });
+app.get('/suggest', function (req, res){
+	es.suggest(req, res);
+});
 
 app.configure(function () {
     app.use(express.bodyParser());

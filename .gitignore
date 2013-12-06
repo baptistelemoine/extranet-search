@@ -1,4 +1,5 @@
 node_modules
+!node_modules/elasticsearchclient
 *.sublime-project
 *.DS_STORE
 *.sublime-workspace

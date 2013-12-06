@@ -3,7 +3,7 @@
 app.controllers.controller('SearchController',[
 	'$scope','SearchManager', '$location', '$route', function ($scope, SearchManager, $location, $route){
 
-	$scope.fields = 'title,summary,origin,date,content';
+	$scope.fields = 'title,summary,origin,date';
 
 	$scope.search = SearchManager;
 	SearchManager.fields = $scope.fields;
