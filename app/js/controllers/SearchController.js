@@ -11,6 +11,7 @@ app.controllers.controller('SearchController',[
 	$scope.initSearch = function(){
 		SearchManager.currentPage = 0;
 		SearchManager.items = [];
+		SearchManager.suggests = [];
 		if($location.search().q){
 			$scope.term = $location.search().q;
 			SearchManager.nextPage($scope.term);
