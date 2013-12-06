@@ -5,6 +5,7 @@ body{
 	line-height: 0;
 	padding: 30px;
 	margin: auto;
+	position: relative;
 }
 
 #search-form h1{ 
@@ -18,7 +19,7 @@ body{
 }
 
 #search-form .search-box{
-	width:300px;
+	width:500px;
 	float: left;
 	margin-right: 15px;
 }
@@ -56,10 +57,27 @@ body{
 	float: right;
 }
 
+#search-form .suggest-container{
+	width: 500px;
+	background-color: white;
+	position: absolute;
+	top: 149px;
+	border: 1px solid #cccccc;
+	border-top: none;
+	padding: 10px;
+}
+#search-form input{
+	box-shadow: none;
+	border: 1px solid #cccccc;
+}
+input:focus {
+    outline: none;
+    border: 1px solid #cccccc;
+}
 
-
-
-
+.suggest-container p{
+	line-height: 1;
+}
 
 
 

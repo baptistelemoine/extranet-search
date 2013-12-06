@@ -2,9 +2,12 @@
 	<h2>Extranet FNSEA</h2>
 	<h5>Rechercher sur l'extranet de la FNSEA</h5>
 	<form class="form-inline" action="{{term | searchURL:fields}}">
-		<input type="search" class="form-control search-box" ng-model="term" placeholder="Rechercher" />
-		<button class="btn btn-primary" type="submit">Valider</button>
+		<input type="search" class="form-control search-box" ng-model="term" ng-change="search.suggest(term)" placeholder="Rechercher" />
+		<button class="btn btn-primary" type="submit">Valider</button>		
 	</form>
+	<div ng-show="search.suggests" class="suggest-container">
+		<p ng-repeat="s in search.suggests" ng-bind-html="s.text | suggest:term"></p>
+	</div>
 </div>
 <div id="main-content">
 	<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">

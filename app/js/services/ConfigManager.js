@@ -1,6 +1,7 @@
 'use strict';
 
 app.services.value('ConfigManager', {
-		searchUrl:'/search'
+		searchUrl:'/search',
+		suggestUrl:'/suggest'
 	}
 );

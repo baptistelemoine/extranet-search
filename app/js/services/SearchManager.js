@@ -1,12 +1,14 @@
 'use strict';
 
 app.services.factory('SearchManager', [
-	'$http', 'ConfigManager', '$rootScope', function ($http, ConfigManager, $rootScope){
+	'$http', 'ConfigManager', '$rootScope', '_', function ($http, ConfigManager, $rootScope, _){
 	
 	return {
 		
 		items:[],
-		url:ConfigManager.searchUrl,
+		suggests:[],
+		searchUrl:ConfigManager.searchUrl,
+		suggestUrl:ConfigManager.suggestUrl,
 		busy:false,
 		term:'',
 		currentPage:0,
@@ -22,7 +24,7 @@ app.services.factory('SearchManager', [
 			if (this.busy || this.last()) return;
 			this.busy = true;
 			
-			$http.get(this.url, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, pretty:this.pretty}, cache:true})
+			$http.get(this.searchUrl, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, pretty:this.pretty}, cache:true})
 			.success(function (data){
 				var dataSource = data.result.hits.hits;
 				angular.forEach(dataSource, function (value, key){
@@ -37,6 +39,16 @@ app.services.factory('SearchManager', [
 
 		last:function(){
 			return (this.total <= this.items.length) && this.total > 0;
+		},
+
+		suggest:function(term){
+
+			var self = this;
+			$http.get(this.suggestUrl, {params:{q:term, pretty:this.pretty}, cache:true})
+			.success(function (data){
+				var dataSource = _.first(data.result['title-suggest']).options;
+				self.suggests = dataSource;				
+			});
 		}
 	};
 }]);

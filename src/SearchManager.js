@@ -169,33 +169,6 @@ SearchManager.prototype = {
 		})
 		.exec();
 
-		/*var data = querystring.stringify({
-			"title-suggest" : {
-				"text" : query.q,
-				"completion" : {
-					"field" : "suggest"
-				}
-			}
-		});
-		var options = {
-			host: this.host,
-			port: 9200,
-			path: '/'+this.indice.concat('/_suggest'),
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Content-Length': Buffer.byteLength(data)
-			}
-		};
-		var req = http.request(options, function (res){
-			res.on('data', function (data){
-				response.send({result:JSON.parse(data)});
-			});
-		});
-		
-		req.write(data);
-		req.end();*/
-
 	}
 };
 

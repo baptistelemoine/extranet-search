@@ -12,13 +12,11 @@
   "license": "BSD",
   "dependencies": {
     "underscore": "~1.5.1",
-    "wrench": "~1.5.1",
     "xml2js": "~0.2.8",
     "cheerio": "~0.12.2",
     "mongoose": "~3.6.19",
     "express": "~3.3.8",
     "async": "~0.2.9",
-    "elasticsearchclient": "~0.5.3",
     "q": "~0.9.7",
     "commander": "~2.1.0",
     "cli-color": "~0.2.3",
