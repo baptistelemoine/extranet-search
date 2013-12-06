@@ -64,7 +64,7 @@ body{
 	top: 149px;
 	border: 1px solid #cccccc;
 	border-top: none;
-	padding: 10px;
+	/*padding: 10px;*/
 }
 #search-form input{
 	box-shadow: none;
@@ -76,7 +76,12 @@ input:focus {
 }
 
 .suggest-container p{
+	padding: 10px;
 	line-height: 1;
+	margin-bottom: 0;
+}
+.suggest-container p:hover{
+	background-color: #ccc;
 }
 
 

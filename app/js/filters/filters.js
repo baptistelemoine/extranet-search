@@ -14,6 +14,6 @@ app.filters.filter('rubrique', [function (){
 
 app.filters.filter('suggest', [function (){
     return function (input, term) {
-        return term + '<b>'+input.substring(term.length, input.length)+'</b>';
+        return term + '<font color="#999">'+input.substring(term.length, input.length)+'</font>';
     };
 }]);

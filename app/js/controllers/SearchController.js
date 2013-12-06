@@ -17,15 +17,14 @@ app.controllers.controller('SearchController',[
 		}
 	};
 
-/*	$scope.suggestions = [];
-	$scope.suggest = function (){
-		$scope.suggestions = SearchManager.suggest($scope.term);
-		console.log($scope.suggestions);
-	};*/
-
 	$scope.initSearch();
 
 	$scope.$on('$locationChangeSuccess', function (e){
 		$scope.initSearch();
 	});
+
+	$scope.onSuggestClick = function(event, term){
+		$scope.term = term;
+		SearchManager.suggests = [];
+	};
 }]);

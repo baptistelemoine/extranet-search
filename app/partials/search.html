@@ -6,7 +6,7 @@
 		<button class="btn btn-primary" type="submit">Valider</button>		
 	</form>
 	<div ng-show="search.suggests" class="suggest-container">
-		<p ng-repeat="s in search.suggests" ng-bind-html="s.text | suggest:term"></p>
+		<p ng-repeat="s in search.suggests" ng-click="onSuggestClick($event, s.text)" ng-bind-html="s.text | suggest:term"></p>
 	</div>
 </div>
 <div id="main-content">
