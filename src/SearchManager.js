@@ -78,11 +78,44 @@ SearchManager.prototype = {
 							"path_analyzer":{
 								"type":"custom",
 								"tokenizer":"path_tokenizer"
+							},
+							"custom_analyzer":{
+								"type":"custom",
+								"tokenizer":"nGram",
+								"filter":['stopwords', 'asciifolding' ,'lowercase', 'snowball', 'elision', 'worddelimiter']
+							},
+							"custom_search_analyzer":{
+								"type":"custom",
+								"tokenizer":"standard",
+								"filter":["stopwords", "asciifolding" ,"lowercase", "snowball", "elision", "worddelimiter"]
 							}
 						},
 						"tokenizer":{
 							"path_tokenizer":{
 								"type":"path_hierarchy"
+							},
+							"nGram":{
+								"type":"nGram",
+								"min_gram":2,
+								"max_gram":20
+							}
+						},
+						"filter":{
+							"snowball":{
+								"type":"snowball",
+								"language":"French"
+							},
+							"elision":{
+								"type":"elision",
+								"articles":["l", "m", "t", "qu", "n", "s", "j", "d"]
+							},
+							"stopwords":{
+								"type":"stop",
+								"stopwords":["_french_"],
+								"ignore_case" : true
+							},
+							"worddelimiter":{
+								"type":"word_delimiter"
 							}
 						}
 					}
