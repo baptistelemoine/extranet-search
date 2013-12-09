@@ -18,17 +18,19 @@ SearchManager.prototype = {
 
 	_init:function(){
 
+		var self = this;
+
 		var serverOptions = {
 			host: this.host,
 			port: 9200,
 			secure: false
 		};
-		this._es = new ElasticSearchClient(serverOptions);
 		this._check(function (response){
-			if(response.statusCode !== 200){
+			if(response !== 200){
 				self._createIndex();
 			}
 		});
+		this._es = new ElasticSearchClient(serverOptions);
 
 	},
 
@@ -67,10 +69,27 @@ SearchManager.prototype = {
 	},
 
 	_createIndex:function(){
-
-		//view config/elasticsearch.yml for general config
-		//or default-mapping.json for mapping
-		this._es.createIndex(this.indice, {}, {})
+		//view default-mapping.json for mapping
+		var settings = {
+			"settings":{
+				"index":{
+					"analysis":{
+						"analyzer":{
+							"path_analyzer":{
+								"type":"custom",
+								"tokenizer":"path_tokenizer"
+							}
+						},
+						"tokenizer":{
+							"path_tokenizer":{
+								"type":"path_hierarchy"
+							}
+						}
+					}
+				}
+			}
+		};
+		this._es.createIndex(this.indice, settings, {})
 		.on('data', function (data) {
 			console.log('Index created!');
 		})
@@ -80,14 +99,17 @@ SearchManager.prototype = {
 	},
 
 	_check:function(callback){
-		
+
 		var options = {
 			host: this.host,
 			port: 9200,
 			path: '/'+this.indice,
 			method: 'HEAD'
 		};
-		return http.request(options, callback);
+		http.request(options, function (response){
+			callback(response.statusCode);
+		})
+		.end();
 	},
 
 	_launchSearch:function(request, response, q){
@@ -95,7 +117,7 @@ SearchManager.prototype = {
 		var query = url.parse(request.url,true).query;
 
 		var common = {
-			'fields':query.fields.split(','),
+			'fields':query.fields ? query.fields.split(',') : null,
 			'from':query.from,
 			'size':query.size
 		};
@@ -129,20 +151,18 @@ SearchManager.prototype = {
 
 	origin:function(request, response){
 
-		var rootPath = url.parse(request.url).pathname.substring(4);
-		//return all docs that starts with rootpath equal to nice url
+		var p = "http://extranet.fnsea.fr/sites/fnsea" + url.parse(request.url,true).pathname.substring(7);
 		var qryObj = {
 			'query':{
-				'match_phrase_prefix' : {
+				'term' : {
 					'origin' : {
-						'query':'.'+rootPath,
-						'max_expansions': 1
+						'value':p
 					}
 				}
 			},
 			'sort':{
 				'date':{'order':'desc'}
-			}
+			},
 		};
 		this._launchSearch(request, response, qryObj);
 	},
