@@ -1,6 +1,6 @@
 <div id="search-form">
-	<h2>Extranet FNSEA</h2>
-	<h5>Rechercher sur l'extranet de la FNSEA</h5>
+	<!-- <h2>Extranet FNSEA</h2> -->
+	<!-- <h5>Rechercher sur l'extranet de la FNSEA</h5> -->
 	<form class="form-inline" action="{{term | searchURL:fields}}">
 		<input type="search" class="form-control search-box" ng-model="term" ng-change="search.suggest(term)" placeholder="Rechercher" />
 		<button class="btn btn-primary" type="submit">Valider</button>		
@@ -9,18 +9,41 @@
 		<p ng-repeat="s in search.suggests" ng-click="onSuggestClick($event, s.text)" ng-bind-html="s.text | suggest:term"></p>
 	</div>
 </div>
-<div id="main-content">
-	<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
-		<div ng-repeat="item in search.items">
-			<div class="container">
-				<div class="item-header">
-					<span class="badge {{item.origin | rubrique}}">{{item.origin | rubrique}}</span>
-					<span class="time">il y a 2 jours</span>
+<div id="main-content" class="row">
+	<div class="col-md-3 left-panel">
+		<h3>Votre recherche</h3>
+		<b><p style="margin-bottom:0;"><span style="color:#1f7f5c;">234</span> résultats pour <span style="color:#1f7f5c;">{{term}}</span></p></b>
+		<h4 style="margin-top:30px;">Filter par rubrique</h4>
+		<hr>
+		<div class="checkbox"><label><input type="checkbox" checked>Syndical<span class="rub-count">(40)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Economie & dev durable<span class="rub-count">(36)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Affaires sociales<span class="rub-count">(54)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Structures et territoires<span class="rub-count">(23)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Juridique et fiscal<span class="rub-count">(12)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Communication<span class="rub-count">(18)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Administratif<span class="rub-count">(43)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Formation<span class="rub-count">(26)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Informatique<span class="rub-count">(24)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Commissions et sections<span class="rub-count">(19)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Agriculture et politique<span class="rub-count">(08)</span></label></div>
+		<div class="checkbox"><label><input type="checkbox" checked>Offres d'emploi<span class="rub-count">(20)</span></label></div>
+		<h4 style="margin-top:30px;">Filter par date</h4>
+		<hr>
+	</div>
+	<div class="col-md-9 right-panel">
+		<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
+			<div ng-repeat="item in search.items">
+				<div class="container">
+					<div class="item-header">
+						<span class="badge {{item.origin | rubrique}}">{{item.origin | rubrique}}</span>
+						<span class="time">il y a 2 jours</span>
+					</div>
+					<p class="title">{{item.title}}</p>
+					<!-- <p class="summary">{{item.summary || item.date}}</p> -->
+					<!-- <p ng-bind-html="item.content"></p> -->
+					<p><a ng-href="{{item.origin}}" target="_blank">{{item.origin}}</a></p>
 				</div>
-				<p class="title">{{item.title}}</p>
-				<p class="summary">{{item.summary || item.date}}</p>
-				<!-- <p ng-bind-html="item.content"></p> -->
-				<p><a ng-href="{{item.origin}}" target="_blank">Voir le doc sur l'extranet</a></p>
+				<hr style="width:90%">
 			</div>
 		</div>
 	</div>

@@ -1,16 +1,55 @@
 body{
-	background-color:#f3f3f3;
+	/*background-color:#f3f3f3;*/
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
 }
+
+.left-panel{
+	/*background-color: #232323;*/
+	position: fixed;
+	margin-top: 100px;
+	top: 0;
+	bottom: 0;
+	overflow: auto;
+}
+
+.left-panel hr{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+.rub-count{
+	color:#1f7f5c;
+	margin-left: 5px;
+}
+.right-panel{
+	/*background-color: #232323;*/
+	margin-left: 210px;
+	margin-top: 130px;
+}
+
 #search-form{
 	line-height: 0;
 	padding: 30px;
 	margin: auto;
-	position: relative;
+	position: fixed;
+	background-color: #f3f3f3;
+	z-index: 1000;
+	width: 100%;
 }
 
 #search-form h1{ 
 	margin-bottom: 5px;
 }
+
+#search-form h2{ 
+	/*color: white;*/
+	font-weight: 600;
+	font-size: 26px;
+}
+
+#search-form h1, h2, h3, h4, h5 {font-family: 'Open Sans', sans-serif;}
 
 #search-form h5{ 
 	margin-top: 0;
@@ -25,13 +64,13 @@ body{
 }
 
 #main-content{
-	max-width: 650px;
+	/*max-width: 650px;*/
 	margin: auto;
 }
 
 #main-content .container{
 	margin: 20px;
-	padding: 20px;
+	/*padding: 20px;*/
 	background-color: white;
 }
 #main-content .title{
@@ -52,16 +91,30 @@ body{
 	padding: 6px;
 	font-size: 10px;
 }
+.administratif {background-color: #ffd966;}
+.communication {background-color: #ffd966;}
+.syndical {background-color: #ffd966;}
+.reglementation {background-color: #ffd966;}
+.offres_emploi {background-color: #ffd966;}
+.informatique {background-color: #ffd966;}
+.pol_gen {background-color: #ffd966;}
+.eco_dev_dur {background-color: #ffd966;}
+.juridique-fiscal {background-color: #ffd966;}
+.structures_territoires {background-color: #ffd966;}
+.formation {background-color: #ffd966;}
+.commissions_sections {background-color: #ffd966;}
+
 .item-header .time{
 	color:#999;
 	float: right;
+	font-size: 12px;
 }
 
 #search-form .suggest-container{
 	width: 500px;
 	background-color: white;
 	position: absolute;
-	top: 149px;
+	top: 60px;
 	border: 1px solid #cccccc;
 	border-top: none;
 	/*padding: 10px;*/
