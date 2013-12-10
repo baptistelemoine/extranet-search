@@ -9,7 +9,8 @@ var app = angular.module('fnsea', [
   'fnsea.controllers',
   'ngSanitize',
   'infinite-scroll',
-  'underscore'
+  'underscore',
+  '$strap.directives'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/search', {templateUrl: 'partials/search.html', controller: 'SearchController'});

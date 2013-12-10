@@ -13,6 +13,14 @@
 	<div class="col-md-3 left-panel">
 		<h3>Votre recherche</h3>
 		<b><p style="margin-bottom:0;"><span style="color:#1f7f5c;">234</span> résultats pour <span style="color:#1f7f5c;">{{term}}</span></p></b>
+		<h4 style="margin-top:30px;">Filter par date</h4>		
+		<hr>
+		<form class="form-horizontal">
+		<div class="control-group input-append">
+		  <input class="date-picker" type="text" ng-model="datepicker.date" data-date-format="dd/mm/yyyy" bs-datepicker>
+		  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+		</div>
+		</form>
 		<h4 style="margin-top:30px;">Filter par rubrique</h4>
 		<hr>
 		<div class="checkbox"><label><input type="checkbox" checked>Syndical<span class="rub-count">(40)</span></label></div>
@@ -27,8 +35,6 @@
 		<div class="checkbox"><label><input type="checkbox" checked>Commissions et sections<span class="rub-count">(19)</span></label></div>
 		<div class="checkbox"><label><input type="checkbox" checked>Agriculture et politique<span class="rub-count">(08)</span></label></div>
 		<div class="checkbox"><label><input type="checkbox" checked>Offres d'emploi<span class="rub-count">(20)</span></label></div>
-		<h4 style="margin-top:30px;">Filter par date</h4>
-		<hr>
 	</div>
 	<div class="col-md-9 right-panel">
 		<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
