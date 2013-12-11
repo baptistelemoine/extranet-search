@@ -183,11 +183,25 @@ SearchManager.prototype = {
 				}
 			},
 			'facets':{
-				'rub':{
+				'items':{
 					'terms':{
-						'field':'rubrique'
+						'field':'item'
 					}
-				}
+				},
+				'years':{
+					'date_histogram':{
+						'interval':'year',
+						'field':'date'
+					}
+				},
+				/*'range':{
+					'range':{
+						'field':'date',
+						'ranges':[
+							{'from':1199145600000, 'to':1262304000000}
+						]
+					}
+				}*/
 			}
 		};
 		this._launchSearch(request, response, qryObj);

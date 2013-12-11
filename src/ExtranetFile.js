@@ -17,7 +17,7 @@ var ExtranetFile = function(file){
 	this.author = '';
 	this.date = new Date();
 	this.suggest = {};
-	this.rubrique = '';
+	this.item = '';
 	this._init();
 };
 
@@ -27,7 +27,7 @@ ExtranetFile.prototype = {
 
 		this.file = './data/' + _.rest(this.origin.split('\\'), 5).join('/');
 		this.origin = 'http://extranet.fnsea.fr/' + _.rest(this.origin.split('\\'), 3).join('/');
-		this.rubrique = this.origin.split('/').slice(5, 6).join('');
+		this.item = this.origin.split('/').slice(5, 6).join('');
 
 		if(path.extname(this.file) === '.pdf') this.ispdf = true;
 
@@ -61,7 +61,7 @@ ExtranetFile.prototype = {
 					self.pdfcontent = result;
 				}
 			}
-			cb(err, _.pick(self, ['ispdf', 'hidden', 'title', 'summary', 'date', 'author', 'links', 'origin', 'rubrique', 'suggest', 'content','pdfcontent']));
+			cb(err, _.pick(self, ['ispdf', 'hidden', 'title', 'summary', 'date', 'author', 'links', 'origin', 'item', 'suggest', 'content','pdfcontent']));
 		});
 	},
 
