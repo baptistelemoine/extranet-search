@@ -10,16 +10,20 @@
 	</div>
 </div>
 <div id="main-content" class="row">
-	<div class="col-md-3 left-panel">
+	<div class="left-panel">
 		<h3>Votre recherche</h3>
 		<b><p style="margin-bottom:0;"><span style="color:#1f7f5c;">234</span> résultats pour <span style="color:#1f7f5c;">{{term}}</span></p></b>
 		<h4 style="margin-top:30px;">Filter par date</h4>		
 		<hr>
-		<form class="form-horizontal">
-		<div class="control-group input-append">
-		  <input class="date-picker" type="text" ng-model="datepicker.date" data-date-format="dd/mm/yyyy" bs-datepicker>
-		  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-		</div>
+		<form class="form" style="text-align: right;">
+			<div class="control-group input-append">
+			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" bs-datepicker>
+			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+			</div>
+			<div class="control-group input-append" style="margin-top:10px;">
+			  <span>Fin : </span><input class="date-picker" type="text" ng-model="datepicker.enddate" data-date-format="dd/mm/yyyy" bs-datepicker>
+			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+			</div>
 		</form>
 		<h4 style="margin-top:30px;">Filter par rubrique</h4>
 		<hr>
@@ -36,7 +40,7 @@
 		<div class="checkbox"><label><input type="checkbox" checked>Agriculture et politique<span class="rub-count">(08)</span></label></div>
 		<div class="checkbox"><label><input type="checkbox" checked>Offres d'emploi<span class="rub-count">(20)</span></label></div>
 	</div>
-	<div class="col-md-9 right-panel">
+	<div class="right-panel">
 		<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
 			<div ng-repeat="item in search.items">
 				<div class="container">
