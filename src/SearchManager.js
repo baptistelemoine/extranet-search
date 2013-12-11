@@ -88,6 +88,10 @@ SearchManager.prototype = {
 								"type":"custom",
 								"tokenizer":"standard",
 								"filter":["stopwords", "asciifolding" ,"lowercase", "snowball", "elision", "worddelimiter"]
+							},
+							"keyword_analyzer":{
+								"type":"custom",
+								"tokenizer":"keyword"
 							}
 						},
 						"tokenizer":{
@@ -176,6 +180,13 @@ SearchManager.prototype = {
 			'query':{
 				'query_string':{
 					'query':query.q
+				}
+			},
+			'facets':{
+				'rub':{
+					'terms':{
+						'field':'rubrique'
+					}
 				}
 			}
 		};
