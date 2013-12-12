@@ -160,7 +160,18 @@ SearchManager.prototype = {
 			'size':query.size
 		};
 
-		this._es.search(this.indice, this.type, _.extend(common,q))
+		var facets = {
+			'years':{
+				'date_histogram':{
+					'interval':'year',
+					'field':'date'
+				}
+			}
+		};
+		if(q.facets) facets = _.extend({}, q.facets, facets);
+		facets = {'facets':facets};
+
+		this._es.search(this.indice, this.type, _.extend(common,q,facets))
 		.on('data', function (data) {
 			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
 			else {
@@ -177,26 +188,30 @@ SearchManager.prototype = {
 	search:function(request, response){
 
 		var query = url.parse(request.url,true).query;
+
 		var exclusions = [];
 		if(query.items){
 			var rubs = _.difference(this.items, query.items.split(','));
 			exclusions = _.map(rubs, function (value, i){
-				return {
-					'field':{
-						'item':value
-					}
-				};
+				return { 'field':{'item':value} };
 			});
 		}
-		
+
+		var dateRange = { 'range':{'date':{}} };
+		if(query.start){
+			dateRange = _.extend(dateRange.range.date, {'from':query.start});
+		}		
+
 		var qryObj = {
 			'query':{
 				'bool':{
-					'must':{
-						'query_string':{
-							'query':query.q
+					'must':[
+						{
+							'query_string':{
+								'query':query.q
+							}
 						}
-					},
+					],
 					'must_not':exclusions
 				}
 			},
@@ -205,21 +220,7 @@ SearchManager.prototype = {
 					'terms':{
 						'field':'item'
 					}
-				},
-				'years':{
-					'date_histogram':{
-						'interval':'year',
-						'field':'date'
-					}
-				},
-				/*'range':{
-					'range':{
-						'field':'date',
-						'ranges':[
-							{'from':1199145600000, 'to':1262304000000}
-						]
-					}
-				}*/
+				}
 			}
 		};
 		this._launchSearch(request, response, qryObj);
