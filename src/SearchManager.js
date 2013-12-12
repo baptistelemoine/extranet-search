@@ -153,13 +153,14 @@ SearchManager.prototype = {
 	_launchSearch:function(request, response, q){
 
 		var query = url.parse(request.url,true).query;
-
+		//common fields
 		var common = {
 			'fields':query.fields ? query.fields.split(',') : null,
 			'from':query.from,
 			'size':query.size
 		};
-
+		
+		//add year facets for all requests
 		var facets = {
 			'years':{
 				'date_histogram':{
@@ -170,6 +171,19 @@ SearchManager.prototype = {
 		};
 		if(q.facets) facets = _.extend({}, q.facets, facets);
 		facets = {'facets':facets};
+
+		//if date range, add it to query
+		var range = {
+			'range':{
+				'date':{
+				}
+			}
+		};
+		if(query.start)	_.extend(range.range.date, {'from':parseInt(query.start, 10)});
+		if(query.end) _.extend(range.range.date, {'to':parseInt(query.end, 10)});
+		
+		if(q.query.bool) q.query.bool.must.push(range);
+
 
 		this._es.search(this.indice, this.type, _.extend(common,q,facets))
 		.on('data', function (data) {
@@ -200,7 +214,7 @@ SearchManager.prototype = {
 		var dateRange = { 'range':{'date':{}} };
 		if(query.start){
 			dateRange = _.extend(dateRange.range.date, {'from':query.start});
-		}		
+		}
 
 		var qryObj = {
 			'query':{
@@ -231,10 +245,16 @@ SearchManager.prototype = {
 		var p = "http://extranet.fnsea.fr/sites/fnsea" + url.parse(request.url,true).pathname.substring(7);
 		var qryObj = {
 			'query':{
-				'term' : {
-					'origin' : {
-						'value':p
-					}
+				'bool':{
+					'must':[
+						{
+							'term' : {
+								'origin' : {
+									'value':p
+								}
+							}
+						}
+					]
 				}
 			},
 			'sort':{
