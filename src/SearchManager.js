@@ -11,6 +11,7 @@ var SearchManager = function(){
 	this.indice = 'fnsea';
 	this.type = 'articles';
 	this.host = 'localhost';
+	this.items = ['administratif','syndical','eco_dev_dur','reglementation','juridique_fiscal','structures_territoires','communication','formation','informatique','pol_gen','offres_emploi','commissions_sections'];
 	this._init();
 };
 
@@ -176,10 +177,27 @@ SearchManager.prototype = {
 	search:function(request, response){
 
 		var query = url.parse(request.url,true).query;
+		var exclusions = [];
+		if(query.items){
+			var rubs = _.difference(this.items, query.items.split(','));
+			exclusions = _.map(rubs, function (value, i){
+				return {
+					'field':{
+						'item':value
+					}
+				};
+			});
+		}
+		
 		var qryObj = {
 			'query':{
-				'query_string':{
-					'query':query.q
+				'bool':{
+					'must':{
+						'query_string':{
+							'query':query.q
+						}
+					},
+					'must_not':exclusions
 				}
 			},
 			'facets':{
