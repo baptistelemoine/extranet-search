@@ -17,3 +17,9 @@ app.filters.filter('suggest', [function (){
         return term + '<font color="#999">'+input.substring(term.length, input.length)+'</font>';
     };
 }]);
+
+app.filters.filter('getYear', [function (){
+    return function (input) {
+        return new Date(input).getFullYear();
+    };
+}]);

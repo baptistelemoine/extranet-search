@@ -1,6 +1,4 @@
 <div id="search-form">
-	<!-- <h2>Extranet FNSEA</h2> -->
-	<!-- <h5>Rechercher sur l'extranet de la FNSEA</h5> -->
 	<form class="form-inline" action="{{term | searchURL:fields}}">
 		<input type="search" class="form-control search-box" ng-model="term" ng-change="search.suggest(term)" placeholder="Rechercher" />
 		<button class="btn btn-primary" type="submit">Valider</button>		
@@ -12,10 +10,13 @@
 <div id="main-content" class="row">
 	<div class="left-panel">
 		<h3>Votre recherche</h3>
-		<b><p style="margin-bottom:0;"><span style="color:#1f7f5c;">234</span> résultats pour <span style="color:#1f7f5c;">{{term}}</span></p></b>
+		<b><p style="margin-bottom:0;"><span style="color:#1f7f5c;">{{search.total}}</span> résultats pour votre recherche</p></b>
 		<h4 style="margin-top:30px;">Filter par date</h4>		
 		<hr>
-		<form class="form" style="text-align: right;">
+		<div class="cbs-year" class="checkbox" ng-repeat="year in search.years">
+			<input type="checkbox" checked>{{year.time | getYear}}<span class="rub-count">({{year.count}})</span></label>
+		</div>
+		<form class="form" style="text-align: right; margin-top:10px;">
 			<div class="control-group input-append">
 			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" bs-datepicker>
 			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
@@ -27,18 +28,9 @@
 		</form>
 		<h4 style="margin-top:30px;">Filter par rubrique</h4>
 		<hr>
-		<div class="checkbox"><label><input type="checkbox" checked>Syndical<span class="rub-count">(40)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Economie & dev durable<span class="rub-count">(36)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Affaires sociales<span class="rub-count">(54)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Structures et territoires<span class="rub-count">(23)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Juridique et fiscal<span class="rub-count">(12)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Communication<span class="rub-count">(18)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Administratif<span class="rub-count">(43)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Formation<span class="rub-count">(26)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Informatique<span class="rub-count">(24)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Commissions et sections<span class="rub-count">(19)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Agriculture et politique<span class="rub-count">(08)</span></label></div>
-		<div class="checkbox"><label><input type="checkbox" checked>Offres d'emploi<span class="rub-count">(20)</span></label></div>
+		<div class="checkbox" ng-repeat="item in search.rubs">
+			<input type="checkbox" checked>{{item.term}}<span class="rub-count">({{item.count}})</span></label>
+		</div>
 	</div>
 	<div class="right-panel">
 		<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">

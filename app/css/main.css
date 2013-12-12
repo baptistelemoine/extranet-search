@@ -15,6 +15,7 @@ body{
 	padding-top: 10px;
 	background-color: #f3f3f3;
 	margin: 20px;
+	width: 260px;
 }
 
 .left-panel hr{
@@ -96,17 +97,17 @@ body{
 	font-size: 10px;
 }
 .administratif {background-color: #ffd966;}
-.communication {background-color: #ffd966;}
-.syndical {background-color: #ffd966;}
-.reglementation {background-color: #ffd966;}
-.offres_emploi {background-color: #ffd966;}
-.informatique {background-color: #ffd966;}
-.pol_gen {background-color: #ffd966;}
-.eco_dev_dur {background-color: #ffd966;}
-.juridique-fiscal {background-color: #ffd966;}
-.structures_territoires {background-color: #ffd966;}
-.formation {background-color: #ffd966;}
-.commissions_sections {background-color: #ffd966;}
+.communication {background-color: #ff0000;}
+.syndical {background-color: #56A480;}
+.reglementation {background-color: #B553B9;}
+.offres_emploi {background-color: #B7CD60;}
+.informatique {background-color: #FFA200;}
+.pol_gen {background-color: #FBBBBB;}
+.eco_dev_dur {background-color: #536DB9;}
+.juridique-fiscal {background-color: #a31e6d;}
+.structures_territoires {background-color: #0e7886;}
+.formation {background-color: #FEA1FF;}
+.commissions_sections {background-color: #358BFF;}
 
 .item-header .time{
 	color:#999;
@@ -201,4 +202,12 @@ vertical-align: middle;
 	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 }
+
+.cbs-year{
+	display:inline-block;
+	margin: 0 20px 10px 0;
+}
+.cbs-year input { margin-right: 5px;}
+
+
 

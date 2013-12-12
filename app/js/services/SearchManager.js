@@ -6,6 +6,8 @@ app.services.factory('SearchManager', [
 	return {
 		
 		items:[],
+		rubs:[],
+		years:[],
 		suggests:[],
 		searchUrl:ConfigManager.searchUrl,
 		suggestUrl:ConfigManager.suggestUrl,
@@ -30,6 +32,11 @@ app.services.factory('SearchManager', [
 				angular.forEach(dataSource, function (value, key){
 					self.items.push(value.fields);
 				});
+				//rubs facet
+				self.rubs = data.result.facets.items.terms;
+				//years facet
+				self.years = data.result.facets.years.entries;
+				//total response
 				self.total = data.result.hits.total;
 				self.term = term;
 				self.currentPage++;
