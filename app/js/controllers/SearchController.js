@@ -14,6 +14,7 @@ app.controllers.controller('SearchController',[
 		SearchManager.rubs = [];
 		SearchManager.years = [];
 		SearchManager.suggests = [];
+		
 		if($location.search().q){
 			$scope.term = $location.search().q;
 			SearchManager.nextPage($scope.term);
