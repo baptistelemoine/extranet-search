@@ -34,8 +34,8 @@ app.controllers.controller('SearchController',[
 
 	$scope.onRubChange = function(item){
 		var items = _.where(SearchManager.rubs, {'checked':true});
-		if(items.length)
-			$location.search().items = _.pluck(items, 'term');
-		console.log($location.search().items)
+		if(items.length){
+			$location.search({'items':_.pluck(items, 'term')});
+		}
 	}
 }]);
