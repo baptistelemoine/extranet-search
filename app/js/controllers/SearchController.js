@@ -1,7 +1,7 @@
 'use strict';
 
 app.controllers.controller('SearchController',[
-	'$scope','SearchManager', '$location', '$route', function ($scope, SearchManager, $location, $route){
+	'$scope','SearchManager', '$location', '$route', '_', function ($scope, SearchManager, $location, $route, _){
 
 	$scope.fields = 'title,summary,origin,date';
 
@@ -31,4 +31,11 @@ app.controllers.controller('SearchController',[
 		$scope.term = term;
 		SearchManager.suggests = [];
 	};
+
+	$scope.onRubChange = function(item){
+		var items = _.where(SearchManager.rubs, {'checked':true});
+		if(items.length)
+			$location.search().items = _.pluck(items, 'term');
+		console.log($location.search().items)
+	}
 }]);

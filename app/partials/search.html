@@ -13,9 +13,9 @@
 		<b><p style="margin-bottom:0;"><span style="color:#1f7f5c;">{{search.total}}</span> résultats pour votre recherche</p></b>
 		<h4 style="margin-top:30px;">Filter par date</h4>		
 		<hr>
-		<div class="cbs-year" class="checkbox" ng-repeat="year in search.years">
+<!-- 		<div class="cbs-year" class="checkbox" ng-repeat="year in search.years">
 			<input type="checkbox" checked>{{year.time | getYear}}<span class="rub-count">({{year.count}})</span></label>
-		</div>
+		</div> -->
 		<form class="form" style="text-align: right; margin-top:10px;">
 			<div class="control-group input-append">
 			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" bs-datepicker>
@@ -29,7 +29,7 @@
 		<h4 style="margin-top:30px;">Filter par rubrique</h4>
 		<hr>
 		<div class="checkbox" ng-repeat="item in search.rubs">
-			<input type="checkbox" checked>{{item.term}}<span class="rub-count">({{item.count}})</span></label>
+			<input type="checkbox" ng-model="item.checked" ng-change="onRubChange()" />{{item.term}}<span class="rub-count">({{item.count}})</span>
 		</div>
 	</div>
 	<div class="right-panel">
