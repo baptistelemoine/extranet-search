@@ -1,7 +1,7 @@
 'use strict';
 
 app.controllers.controller('SearchController',[
-	'$scope','SearchManager', '$location', '$route', '_', function ($scope, SearchManager, $location, $route, _){
+	'$scope','SearchManager', '$location', '$route', '_', '$rootScope', function ($scope, SearchManager, $location, $route, _, $rootScope){
 
 	$scope.fields = 'title,summary,origin,date';
 
@@ -9,16 +9,17 @@ app.controllers.controller('SearchController',[
 	SearchManager.fields = $scope.fields;
 
 	$scope.initSearch = function(){
-		SearchManager.currentPage = 0;
-		SearchManager.items = [];
-		SearchManager.rubs = [];
-		SearchManager.years = [];
-		SearchManager.suggests = [];
-		
-		if($location.search().q){
+
+		if($location.search().q && $location.search().q !== $scope.term){
+			SearchManager.reset();
 			$scope.term = $location.search().q;
-			SearchManager.nextPage($scope.term);
 		}
+		else {
+			SearchManager.currentPage = 0;
+			SearchManager.items = $location.search().items;
+		}
+
+		SearchManager.nextPage($scope.term);
 	};
 
 	$scope.initSearch();
@@ -32,10 +33,11 @@ app.controllers.controller('SearchController',[
 		SearchManager.suggests = [];
 	};
 
-	$scope.onRubChange = function(item){
+	$scope.onRubChange = function(){
+		$rootScope.$$listeners.$locationChangeSuccess = [];
 		var items = _.where(SearchManager.rubs, {'checked':true});
 		if(items.length){
-			$location.search({'items':_.pluck(items, 'term')});
+			$location.search('items',_.pluck(items, 'term').join(','));
 		}
 	}
 }]);

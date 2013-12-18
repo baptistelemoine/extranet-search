@@ -26,21 +26,26 @@ app.services.factory('SearchManager', [
 			if (this.busy || this.last()) return;
 			this.busy = true;
 			
-			$http.get(this.searchUrl, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, pretty:this.pretty}, cache:true})
+			$http.get(this.searchUrl, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, items:this.items, pretty:this.pretty}, cache:true})
 			.success(function (data){
 				var dataSource = data.result.hits.hits;
 				angular.forEach(dataSource, function (value, key){
 					self.items.push(value.fields);
 				});
-				//rubs facet
-				self.rubs = data.result.facets.items.terms;
-				//years facet
-				self.years = data.result.facets.years.entries;
 				//total response
 				self.total = data.result.hits.total;
+				self.busy = false;
+
+				//is search a new search ?
+				if(self.term === '' || self.term !== term){
+					//rubs facet
+					self.rubs = data.result.facets.items.terms;
+					_.each(self.rubs, function (rub){ rub.checked = true; });
+					//years facet
+					self.years = data.result.facets.years.entries;
+				}
 				self.term = term;
 				self.currentPage++;
-				self.busy = false;
 			});
 		},
 
@@ -54,8 +59,13 @@ app.services.factory('SearchManager', [
 			$http.get(this.suggestUrl, {params:{q:term, pretty:this.pretty}, cache:true})
 			.success(function (data){
 				var dataSource = _.first(data.result['title-suggest']).options;
-				self.suggests = dataSource;				
+				self.suggests = dataSource;
 			});
+		},
+
+		reset:function(){
+			this.items = this.rubs = this.years = [];
+			this.currentPage = 0;
 		}
 	};
 }]);

@@ -1,6 +1,6 @@
 <div id="search-form">
 	<form class="form-inline" action="{{term | searchURL:fields}}">
-		<input type="search" class="form-control search-box" ng-model="term" ng-change="search.suggest(term)" placeholder="Rechercher" />
+		<input type="search" class="form-control search-box" ng-model="term" ng-change="search.suggest(term)" placeholder="You know, for search" />
 		<button class="btn btn-primary" type="submit">Valider</button>		
 	</form>
 	<div ng-show="search.suggests" class="suggest-container">
