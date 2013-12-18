@@ -5,7 +5,7 @@ app.services.factory('SearchManager', [
 	
 	return {
 		
-		items:[],
+		result:[],
 		rubs:[],
 		years:[],
 		suggests:[],
@@ -30,11 +30,8 @@ app.services.factory('SearchManager', [
 			.success(function (data){
 				var dataSource = data.result.hits.hits;
 				angular.forEach(dataSource, function (value, key){
-					self.items.push(value.fields);
+					self.result.push(value.fields);
 				});
-				//total response
-				self.total = data.result.hits.total;
-				self.busy = false;
 
 				//is search a new search ?
 				if(self.term === '' || self.term !== term){
@@ -44,13 +41,16 @@ app.services.factory('SearchManager', [
 					//years facet
 					self.years = data.result.facets.years.entries;
 				}
+				//total response
+				self.total = data.result.hits.total;
+				self.busy = false;
 				self.term = term;
 				self.currentPage++;
 			});
 		},
 
 		last:function(){
-			return (this.total <= this.items.length) && this.total > 0;
+			return (this.total <= this.result.length) && this.total > 0;
 		},
 
 		suggest:function(term){
@@ -64,7 +64,7 @@ app.services.factory('SearchManager', [
 		},
 
 		reset:function(){
-			this.items = this.rubs = this.years = [];
+			this.result = this.items = this.rubs = this.years = [];
 			this.currentPage = 0;
 		}
 	};

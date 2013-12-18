@@ -34,7 +34,7 @@
 	</div>
 	<div class="right-panel">
 		<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
-			<div ng-repeat="item in search.items">
+			<div ng-repeat="item in search.result">
 				<div class="container">
 					<div class="item-header">
 						<span class="badge {{item.origin | rubrique}}">{{item.origin | rubrique}}</span>

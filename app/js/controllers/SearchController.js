@@ -16,6 +16,7 @@ app.controllers.controller('SearchController',[
 		}
 		else {
 			SearchManager.currentPage = 0;
+			SearchManager.result = [];
 			SearchManager.items = $location.search().items;
 		}
 
