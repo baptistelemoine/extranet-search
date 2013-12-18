@@ -20,7 +20,7 @@ app.controllers.controller('SearchController',[
 			SearchManager.items = $location.search().items;
 		}
 
-		SearchManager.nextPage($scope.term);
+		if($location.search().q) SearchManager.nextPage($scope.term);
 	};
 
 	$scope.initSearch();
@@ -40,5 +40,20 @@ app.controllers.controller('SearchController',[
 		if(items.length){
 			$location.search('items',_.pluck(items, 'term').join(','));
 		}
-	}
+	};
+
+	$scope.onSubmit = function(){
+		SearchManager.suggests = [];
+	};
+
+	$scope.onDatePickerChange = function(){
+		console.log('change');
+
+		/*$rootScope.$$listeners.$locationChangeSuccess = [];
+		if($scope.datepicker.begindate)
+			$location.search('start', new Date($scope.datepicker.begindate).getTime());
+		if($scope.datepicker.enddate)
+			$location.search('end', new Date($scope.datepicker.enddate).getTime());*/
+	};
+
 }]);

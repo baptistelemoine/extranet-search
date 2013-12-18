@@ -1,5 +1,5 @@
 <div id="search-form">
-	<form class="form-inline" action="{{term | searchURL:fields}}">
+	<form class="form-inline" action="{{term | searchURL:fields}}" ng-submit="onSubmit()">
 		<input type="search" class="form-control search-box" ng-model="term" ng-change="search.suggest(term)" placeholder="You know, for search" />
 		<button class="btn btn-primary" type="submit">Valider</button>		
 	</form>
@@ -18,12 +18,12 @@
 		</div> -->
 		<form class="form" style="text-align: right; margin-top:10px;">
 			<div class="control-group input-append">
-			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" bs-datepicker>
+			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" ng-change="onDatePickerChange()" bs-datepicker>
 			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
 			</div>
 			<div class="control-group input-append" style="margin-top:10px;">
 			  <span>Fin : </span><input class="date-picker" type="text" ng-model="datepicker.enddate" data-date-format="dd/mm/yyyy" bs-datepicker>
-			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+			  <button type="button" class="btn btn-date-picker" ng-click="onBtnDateClick()" data-toggle="datepicker"><i class="icon-calendar"></i></button>
 			</div>
 		</form>
 		<h4 style="margin-top:30px;">Filter par rubrique</h4>
