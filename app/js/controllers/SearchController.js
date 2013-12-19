@@ -18,6 +18,8 @@ app.controllers.controller('SearchController',[
 			SearchManager.currentPage = 0;
 			SearchManager.result = [];
 			SearchManager.items = $location.search().items;
+			SearchManager.start = $location.search().start;
+			SearchManager.end = $location.search().end;
 		}
 
 		if($location.search().q) SearchManager.nextPage($scope.term);
@@ -47,13 +49,14 @@ app.controllers.controller('SearchController',[
 	};
 
 	$scope.onDatePickerChange = function(){
-		console.log('change');
 
-		/*$rootScope.$$listeners.$locationChangeSuccess = [];
+		$rootScope.$$listeners.$locationChangeSuccess = [];
 		if($scope.datepicker.begindate)
 			$location.search('start', new Date($scope.datepicker.begindate).getTime());
+		else $location.search('start', null);
 		if($scope.datepicker.enddate)
-			$location.search('end', new Date($scope.datepicker.enddate).getTime());*/
+			$location.search('end', new Date($scope.datepicker.enddate).getTime());
+		else $location.search('end', null);
 	};
 
 }]);

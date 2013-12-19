@@ -11,6 +11,11 @@
 	<div class="left-panel">
 		<h3>Votre recherche</h3>
 		<b><p style="margin-bottom:0;"><span style="color:#1f7f5c;">{{search.total}}</span> résultats pour votre recherche</p></b>
+		<h4 style="margin-top:30px;">Filter par rubrique</h4>
+		<hr>
+		<div class="checkbox" ng-repeat="item in search.rubs">
+			<input type="checkbox" ng-model="item.checked" ng-change="onRubChange()" />{{item.term}}<span class="rub-count">({{item.count}})</span>
+		</div>
 		<h4 style="margin-top:30px;">Filter par date</h4>		
 		<hr>
 <!-- 		<div class="cbs-year" class="checkbox" ng-repeat="year in search.years">
@@ -22,15 +27,10 @@
 			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
 			</div>
 			<div class="control-group input-append" style="margin-top:10px;">
-			  <span>Fin : </span><input class="date-picker" type="text" ng-model="datepicker.enddate" data-date-format="dd/mm/yyyy" bs-datepicker>
-			  <button type="button" class="btn btn-date-picker" ng-click="onBtnDateClick()" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+			  <span>Fin : </span><input class="date-picker" type="text" ng-model="datepicker.enddate" data-date-format="dd/mm/yyyy" ng-change="onDatePickerChange()" bs-datepicker>
+			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
 			</div>
 		</form>
-		<h4 style="margin-top:30px;">Filter par rubrique</h4>
-		<hr>
-		<div class="checkbox" ng-repeat="item in search.rubs">
-			<input type="checkbox" ng-model="item.checked" ng-change="onRubChange()" />{{item.term}}<span class="rub-count">({{item.count}})</span>
-		</div>
 	</div>
 	<div class="right-panel">
 		<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
