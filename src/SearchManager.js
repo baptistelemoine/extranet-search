@@ -222,7 +222,8 @@ SearchManager.prototype = {
 					'must':[
 						{
 							'query_string':{
-								'query':query.q
+								'query':query.q,
+								'fields':['content','pdfcontent','title','summary']
 							}
 						}
 					],

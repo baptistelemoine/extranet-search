@@ -9,7 +9,7 @@ app.controllers.controller('SearchController',[
 	SearchManager.fields = $scope.fields;
 
 	$scope.initSearch = function(){
-
+		console.log($scope.items)
 		if($location.search().q && $location.search().q !== $scope.term){
 			SearchManager.reset();
 			$scope.term = $location.search().q;
@@ -17,7 +17,7 @@ app.controllers.controller('SearchController',[
 		else {
 			SearchManager.currentPage = 0;
 			SearchManager.result = [];
-			SearchManager.items = $location.search().items;
+			SearchManager.items_filter = $location.search().items;
 			SearchManager.start = $location.search().start;
 			SearchManager.end = $location.search().end;
 		}
@@ -47,6 +47,7 @@ app.controllers.controller('SearchController',[
 		$rootScope.$$listeners.$locationChangeSuccess = [];
 		var items = _.where(SearchManager.rubs, {'checked':true});
 		if(items.length){
+			console.log(_.pluck(items, 'term').join(','))
 			$location.search('items',_.pluck(items, 'term').join(','));
 		}
 	};

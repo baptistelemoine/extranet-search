@@ -24,7 +24,6 @@ var ExtranetFile = function(file){
 ExtranetFile.prototype = {
 
 	_init:function(){
-
 		this.file = './data/' + _.rest(this.origin.split('\\'), 5).join('/');
 		this.origin = 'http://extranet.fnsea.fr/' + _.rest(this.origin.split('\\'), 3).join('/');
 		this.item = this.origin.split('/').slice(5, 6).join('');
