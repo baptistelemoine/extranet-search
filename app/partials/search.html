@@ -38,7 +38,7 @@
 				<div class="container">
 					<div class="item-header">
 						<span class="badge {{item.origin | rubrique}}">{{item.item | itemFullName}}</span>
-						<span class="time">il y a 2 jours</span>
+						<span class="time">{{item.date | moment}}</span>
 					</div>
 					<p class="title">{{item.title}}</p>
 					<!-- <p class="summary">{{item.summary || item.date}}</p> -->

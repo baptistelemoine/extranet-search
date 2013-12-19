@@ -28,7 +28,7 @@ app.services.factory('SearchManager', [
 			if (this.busy || this.last()) return;
 			this.busy = true;
 			
-			$http.get(this.searchUrl, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, items:this.items, start:this.start, end:this.end, pretty:this.pretty}, cache:true})
+			$http.get(this.searchUrl, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, items:this.items && this.items.length ? this.items : null, start:this.start, end:this.end, pretty:this.pretty}, cache:true})
 			.success(function (data){
 				var dataSource = data.result.hits.hits;
 				angular.forEach(dataSource, function (value, key){
@@ -66,7 +66,7 @@ app.services.factory('SearchManager', [
 		},
 
 		reset:function(){
-			this.result = this.items = this.rubs = this.years = [];
+			this.result = this.rubs = this.items = this.years = [];
 			this.currentPage = 0;
 		}
 	};

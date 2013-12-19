@@ -20,6 +20,7 @@
     "ngInfiniteScroll": "~1.0.0",
     "underscore": "~1.5.2",
     "jquery": "~2.0.3",
-    "bootstrap-datepicker": "~1.2.0"
+    "bootstrap-datepicker": "~1.2.0",
+    "moment": "~2.4.0"
   }
 }

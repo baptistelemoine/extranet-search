@@ -32,8 +32,10 @@ app.controllers.controller('SearchController',[
 	});
 
 	$scope.$watch('term', function (val){
-		if(val === '')
+		if(val === ''){
 			SearchManager.reset();
+			$location.search('q', null);
+		}
 	});
 
 	$scope.onSuggestClick = function(event, term){
