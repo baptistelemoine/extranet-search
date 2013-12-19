@@ -14,7 +14,7 @@
 		<h4 style="margin-top:30px;">Filter par rubrique</h4>
 		<hr>
 		<div class="checkbox" ng-repeat="item in search.rubs">
-			<input type="checkbox" ng-model="item.checked" ng-change="onRubChange()" />{{item.term}}<span class="rub-count">({{item.count}})</span>
+			<input type="checkbox" ng-model="item.checked" ng-change="onRubChange()" />{{item.term | itemFullName}}<span class="rub-count">({{item.count}})</span>
 		</div>
 		<h4 style="margin-top:30px;">Filter par date</h4>		
 		<hr>
@@ -37,7 +37,7 @@
 			<div ng-repeat="item in search.result">
 				<div class="container">
 					<div class="item-header">
-						<span class="badge {{item.origin | rubrique}}">{{item.origin | rubrique}}</span>
+						<span class="badge {{item.origin | rubrique}}">{{item.item | itemFullName}}</span>
 						<span class="time">il y a 2 jours</span>
 					</div>
 					<p class="title">{{item.title}}</p>

@@ -1,9 +1,9 @@
 'use strict';
 
 app.controllers.controller('SearchController',[
-	'$scope','SearchManager', '$location', '$route', '_', '$rootScope', function ($scope, SearchManager, $location, $route, _, $rootScope){
+	'$scope','SearchManager', '$location', '$route', '_', '$rootScope', 'ConfigManager', function ($scope, SearchManager, $location, $route, _, $rootScope, ConfigManager){
 
-	$scope.fields = 'title,summary,origin,date';
+	$scope.fields = 'title,summary,origin,date,item';
 
 	$scope.search = SearchManager;
 	SearchManager.fields = $scope.fields;
@@ -29,6 +29,11 @@ app.controllers.controller('SearchController',[
 
 	$scope.$on('$locationChangeSuccess', function (e){
 		$scope.initSearch();
+	});
+
+	$scope.$watch('term', function (val){
+		if(val === '')
+			SearchManager.reset();
 	});
 
 	$scope.onSuggestClick = function(event, term){

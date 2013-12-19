@@ -23,3 +23,9 @@ app.filters.filter('getYear', [function (){
         return new Date(input).getFullYear();
     };
 }]);
+
+app.filters.filter('itemFullName', ['ConfigManager', function (ConfigManager){
+    return function (input) {
+        return ConfigManager.getItemName(input);
+    };
+}]);
