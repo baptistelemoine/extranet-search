@@ -9,18 +9,16 @@ app.services.factory('SearchManager', [
 		items:[],
 		years:[],
 		suggests:[],
-		searchUrl:ConfigManager.searchUrl,
 		suggestUrl:ConfigManager.suggestUrl,
 		busy:false,
-		newsearch:true,
 		term:'',
 		currentPage:0,
 		perPage:10,
 		pretty:true,
 		fields:'',
 		total:0,
-		start:null,
-		end:null,
+		start:0,
+		end:0,
 
 		nextPage:function(url, reset){
 
@@ -39,7 +37,7 @@ app.services.factory('SearchManager', [
 					self.result.push(value.fields);
 				});
 
-				if(self.term !== $location.url(url).search().q){
+				if(self.term !== $location.url(url).search().q || self.start !== $location.search().start){
 					//rubs facet
 					self.items = data.result.facets.items.terms;
 					_.each(self.items, function (rub){ rub.checked = true; });
@@ -47,6 +45,7 @@ app.services.factory('SearchManager', [
 					self.years = data.result.facets.years.entries;
 				}
 				self.term = $location.url(url).search().q;
+				self.start = $location.url(url).search().start;
 				//total response
 				self.total = data.result.hits.total;
 				self.busy = false;

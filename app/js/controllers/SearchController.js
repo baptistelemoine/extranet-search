@@ -14,6 +14,9 @@ app.controllers.controller('SearchController',[
 	//direct access via url with search query
 	if($location.search().q) $scope.initSearch(true);
 
+	if($location.search().start)
+		// $scope.datepicker.begindate = moment(parseInt($location.search().start, 10)).format('DD/MM/YYYY');
+
 	$scope.onSubmit = function(){
 		$location.path('/search').search('q', $scope.term);
 		SearchManager.suggests = [];
@@ -22,8 +25,7 @@ app.controllers.controller('SearchController',[
 
 	$scope.onRubChange = function(){
 		var items = _.where(SearchManager.items, {'checked':true});
-		if(items.length === SearchManager.items.length)
-			$location.search('items', null);
+		if(!items.length) $location.search('items', null);
 		else $location.search('items',_.pluck(items, 'term').join(','));
 	};
 
@@ -35,30 +37,24 @@ app.controllers.controller('SearchController',[
 		}
 	});
 
-	/*$scope.onSuggestClick = function(event, term){
-		$scope.term = term;
+	$scope.onSuggestClick = function(event, term){
+		$location.search('q', term);
 		SearchManager.suggests = [];
 	};
 
-	$scope.onRubChange = function(){
-		$rootScope.$$listeners.$locationChangeSuccess = [];
-		var items = _.where(SearchManager.rubs, {'checked':true});
-		if(items.length){
-			console.log(_.pluck(items, 'term').join(','))
-			$location.search('items',_.pluck(items, 'term').join(','));
-		}
-	};
-
-
 	$scope.onDatePickerChange = function(){
-
-		$rootScope.$$listeners.$locationChangeSuccess = [];
 		if($scope.datepicker.begindate)
 			$location.search('start', new Date($scope.datepicker.begindate).getTime());
 		else $location.search('start', null);
 		if($scope.datepicker.enddate)
 			$location.search('end', new Date($scope.datepicker.enddate).getTime());
 		else $location.search('end', null);
-	};*/
+	};
 
+	$scope.defaultStart = function(){
+		$scope.datepicker = {
+			begindate: new Date("2012-09-01T00:00:00.000Z")
+		}
+	}
+	
 }]);
