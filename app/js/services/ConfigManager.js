@@ -30,6 +30,7 @@ app.services.value('ConfigManager', {
 				case 'offres_emploi':
 					return "Offres d'emploi";
 			}
-		}
+		},
+		fields:['title','summary','origin','date','item']
 	}
 );

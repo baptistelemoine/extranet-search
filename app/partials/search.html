@@ -1,5 +1,5 @@
 <div id="search-form">
-	<form class="form-inline" action="{{term | searchURL:fields}}" ng-submit="onSubmit()">
+	<form class="form-inline" ng-submit="onSubmit()">
 		<input type="search" class="form-control search-box" ng-model="term" ng-change="search.suggest(term)" placeholder="You know, for search" />
 		<button class="btn btn-primary" type="submit">Valider</button>		
 	</form>
@@ -13,7 +13,7 @@
 		<b><p style="margin-bottom:0;"><span style="color:#1f7f5c;">{{search.total}}</span> résultats pour votre recherche</p></b>
 		<h4 style="margin-top:30px;">Filter par rubrique</h4>
 		<hr>
-		<div class="checkbox" ng-repeat="item in search.rubs">
+		<div class="checkbox" ng-repeat="item in search.items">
 			<input type="checkbox" ng-model="item.checked" ng-change="onRubChange()" />{{item.term | itemFullName}}<span class="rub-count">({{item.count}})</span>
 		</div>
 		<h4 style="margin-top:30px;">Filter par date</h4>		
@@ -33,7 +33,7 @@
 		</form>
 	</div>
 	<div class="right-panel">
-		<div ng-if="term" infinite-scroll="search.nextPage(term)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
+		<div ng-if="term" infinite-scroll="initSearch(false)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
 			<div ng-repeat="item in search.result">
 				<div class="container">
 					<div class="item-header">

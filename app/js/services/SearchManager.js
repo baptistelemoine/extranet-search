@@ -1,18 +1,18 @@
 'use strict';
 
 app.services.factory('SearchManager', [
-	'$http', 'ConfigManager', '$rootScope', '_', function ($http, ConfigManager, $rootScope, _){
+	'$http', 'ConfigManager', '$rootScope', '_', '$location', function ($http, ConfigManager, $rootScope, _, $location){
 	
 	return {
 		
 		result:[],
-		rubs:[],
+		items:[],
 		years:[],
 		suggests:[],
-		items_filter:[],
 		searchUrl:ConfigManager.searchUrl,
 		suggestUrl:ConfigManager.suggestUrl,
 		busy:false,
+		newsearch:true,
 		term:'',
 		currentPage:0,
 		perPage:10,
@@ -22,32 +22,33 @@ app.services.factory('SearchManager', [
 		start:null,
 		end:null,
 
-		nextPage:function(term){
+		nextPage:function(url, reset){
 
 			var self = this;
 
 			if (this.busy || this.last()) return;
 			this.busy = true;
 			
-			$http.get(this.searchUrl, {params:{q:term, from:this.currentPage*this.perPage, fields:this.fields, size:this.perPage, items:null, start:this.start, end:this.end, pretty:this.pretty}, cache:true})
+			if(reset) self.reset();
+
+			$http.get(url, {params:{fields:ConfigManager.fields.join(','), from:this.currentPage*this.perPage, size:this.perPage, pretty:this.pretty}, cache:true})
 			.success(function (data){
 				var dataSource = data.result.hits.hits;
 				angular.forEach(dataSource, function (value, key){
 					self.result.push(value.fields);
 				});
 
-				//is search a new search ?
-				if(self.term === '' || self.term !== term){
+				if(self.term !== $location.url(url).search().q){
 					//rubs facet
-					self.rubs = data.result.facets.items.terms;
-					_.each(self.rubs, function (rub){ rub.checked = true; });
+					self.items = data.result.facets.items.terms;
+					_.each(self.items, function (rub){ rub.checked = true; });
 					//years facet
 					self.years = data.result.facets.years.entries;
 				}
+				self.term = $location.url(url).search().q;
 				//total response
 				self.total = data.result.hits.total;
 				self.busy = false;
-				self.term = term;
 				self.currentPage++;
 			});
 		},
@@ -66,9 +67,14 @@ app.services.factory('SearchManager', [
 			});
 		},
 
-		reset:function(){
-			this.result = this.rubs = this.items_filter = this.years = [];
+		reset:function(all){
+			this.result = [];
+			this.total = 0;
 			this.currentPage = 0;
+
+			if(all){
+				this.items = this.years = [];
+			}
 		}
 	};
 }]);

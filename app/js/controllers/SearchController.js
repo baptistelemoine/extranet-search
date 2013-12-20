@@ -3,42 +3,39 @@
 app.controllers.controller('SearchController',[
 	'$scope','SearchManager', '$location', '$route', '_', '$rootScope', 'ConfigManager', function ($scope, SearchManager, $location, $route, _, $rootScope, ConfigManager){
 
-	$scope.fields = 'title,summary,origin,date,item';
-
 	$scope.search = SearchManager;
-	SearchManager.fields = $scope.fields;
 
-	$scope.initSearch = function(){
-		console.log($scope.items)
-		if($location.search().q && $location.search().q !== $scope.term){
-			SearchManager.reset();
-			$scope.term = $location.search().q;
-		}
-		else {
-			SearchManager.currentPage = 0;
-			SearchManager.result = [];
-			SearchManager.items_filter = $location.search().items;
-			SearchManager.start = $location.search().start;
-			SearchManager.end = $location.search().end;
-		}
+	$scope.initSearch = function(reset){
 
-		if($location.search().q) SearchManager.nextPage($scope.term);
+		SearchManager.nextPage($location.$$url, reset);
+		$scope.term = $location.search().q;
 	};
 
-	$scope.initSearch();
+	//direct access via url with search query
+	if($location.search().q) $scope.initSearch(true);
 
-	$scope.$on('$locationChangeSuccess', function (e){
-		$scope.initSearch();
-	});
+	$scope.onSubmit = function(){
+		$location.path('/search').search('q', $scope.term);
+		SearchManager.suggests = [];
+		$scope.initSearch(true);
+	};
+
+	$scope.onRubChange = function(){
+		var items = _.where(SearchManager.items, {'checked':true});
+		if(items.length === SearchManager.items.length)
+			$location.search('items', null);
+		else $location.search('items',_.pluck(items, 'term').join(','));
+	};
 
 	$scope.$watch('term', function (val){
 		if(val === ''){
-			SearchManager.reset();
+			SearchManager.reset(true);
 			$location.search('q', null);
+			$location.search('items', null);
 		}
 	});
 
-	$scope.onSuggestClick = function(event, term){
+	/*$scope.onSuggestClick = function(event, term){
 		$scope.term = term;
 		SearchManager.suggests = [];
 	};
@@ -52,9 +49,6 @@ app.controllers.controller('SearchController',[
 		}
 	};
 
-	$scope.onSubmit = function(){
-		SearchManager.suggests = [];
-	};
 
 	$scope.onDatePickerChange = function(){
 
@@ -65,6 +59,6 @@ app.controllers.controller('SearchController',[
 		if($scope.datepicker.enddate)
 			$location.search('end', new Date($scope.datepicker.enddate).getTime());
 		else $location.search('end', null);
-	};
+	};*/
 
 }]);
