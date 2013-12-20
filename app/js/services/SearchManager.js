@@ -26,13 +26,14 @@ app.services.factory('SearchManager', [
 
 			var self = this;
 
-			if (this.busy || this.last()) return;
+			if (this.busy || this.last() && !reset) return;
 			this.busy = true;
 			
-			if(reset) self.reset();
+			if(reset) this.reset();
 
 			$http.get(url, {params:{fields:ConfigManager.fields.join(','), from:this.currentPage*this.perPage, size:this.perPage, pretty:this.pretty}, cache:true})
 			.success(function (data){
+				
 				var dataSource = data.result.hits.hits;
 				angular.forEach(dataSource, function (value, key){
 					self.result.push(value.fields);
