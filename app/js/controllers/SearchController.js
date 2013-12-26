@@ -1,7 +1,7 @@
 'use strict';
 
 app.controllers.controller('SearchController',[
-	'$scope','SearchManager', '$location', '$route', '_', '$rootScope', 'ConfigManager', function ($scope, SearchManager, $location, $route, _, $rootScope, ConfigManager){
+	'$scope','SearchManager', '$location', '$timeout', '_', '$rootScope', 'ConfigManager', function ($scope, SearchManager, $location, $timeout, _, $rootScope, ConfigManager){
 
 	$scope.search = SearchManager;
 
@@ -51,10 +51,16 @@ app.controllers.controller('SearchController',[
 		else $location.search('end', null);
 	};
 
-	$scope.defaultStart = function(){
-		$scope.datepicker = {
-			begindate: new Date("2012-09-01T00:00:00.000Z")
-		}
+	$scope.onPageLoad = function(){
+		console.log($scope.datepicker)
+		/*$timeout(function(){
+			$scope.$apply(function(){
+				$scope.datepicker = {
+					begindate: moment(parseInt($location.search().start, 10)).format('DD/MM/YYYY')
+				}
+			})
+		})*/
+				
 	}
 	
 }]);

@@ -1,5 +1,5 @@
 <div id="search-form">
-	<form class="form-inline" ng-submit="onSubmit()">
+	<form class="form-inline" action="{{term | searchURL}}" ng-submit="onSubmit()">
 		<input type="search" class="form-control search-box" ng-model="term" ng-change="search.suggest(term)" placeholder="You know, for search" />
 		<button class="btn btn-primary" type="submit">Valider</button>		
 	</form>
@@ -23,7 +23,7 @@
 		</div> -->
 		<form class="form" style="text-align: right; margin-top:10px;">
 			<div class="control-group input-append">
-			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" ng-change="onDatePickerChange()" bs-datepicker>
+			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" ng-change="onDatePickerChange()" placeholder="hello" bs-datepicker>
 			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
 			</div>
 			<div class="control-group input-append" style="margin-top:10px;">
