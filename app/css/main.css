@@ -171,6 +171,13 @@ margin-left: 10px;
 width: 100px;
 }
 
+input.date-picker::-webkit-input-placeholder{
+	color: #555;
+}
+input.date-picker::-moz-input-placeholder{
+	color: #555;
+}
+
 .form-horizontal .control-group {
 margin-bottom: 20px;
 display: inline-block;

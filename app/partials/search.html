@@ -23,11 +23,11 @@
 		</div> -->
 		<form class="form" style="text-align: right; margin-top:10px;">
 			<div class="control-group input-append">
-			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" ng-change="onDatePickerChange()" placeholder="hello" bs-datepicker>
+			  <span>Début : </span><input class="date-picker" type="text" ng-model="datepicker.begindate" data-date-format="dd/mm/yyyy" ng-change="onDatePickerChange()" placeholder="{{startdate | dateformat}}" bs-datepicker>
 			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
 			</div>
 			<div class="control-group input-append" style="margin-top:10px;">
-			  <span>Fin : </span><input class="date-picker" type="text" ng-model="datepicker.enddate" data-date-format="dd/mm/yyyy" ng-change="onDatePickerChange()" bs-datepicker>
+			  <span>Fin : </span><input class="date-picker" type="text" ng-model="datepicker.enddate" data-date-format="dd/mm/yyyy" ng-change="onDatePickerChange()" placeholder="{{enddate | dateformat}}" bs-datepicker>
 			  <button type="button" class="btn btn-date-picker" data-toggle="datepicker"><i class="icon-calendar"></i></button>
 			</div>
 		</form>

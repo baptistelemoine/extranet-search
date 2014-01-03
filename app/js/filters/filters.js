@@ -38,3 +38,11 @@ app.filters.filter('moment', [function (){
         return moment(input).fromNow();
     };
 }]);
+
+app.filters.filter('dateformat', [function (){
+    return function (input) {
+        if(input) return moment(input).format('DD/MM/YYYY');
+        return '';
+    };
+}]);
+

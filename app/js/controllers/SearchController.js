@@ -14,9 +14,6 @@ app.controllers.controller('SearchController',[
 	//direct access via url with search query
 	if($location.search().q) $scope.initSearch(true);
 
-	if($location.search().start)
-		// $scope.datepicker.begindate = moment(parseInt($location.search().start, 10)).format('DD/MM/YYYY');
-
 	$scope.onSubmit = function(){
 		$location.path('/search').search('q', $scope.term);
 		SearchManager.suggests = [];
@@ -37,6 +34,13 @@ app.controllers.controller('SearchController',[
 		}
 	});
 
+	$rootScope.$watch('[startdate, enddate]', function (val){
+		if(val && val[0])
+			$location.search('start', new Date(val[0]).getTime());
+		if(val && val[1])
+			$location.search('end', new Date(val[1]).getTime());
+	}, true);
+
 	$scope.onSuggestClick = function(event, term){
 		$location.search('q', term);
 		SearchManager.suggests = [];
@@ -44,23 +48,12 @@ app.controllers.controller('SearchController',[
 
 	$scope.onDatePickerChange = function(){
 		if($scope.datepicker.begindate)
-			$location.search('start', new Date($scope.datepicker.begindate).getTime());
+			$rootScope.startdate = $scope.datepicker.begindate;
 		else $location.search('start', null);
+
 		if($scope.datepicker.enddate)
-			$location.search('end', new Date($scope.datepicker.enddate).getTime());
+			$rootScope.enddate = $scope.datepicker.enddate;
 		else $location.search('end', null);
 	};
-
-	$scope.onPageLoad = function(){
-		console.log($scope.datepicker)
-		/*$timeout(function(){
-			$scope.$apply(function(){
-				$scope.datepicker = {
-					begindate: moment(parseInt($location.search().start, 10)).format('DD/MM/YYYY')
-				}
-			})
-		})*/
-				
-	}
 	
 }]);
