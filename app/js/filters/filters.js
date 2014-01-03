@@ -41,7 +41,7 @@ app.filters.filter('moment', [function (){
 
 app.filters.filter('dateformat', [function (){
     return function (input) {
-        if(input) return moment(input).format('DD/MM/YYYY');
+        if(input) return moment(parseInt(input, 10)).format('DD/MM/YYYY');
         return '';
     };
 }]);

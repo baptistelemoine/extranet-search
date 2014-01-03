@@ -4,11 +4,14 @@ app.controllers.controller('SearchController',[
 	'$scope','SearchManager', '$location', '$timeout', '_', '$rootScope', 'ConfigManager', function ($scope, SearchManager, $location, $timeout, _, $rootScope, ConfigManager){
 
 	$scope.search = SearchManager;
+	// $scope.startdate = $scope.enddate = new Date().getTime();
 
 	$scope.initSearch = function(reset){
 
 		SearchManager.nextPage($location.$$url, reset);
 		$scope.term = $location.search().q;
+		if($location.search().start) $scope.startdate = $location.search().start;
+		if($location.search().end) $scope.enddate = $location.search().end;
 	};
 
 	//direct access via url with search query
@@ -31,15 +34,15 @@ app.controllers.controller('SearchController',[
 			SearchManager.reset(true);
 			$location.search('q', null);
 			$location.search('items', null);
+			$location.search('start', null);
+			$location.search('end', null);
 		}
 	});
-
-	$rootScope.$watch('[startdate, enddate]', function (val){
-		if(val && val[0])
-			$location.search('start', new Date(val[0]).getTime());
-		if(val && val[1])
-			$location.search('end', new Date(val[1]).getTime());
-	}, true);
+	
+	$scope.onDateCancel = function (e){
+		if($scope.startdate === null) $location.search('start', null);
+		if($scope.enddate === null) $location.search('end', null);
+	};
 
 	$scope.onSuggestClick = function(event, term){
 		$location.search('q', term);
@@ -47,13 +50,11 @@ app.controllers.controller('SearchController',[
 	};
 
 	$scope.onDatePickerChange = function(){
-		if($scope.datepicker.begindate)
-			$rootScope.startdate = $scope.datepicker.begindate;
-		else $location.search('start', null);
-
+		if($scope.datepicker.begindate){
+			$location.search('start', new Date($scope.datepicker.begindate).getTime());
+		}
 		if($scope.datepicker.enddate)
-			$rootScope.enddate = $scope.datepicker.enddate;
-		else $location.search('end', null);
+			$location.search('end', new Date($scope.datepicker.enddate).getTime());
 	};
 	
 }]);

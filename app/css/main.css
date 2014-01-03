@@ -152,7 +152,7 @@ form {
 border-radius: 4px 0 0 4px;
 display: inline-block;
 margin-bottom: 0;
-vertical-align: middle;
+vertical-align: top;
 position: relative;
 font-size: 14px;
 background-color: #fff;
@@ -168,8 +168,25 @@ padding: 4px 6px;
 line-height: 20px;
 color: #555;
 margin-left: 10px;
-width: 100px;
+width: 88px;
 }
+
+form.date-form i.icon-remove-sign {
+	font-size: 18px;
+	padding-top: 5px;
+	padding-left: 5px;
+	display: inline-block;
+	font-weight: bold;
+}
+
+form.date-form i.icon-remove-sign.ng-hide{
+	display: inline-block!important;
+	visibility: hidden;
+}
+form.date-form i.icon-remove-sign.ng-show{
+	visibility: visible;
+}
+
 
 input.date-picker::-webkit-input-placeholder{
 	color: #555;
