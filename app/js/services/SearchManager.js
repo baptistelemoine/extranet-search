@@ -37,7 +37,7 @@ app.services.factory('SearchManager', [
 					self.result.push(value.fields);
 				});
 
-				if(self.term !== $location.url(url).search().q || self.start !== $location.search().start){
+				if(self.term !== $location.url(url).search().q || self.start !== $location.search().start || self.end !== $location.search().end){
 					//rubs facet
 					self.items = data.result.facets.items.terms;
 					_.each(self.items, function (rub){ rub.checked = true; });
@@ -46,6 +46,7 @@ app.services.factory('SearchManager', [
 				}
 				self.term = $location.url(url).search().q;
 				self.start = $location.url(url).search().start;
+				self.end = $location.url(url).search().end;
 				//total response
 				self.total = data.result.hits.total;
 				self.busy = false;

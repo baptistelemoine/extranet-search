@@ -4,7 +4,6 @@ app.controllers.controller('SearchController',[
 	'$scope','SearchManager', '$location', '$timeout', '_', '$rootScope', 'ConfigManager', function ($scope, SearchManager, $location, $timeout, _, $rootScope, ConfigManager){
 
 	$scope.search = SearchManager;
-	// $scope.startdate = $scope.enddate = new Date().getTime();
 
 	$scope.initSearch = function(reset){
 
