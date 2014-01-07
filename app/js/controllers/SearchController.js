@@ -4,6 +4,7 @@ app.controllers.controller('SearchController',[
 	'$scope','SearchManager', '$location', '$timeout', '_', '$rootScope', 'ConfigManager', function ($scope, SearchManager, $location, $timeout, _, $rootScope, ConfigManager){
 
 	$scope.search = SearchManager;
+	$scope.sortItems = [{'val':'par pertinence', 'sort':null}, {'val':'par date asc', 'sort':'asc'}, {'val':'par date desc','sort':'desc'}];
 
 	$scope.initSearch = function(reset){
 
@@ -11,6 +12,8 @@ app.controllers.controller('SearchController',[
 		$scope.term = $location.search().q;
 		if($location.search().start) $scope.startdate = $location.search().start;
 		if($location.search().end) $scope.enddate = $location.search().end;
+		if($location.search().sort) $scope.opt = _.findWhere($scope.sortItems, {'sort':$location.search().sort});
+			else $scope.opt = $scope.sortItems[0];
 	};
 
 	//direct access via url with search query
@@ -26,6 +29,10 @@ app.controllers.controller('SearchController',[
 		var items = _.where(SearchManager.items, {'checked':true});
 		if(!items.length) $location.search('items', null);
 		else $location.search('items',_.pluck(items, 'term').join(','));
+	};
+
+	$scope.onSort = function(opt){
+		$location.search('sort', opt.sort);
 	};
 
 	$scope.$watch('term', function (val){

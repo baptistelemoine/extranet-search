@@ -14,11 +14,7 @@
 		<form class="sort-form">
 			<h4 style="margin-top:30px;">Trier les résultats</h4>
 			<hr>
-			<select style="width:100%">
-				<option value="0">par pertinence</option>
-				<option value="1">par date asc</option>
-				<option value="2">par date desc</option>
-			</select>
+			<select style="width:100%" ng-model="opt" ng-options="s.val for s in sortItems" ng-change="onSort(opt)"></select>
 		</form>
 		<h4 style="margin-top:30px;">Filter par rubrique</h4>
 		<hr>
