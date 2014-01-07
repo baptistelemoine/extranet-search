@@ -181,11 +181,15 @@ SearchManager.prototype = {
 		};
 		if(query.start)	_.extend(range.range.date, {'from':parseInt(query.start, 10)});
 		if(query.end) _.extend(range.range.date, {'to':parseInt(query.end, 10)});
-		
 		if(q.query.bool) q.query.bool.must.push(range);
+		
+		//if sorted value, query it
+		var sort = {
+			'sort':{}
+		};
+		if(query.sort) _.extend(sort.sort, {'date':query.sort});
 
-
-		this._es.search(this.indice, this.type, _.extend(common,q,facets))
+		this._es.search(this.indice, this.type, _.extend(common,q,facets,sort))
 		.on('data', function (data) {
 			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
 			else {
