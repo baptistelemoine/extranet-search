@@ -227,7 +227,8 @@ SearchManager.prototype = {
 						{
 							'query_string':{
 								'query':query.q,
-								'fields':['content','pdfcontent','title','summary']
+								'fields':['content','pdfcontent','title','summary'],
+								'analyzer':'custom_search_analyzer'
 							}
 						}
 					],
