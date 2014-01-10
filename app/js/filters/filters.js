@@ -1,5 +1,7 @@
 'use strict';
 
+moment.lang('fr');
+
 app.filters.filter('searchURL', [function (){
     return function (term) {
         return '#/search?q='+term;
@@ -34,14 +36,14 @@ app.filters.filter('itemFullName', ['ConfigManager', function (ConfigManager){
 
 app.filters.filter('moment', [function (){
     return function (input) {
-        moment.lang('fr');
         return moment(input).fromNow();
     };
 }]);
 
 app.filters.filter('dateformat', [function (){
     return function (input) {
-        if(input) return moment(parseInt(input, 10)).format('DD/MM/YYYY');
+        if(input === parseInt(input)) return moment(parseInt(input, 10)).format('DD/MM/YYYY');
+        else return moment(input).format('DD/MM/YYYY');
         return '';
     };
 }]);

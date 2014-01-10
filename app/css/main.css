@@ -234,4 +234,24 @@ vertical-align: middle;
 .cbs-year input { margin-right: 5px;}
 
 
+/*LIST ITEMS*/
+
+.list-items{
+	padding: 15px;
+	margin: 20px; 
+	background-color: white;
+}
+
+.list-items p.list-title{
+	font-size: 14px;
+	font-weight: 600;
+}
+
+span.list-date { opacity: .7; font-weight: normal;}
+
+
+
+
+
+
 

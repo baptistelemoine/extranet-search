@@ -1,3 +1,7 @@
-<div ng-repeat="art in search.result">
-	<p>{{art.title}}</p>
+<style>
+	body {background-color: #f3f3f3;}
+</style>
+<div class="list-items" ng-repeat="art in search.result">
+	<p class="list-title"><span class="list-date">{{art.date | dateformat}}</span> - {{art.title}}</p>
+	<p class="list-summary">{{art.summary}}</p>
 </div>
