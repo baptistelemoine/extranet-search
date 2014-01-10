@@ -20,7 +20,7 @@ app.services.factory('SearchManager', [
 		start:0,
 		end:0,
 
-		nextPage:function(url, reset){
+		nextPage:function(url, reset, options){
 
 			var self = this;
 
@@ -29,9 +29,18 @@ app.services.factory('SearchManager', [
 			
 			if(reset) this.reset();
 
-			$http.get(url, {params:{fields:ConfigManager.fields.join(','), from:this.currentPage*this.perPage, size:this.perPage, pretty:this.pretty}, cache:true})
+			var params = {
+				fields:ConfigManager.fields.join(','),
+				from:this.currentPage*this.perPage,
+				size:this.perPage,
+				pretty:this.pretty
+			};
+
+			if(options) _.extend(params, options);
+
+			$http.get(url, {params:params}, {cache:true})
 			.success(function (data){
-				
+
 				var dataSource = data.result.hits.hits;
 				angular.forEach(dataSource, function (value, key){
 					self.result.push(value.fields);
@@ -39,8 +48,10 @@ app.services.factory('SearchManager', [
 
 				if(self.term !== $location.url(url).search().q || self.start !== $location.search().start || self.end !== $location.search().end){
 					//rubs facet
-					self.items = data.result.facets.items.terms;
-					_.each(self.items, function (rub){ rub.checked = true; });
+					if(data.result.facets.items){
+						self.items = data.result.facets.items.terms;
+						_.each(self.items, function (rub){ rub.checked = true; });
+					}
 					//years facet
 					self.years = data.result.facets.years.entries;
 				}

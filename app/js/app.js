@@ -14,6 +14,7 @@ var app = angular.module('fnsea', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/search', {templateUrl: 'partials/search.html', controller: 'SearchController'});
+  $routeProvider.when('/item/:path*', {templateUrl: 'partials/list.html', controller: 'ListController'});
   $routeProvider.otherwise({redirectTo: '/'});
 }]);
 

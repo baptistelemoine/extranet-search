@@ -248,7 +248,7 @@ SearchManager.prototype = {
 
 	origin:function(request, response){
 
-		var p = "http://extranet.fnsea.fr/sites/fnsea" + url.parse(request.url,true).pathname.substring(7);
+		var p = "http://extranet.fnsea.fr/sites/fnsea" + url.parse(request.url,true).pathname.substring(5);
 		var qryObj = {
 			'query':{
 				'bool':{
@@ -262,10 +262,7 @@ SearchManager.prototype = {
 						}
 					]
 				}
-			},
-			'sort':{
-				'date':{'order':'desc'}
-			},
+			}
 		};
 		this._launchSearch(request, response, qryObj);
 	},
