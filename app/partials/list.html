@@ -4,4 +4,6 @@
 <div class="list-items" ng-repeat="art in search.result">
 	<p class="list-title"><span class="list-date">{{art.date | dateformat}}</span> - {{art.title}}</p>
 	<p class="list-summary">{{art.summary}}</p>
+	<p><a ng-href="art.origin">Consulter la note sur l'extranet</a></p>
+	<button type="button" class="btn btn-danger">Ajouter</button>
 </div>
