@@ -14,10 +14,13 @@ app.configure(function () {
 app.get('/search', function (req, res){
 	es.search(req, res);
 });
-app.get('/item/*:path', function (req, res){
+app.get('/item*', function (req, res){
 	es.origin(req, res);
 });
 app.get('/suggest', function (req, res){
 	es.suggest(req, res);
+});
+app.get('/update/:id', function (req, res){
+	es.update(req, res);
 });
 app.listen(process.env.PORT || 3000);

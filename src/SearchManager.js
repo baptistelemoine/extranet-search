@@ -248,7 +248,7 @@ SearchManager.prototype = {
 
 	origin:function(request, response){
 
-		var p = "http://extranet.fnsea.fr/sites/fnsea" + url.parse(request.url,true).pathname.substring(5);
+		var p = "http://extranet.fnsea.fr/sites/fnsea" + request.params.toString();
 		var qryObj = {
 			'query':{
 				'bool':{
@@ -289,6 +289,26 @@ SearchManager.prototype = {
 		})
 		.exec();
 
+	},
+
+	update:function(request, response){
+
+		var id = request.params['id'];
+		var query = url.parse(request.url,true).query;
+		
+		this._es.get(this.indice, this.type, id)
+		.on('data', function (data) {
+			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
+			else {
+				response.type('application/json; charset=utf-8');
+				response.send(JSON.stringify({result:JSON.parse(data)}));
+			}
+		})
+		.on('error', function (error) {
+			response.send({result:error});
+		})
+		.exec();
+		
 	}
 };
 

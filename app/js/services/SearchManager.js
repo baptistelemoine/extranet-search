@@ -43,7 +43,8 @@ app.services.factory('SearchManager', [
 
 				var dataSource = data.result.hits.hits;
 				angular.forEach(dataSource, function (value, key){
-					self.result.push(value.fields);
+					if(value.fields) self.result.push(_.extend(value.fields, {'id':value._id}));
+					else self.result.push(_.extend(value._source, {'id':value._id}));
 				});
 
 				if(self.term !== $location.url(url).search().q || self.start !== $location.search().start || self.end !== $location.search().end){
