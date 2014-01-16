@@ -31,6 +31,7 @@ app.services.value('ConfigManager', {
 					return "Offres d'emploi";
 			}
 		},
-		fields:['title','summary','origin','date','item']
+		fields:['title','summary','origin','date','item'],
+		typos:[{'val':'actualités'},{'val':'position'},{'val':'outils'},{'val':'fondamentaux'}]
 	}
 );
