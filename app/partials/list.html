@@ -4,7 +4,7 @@
 <div class="list-items" ng-repeat="art in search.result">
 	<p class="list-title"><span class="list-date">{{art.date | dateformat}}</span> - {{art.title}}</p>
 	<p class="list-summary">{{art.summary}}</p>
-	<p><a ng-href="{{art.origin}}">Consulter la note sur l'extranet</a></p>
+	<p><a ng-href="{{art.origin}}" target="_blank">Consulter la note sur l'extranet</a></p>
 	<button type="button" class="btn btn-danger" ng-hide="added" ng-click="onAdd(art);added=!added">Ajouter</button>
 	<button type="button" class="btn btn-success" ng-show="added" ng-click="onAdd(art);added=!added">Retirer</button>
 	<select ng-model="typo" style="margin-left:15px;" ng-show="added" ng-options="t.val for t in config.typos" ng-change="onTypoSelect(typo, art)"></select>
