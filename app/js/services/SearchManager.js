@@ -24,10 +24,10 @@ app.services.factory('SearchManager', [
 
 			var self = this;
 
-			if (this.busy || this.last() && !reset) return;
+			if (this.busy || this._last() && !reset) return;
 			this.busy = true;
 			
-			if(reset) this.reset();
+			if(reset) this._reset();
 
 			var params = {
 				fields:ConfigManager.fields.join(','),
@@ -66,7 +66,7 @@ app.services.factory('SearchManager', [
 			});
 		},
 
-		last:function(){
+		_last:function(){
 			return (this.total <= this.result.length) && this.total > 0;
 		},
 
@@ -80,7 +80,7 @@ app.services.factory('SearchManager', [
 			});
 		},
 
-		reset:function(all){
+		_reset:function(all){
 			this.result = [];
 			this.total = 0;
 			this.currentPage = 0;
@@ -88,6 +88,11 @@ app.services.factory('SearchManager', [
 			if(all){
 				this.items = this.years = [];
 			}
+		},
+
+		update:function(article){
+			console.log(article.export);
 		}
+
 	};
 }]);

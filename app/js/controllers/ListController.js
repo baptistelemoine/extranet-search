@@ -14,12 +14,12 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	};
 
 	$scope.onAdd = function(article){
-		$scope.save(_.extend(article, {'typo':$scope.typo.val}));
+		$scope.save(_.extend(article, {'typo':$scope.typo.val, 'export':!article.export}));
 	};
 
 	$scope.save = function(article){
 		//rest save logic here
-		console.log(article);
+		$scope.search.update(article);
 	};
 
 }]);
