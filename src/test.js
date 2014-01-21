@@ -33,13 +33,24 @@ var rootFile = fileParser('./data/menu_config/root.xml')
 	return _.map(data.root.menuItem, function (value){
 		return {
 			'name':value.name,
-			'fileName':'rub_'.concat(value.lowName, '.xml'),
+			'fileName':'./data/menu_config/rub_'.concat(value.lowName, '.xml'),
 			'url':value.hyperLink,
 			'color':value.squareColor
 		};
 	});
 });
 
-rootFile.done(function (result){
+rootFile.then(function (result){
+	var arr = [];
+	_(result).each(function (val){
+		arr.push(fileParser(val.fileName));
+	});
+	return Q.all(arr);
+})
+.then(function (result){
 	console.log(result);
 });
+
+
+
+
