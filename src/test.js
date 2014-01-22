@@ -26,7 +26,7 @@ var xmlParser = function (data, obj){
 	parser.parseString(data, function (err, result){
 		if(err) q.resolve(err);
 		if(obj){
-			obj['items'] = result;
+			obj['items'] = result.root;
 			q.resolve(obj);
 		}
 		else q.resolve(result);
@@ -63,15 +63,9 @@ rootFile.then(function (result){
 	});
 	return Q.all(arr);
 })
-.then(function (data){
-	return _(data).map(function (obj){
-		obj.items = obj.items.root;
-		return obj;
-	});
-})
 .done(function (result){
-	console.log(result)
-})
+	console.log(result);
+});
 
 
 
