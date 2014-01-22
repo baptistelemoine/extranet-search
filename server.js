@@ -2,6 +2,7 @@ var express = require('express');
 var app = module.exports = express();
 var SearchManager = require('./src/SearchManager');
 var path = require('path');
+var menu = require('./src/Menu');
 
 var es = new SearchManager();
 
@@ -22,5 +23,8 @@ app.get('/suggest', function (req, res){
 });
 app.get('/update/:id', function (req, res){
 	es.update(req, res);
+});
+app.get('/settings', function (req, res){
+	menu.getMenu(req, res);
 });
 app.listen(process.env.PORT || 3000);

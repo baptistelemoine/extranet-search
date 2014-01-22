@@ -49,23 +49,26 @@ var rootFile = fileParser('./data/menu_config/root.xml')
 	});
 });
 
-rootFile.then(function (result){
-	var arr = [];
-	_(result).map(function (val){
-		arr.push(fileParser(val.fileName, val));
+exports.getMenu = function (request, response){
+	
+	rootFile.then(function (result){
+		var arr = [];
+		_(result).map(function (val){
+			arr.push(fileParser(val.fileName, val));
+		});
+		return Q.all(arr);
+	})
+	.then(function (result){
+		var arr = [];
+		_(result).map(function (val){
+			arr.push(xmlParser(val.items, val));
+		});
+		return Q.all(arr);
+	})
+	.done(function (result){
+		response.type('application/json; charset=utf-8');
+		response.send(result);
 	});
-	return Q.all(arr);
-})
-.then(function (result){
-	var arr = [];
-	_(result).map(function (val){
-		arr.push(xmlParser(val.items, val));
-	});
-	return Q.all(arr);
-})
-.done(function (result){
-	console.log(result);
-});
-
+};
 
 
