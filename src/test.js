@@ -65,12 +65,12 @@ rootFile.then(function (result){
 })
 .then(function (data){
 	return _(data).map(function (obj){
-		obj.items = JSON.stringify(obj.items.root);
+		obj.items = obj.items.root;
 		return obj;
 	});
 })
 .done(function (result){
-	console.log(result.length)
+	console.log(result)
 })
 
 
