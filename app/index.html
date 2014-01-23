@@ -19,7 +19,9 @@
 </head>
 
 <body>
-
+  <div ng-controller="MenuController">
+    <div ng-include src="'partials/menu.html'"></div>
+  </div>
   <div ng-view></div>
 
 
@@ -44,6 +46,7 @@
   <script src="js/services/SearchManager.js"></script>
   <script src="js/controllers/SearchController.js"></script>
   <script src="js/controllers/ListController.js"></script>
+  <script src="js/controllers/MenuController.js"></script>
   <script src="js/filters/filters.js"></script>
 
 </body>
