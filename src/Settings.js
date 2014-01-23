@@ -4,6 +4,7 @@ var xml2js = require('xml2js');
 var Q = require('q');
 var _ = require('underscore');
 
+//open and extract xml content file, obj needed when Q.all
 var fileParser = function (fileName, obj){
 
 	return Q.nfcall(fs.readFile, fileName || obj.fileName)
@@ -20,6 +21,7 @@ var fileParser = function (fileName, obj){
 	});
 };
 
+//parse and transform xml to json
 var xmlParser = function (data, obj){
 
 	var q = Q.defer();
@@ -35,6 +37,7 @@ var xmlParser = function (data, obj){
 	return q.promise;
 };
 
+//open or parse multiple files at the same time
 var parseAll = function (data, fn){
 	var arr = [];
 	_(data).map(function (value){
@@ -43,6 +46,7 @@ var parseAll = function (data, fn){
 	return Q.all(arr);
 };
 
+//open and parse main root file
 var rootFile = fileParser('./data/menu_config/root.xml')
 .then(function (result){
 	return xmlParser(result);
@@ -58,6 +62,7 @@ var rootFile = fileParser('./data/menu_config/root.xml')
 	});
 });
 
+//public method, listen for request, and send all content
 exports.getMenu = function (request, response){
 	
 	rootFile.then(function (result){
