@@ -11,7 +11,8 @@ var fileParser = function (fileName, obj){
 	.then(function (data){
 		data = data.toString().replace("\ufeff", "");
 		if(obj) {
-			obj['items'] = data;
+			// obj['menuItem'] = data;
+			_.extend(obj, {'menuItem':data});
 			return obj;
 		}
 		return data;
@@ -26,10 +27,10 @@ var xmlParser = function (data, obj){
 
 	var q = Q.defer();
 	var parser = new xml2js.Parser({explicitArray:false, ignoreAttrs:true, normalize:true});
-	parser.parseString(data || obj.items, function (err, result){
+	parser.parseString(data || obj.menuItem, function (err, result){
 		if(err) q.reject(err);
 		if(obj){
-			obj['items'] = result.root;
+			_.extend(obj, result.root);
 			q.resolve(obj);
 		}
 		else q.resolve(result);

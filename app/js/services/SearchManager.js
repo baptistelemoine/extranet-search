@@ -1,7 +1,7 @@
 'use strict';
 
 app.services.factory('SearchManager', [
-	'$http', 'ConfigManager', '$rootScope', '_', '$location', function ($http, ConfigManager, $rootScope, _, $location){
+	'$http', 'ConfigManager', '$rootScope', '_', '$location', '$q', function ($http, ConfigManager, $rootScope, _, $location, Q){
 	
 	return {
 		
@@ -91,7 +91,15 @@ app.services.factory('SearchManager', [
 		},
 
 		update:function(article){
-			console.log(article.export);
+			// console.log(article.export);
+		},
+
+		getMenu:function(){
+			var q = Q.defer();
+			$http.get('settings').success(function (data){
+				q.resolve(data);
+			});
+			return q.promise;
 		}
 
 	};

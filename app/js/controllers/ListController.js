@@ -18,7 +18,7 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	};
 
 	$scope.save = function(article){
-		//rest save logic here
+		//save logic here
 		$scope.search.update(article);
 	};
 
