@@ -6,7 +6,7 @@ var _ = require('underscore');
 
 var fileParser = function (fileName, obj){
 
-	return Q.nfcall(fs.readFile, fileName)
+	return Q.nfcall(fs.readFile, fileName || obj.fileName)
 	.then(function (data){
 		data = data.toString().replace("\ufeff", "");
 		if(obj) {
@@ -21,10 +21,11 @@ var fileParser = function (fileName, obj){
 };
 
 var xmlParser = function (data, obj){
+
 	var q = Q.defer();
 	var parser = new xml2js.Parser({explicitArray:false, ignoreAttrs:true, normalize:true});
-	parser.parseString(data, function (err, result){
-		if(err) q.resolve(err);
+	parser.parseString(data || obj.items, function (err, result){
+		if(err) q.reject(err);
 		if(obj){
 			obj['items'] = result.root;
 			q.resolve(obj);
@@ -32,6 +33,14 @@ var xmlParser = function (data, obj){
 		else q.resolve(result);
 	});
 	return q.promise;
+};
+
+var parseAll = function (data, fn){
+	var arr = [];
+	_(data).map(function (value){
+		arr.push(fn(null, value));
+	});
+	return Q.all(arr);
 };
 
 var rootFile = fileParser('./data/menu_config/root.xml')
@@ -52,18 +61,10 @@ var rootFile = fileParser('./data/menu_config/root.xml')
 exports.getMenu = function (request, response){
 	
 	rootFile.then(function (result){
-		var arr = [];
-		_(result).map(function (val){
-			arr.push(fileParser(val.fileName, val));
-		});
-		return Q.all(arr);
+		return parseAll(result, fileParser);
 	})
 	.then(function (result){
-		var arr = [];
-		_(result).map(function (val){
-			arr.push(xmlParser(val.items, val));
-		});
-		return Q.all(arr);
+		return parseAll(result, xmlParser);
 	})
 	.done(function (result){
 		response.type('application/json; charset=utf-8');
