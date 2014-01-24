@@ -11,7 +11,6 @@ var fileParser = function (fileName, obj){
 	.then(function (data){
 		data = data.toString().replace("\ufeff", "");
 		if(obj) {
-			// obj['menuItem'] = data;
 			_.extend(obj, {'menuItem':data});
 			return obj;
 		}
@@ -63,7 +62,8 @@ var rootFile = fileParser('./data/menu_config/root.xml')
 	});
 });
 
-function iterate(obj) {
+//when only one menuItem, cast it into array, angular need
+var iterate = function (obj) {
     for(var key in obj) {
         var elem = obj[key];
         if(key === "menuItem") {
@@ -75,8 +75,7 @@ function iterate(obj) {
             iterate(elem);
         }
     }
-}
-
+};
 
 //public method, listen for request, and send all content
 exports.getMenu = function (request, response){
@@ -93,5 +92,4 @@ exports.getMenu = function (request, response){
 		response.send(result);
 	});
 };
-
 
