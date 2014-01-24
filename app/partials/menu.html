@@ -5,6 +5,6 @@
 <script type="text/ng-template"  id="tree_item_renderer.html">
     {{data.name}}
     <ul>
-        <li ng-repeat="data in data.menuItem track by $index" ng-include="'tree_item_renderer.html'"></li>
+        <li ng-repeat="data in data.menuItem" ng-include="'tree_item_renderer.html'"></li>
     </ul>
 </script>

@@ -63,6 +63,21 @@ var rootFile = fileParser('./data/menu_config/root.xml')
 	});
 });
 
+function iterate(obj) {
+    for(var key in obj) {
+        var elem = obj[key];
+        if(key === "menuItem") {
+            if(!_.isArray(elem)){
+				obj[key] = [elem];
+            }
+        }
+        if(typeof elem === "object") {
+            iterate(elem);
+        }
+    }
+}
+
+
 //public method, listen for request, and send all content
 exports.getMenu = function (request, response){
 	
@@ -73,6 +88,7 @@ exports.getMenu = function (request, response){
 		return parseAll(result, xmlParser);
 	})
 	.done(function (result){
+		iterate(result);
 		response.type('application/json; charset=utf-8');
 		response.send(result);
 	});
