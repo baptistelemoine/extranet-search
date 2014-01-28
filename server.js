@@ -2,9 +2,10 @@ var express = require('express');
 var app = module.exports = express();
 var SearchManager = require('./src/SearchManager');
 var path = require('path');
-var settings = require('./src/Settings');
+var Settings = require('./src/Settings');
 
 var es = new SearchManager();
+var settings = new Settings();
 
 app.configure(function () {
     app.use(express.bodyParser());
