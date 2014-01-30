@@ -4,6 +4,7 @@ var _ = require('underscore');
 var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
+var Q = require('q');
 
 
 var SearchManager = function(){
@@ -47,26 +48,30 @@ SearchManager.prototype = {
 		.exec();
 	},
 
-	bulk:function(docs){
+	bulk:function(docs, indice, type){
+
+		var q = Q.defer();
 
 		var commands = [];
 		var self = this;
 
 		_.each(docs, function (value){
 			commands.push({'index':{
-				'_index':self.indice,
-				'_type':self.type
+				'_index':indice || self.indice,
+				'_type':type || self.type
 			}});
 			commands.push(value);
 		});
 
 		this._es.bulk(commands, {})
 		.on('data', function (data) {
-			console.log(data, 'Indexing Completed!');
+			q.resolve(data);
 		})
 		.on('error', function (error) {
-			console.log(error);
+			q.reject(error);
 		}).exec();
+
+		return q.promise;
 	},
 
 	_createIndex:function(){

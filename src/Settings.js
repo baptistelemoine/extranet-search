@@ -6,6 +6,7 @@ var _ = require('underscore');
 var ElasticSearchClient = require('elasticsearchclient');
 var url = require('url');
 var querystring = require('querystring');
+var SearchManager = require('./SearchManager');
 
 
 var Settings = function(){
@@ -26,7 +27,6 @@ Settings.prototype = {
 			port: 9200,
 			secure: false
 		};
-
 		this._es = new ElasticSearchClient(serverOptions);
 	},
 
@@ -40,10 +40,19 @@ Settings.prototype = {
 			.then(function(){
 				return self._index();
 			})
-			.then(function (){
-				console.log('search')
-				self._search();
-			});
+			.then(function (data){
+				console.log(data);
+				// return self._search();
+			})
+			.done(function (data){
+				console.log(data)
+				/*var query = url.parse(request.url,true).query;
+				if(query.pretty === 'true') response.send({result:JSON.parse(data)});
+				else {
+					response.type('application/json; charset=utf-8');
+					response.send(JSON.stringify({result:JSON.parse(data)}));
+				}*/
+			})
 		}
 		else this._search(request, response);
 	},
@@ -76,30 +85,27 @@ Settings.prototype = {
 		.then(function (result){
 			return self._parseAll(result, self._xmlParser);
 		})
-		.done(function (result){
-
+		.then(function (result){
 			self._iterate(result);
-			var arr = [];
-			//bulk here
+			var search = new SearchManager();
+			return search.bulk(result, self.indice, self.type);
 		});
 	},
 
-	_search:function(request, response){
-		
-		var query = url.parse(request.url,true).query;
+	_search:function(){
+
+		var q = Q.defer();
 
 		this._es.search(this.indice, this.type, {'query':{'match_all':{}}})
 		.on('data', function (data) {
-			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
-			else {
-				response.type('application/json; charset=utf-8');
-				response.send(JSON.stringify({result:JSON.parse(data)}));
-			}
+			q.resolve(data);
 		})
 		.on('error', function (error) {
-			response.send({result:error});
+			q.reject(error);
 		})
 		.exec();
+
+		return q.promise;
 	},
 
 	//open and parse main root file
