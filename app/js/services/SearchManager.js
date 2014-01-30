@@ -94,10 +94,26 @@ app.services.factory('SearchManager', [
 			// console.log(article.export);
 		},
 
+		iterate:function(obj){
+			for(var key in obj) {
+				var elem = obj[key];
+				if(key === "_source") {
+					_.extend(obj, {'menuItem':elem});
+					delete obj[key];
+				}
+				if(typeof elem === "object") {
+					this.iterate(elem);
+				}
+			}
+		},
+
 		getMenu:function(){
 			var q = Q.defer();
+			var self= this;
 			$http.get('settings').success(function (data){
-				q.resolve(data);
+				// q.resolve(self.iterate(data.result.hits.hits));
+				self.iterate(data.result.hits.hits);
+				q.resolve(data.result.hits.hits);
 			});
 			return q.promise;
 		}

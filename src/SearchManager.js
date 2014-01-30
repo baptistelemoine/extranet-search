@@ -48,7 +48,7 @@ SearchManager.prototype = {
 		.exec();
 	},
 
-	bulk:function(docs){
+	bulk:function(docs, indice, type){
 
 		var q = Q.defer();
 
@@ -57,8 +57,8 @@ SearchManager.prototype = {
 
 		_.each(docs, function (value){
 			commands.push({'index':{
-				'_index':self.indice,
-				'_type':self.type
+				'_index':indice || self.indice,
+				'_type':type || self.type
 			}});
 			commands.push(value);
 		});

@@ -72,42 +72,20 @@ Settings.prototype = {
 
 		var self = this;
 
-		return this._parseRootFile().then(function (result){
+		return this._parseRootFile()
+		.then(function (result){
 			return self._parseAll(result, self._fileParser);
 		})
 		.then(function (result){
 			return self._parseAll(result, self._xmlParser);
 		})
 		.then(function (result){
+
 			self._iterate(result);
-			return self._bulk(result);
+			var search = new SearchManager();
+			return search.bulk(result, self.indice, self.type);
+
 		});
-	},
-
-	_bulk:function(docs){
-
-		var q = Q.defer();
-
-		var commands = [];
-		var self = this;
-
-		_.each(docs, function (value){
-			commands.push({'index':{
-				'_index':self.indice,
-				'_type':self.type
-			}});
-			commands.push(value);
-		});
-
-		this._es.bulk(commands, {})
-		.on('data', function (data) {
-			q.resolve(data);
-		})
-		.on('error', function (error) {
-			q.reject(error);
-		}).exec();
-
-		return q.promise;
 	},
 
 	_search:function(request, response){
