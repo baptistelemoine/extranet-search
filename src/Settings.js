@@ -27,6 +27,7 @@ Settings.prototype = {
 			port: 9200,
 			secure: false
 		};
+
 		this._es = new ElasticSearchClient(serverOptions);
 	},
 
@@ -40,19 +41,11 @@ Settings.prototype = {
 			.then(function(){
 				return self._index();
 			})
-			.then(function (data){
-				console.log(data);
-				// return self._search();
-			})
 			.done(function (data){
-				console.log(data)
-				/*var query = url.parse(request.url,true).query;
-				if(query.pretty === 'true') response.send({result:JSON.parse(data)});
-				else {
-					response.type('application/json; charset=utf-8');
-					response.send(JSON.stringify({result:JSON.parse(data)}));
-				}*/
-			})
+				setTimeout(function(){
+					self._search(request, response);
+				}, 1000);
+			});
 		}
 		else this._search(request, response);
 	},
@@ -87,25 +80,52 @@ Settings.prototype = {
 		})
 		.then(function (result){
 			self._iterate(result);
-			var search = new SearchManager();
-			return search.bulk(result, self.indice, self.type);
+			return self._bulk(result);
 		});
 	},
 
-	_search:function(){
+	_bulk:function(docs){
 
 		var q = Q.defer();
 
-		this._es.search(this.indice, this.type, {'query':{'match_all':{}}})
+		var commands = [];
+		var self = this;
+
+		_.each(docs, function (value){
+			commands.push({'index':{
+				'_index':self.indice,
+				'_type':self.type
+			}});
+			commands.push(value);
+		});
+
+		this._es.bulk(commands, {})
 		.on('data', function (data) {
 			q.resolve(data);
 		})
 		.on('error', function (error) {
 			q.reject(error);
-		})
-		.exec();
+		}).exec();
 
 		return q.promise;
+	},
+
+	_search:function(request, response){
+
+		var query = url.parse(request.url,true).query;
+
+		this._es.search(this.indice, this.type, {'query':{'match_all':{}}})
+		.on('data', function (data) {
+			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
+			else {
+				response.type('application/json; charset=utf-8');
+				response.send(JSON.stringify({result:JSON.parse(data)}));
+			}
+		})
+		.on('error', function (error) {
+			response.send({result:error});
+		})
+		.exec();
 	},
 
 	//open and parse main root file
