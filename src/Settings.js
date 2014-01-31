@@ -48,6 +48,11 @@ Settings.prototype = {
 			});
 		}
 		else this._search(request, response);
+		
+		/*this._index().done(function (data){
+			response.type('application/json; charset=utf-8');
+			response.send(data);
+		});*/
 	},
 
 	_cleanIndex:function(){
@@ -82,8 +87,9 @@ Settings.prototype = {
 		.then(function (result){
 
 			self._iterate(result);
-			var search = new SearchManager();
-			return search.bulk(result, self.indice, self.type);
+			return result;
+			/*var search = new SearchManager();
+			return search.bulk(result, self.indice, self.type);*/
 
 		});
 	},
@@ -92,12 +98,18 @@ Settings.prototype = {
 
 		var query = url.parse(request.url,true).query;
 
-		this._es.search(this.indice, this.type, {'query':{'match_all':{}}})
+		var qry = {
+			'query':{'match_all':{}},
+			'fields':query.fields ? query.fields.split(',') : null
+		};
+
+		this._es.search(this.indice, this.type, qry)
 		.on('data', function (data) {
-			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
+			var d = JSON.parse(data).hits.hits;
+			if(query.pretty === 'true') response.send(_.pluck(d, '_source'));
 			else {
 				response.type('application/json; charset=utf-8');
-				response.send(JSON.stringify({result:JSON.parse(data)}));
+				response.send(JSON.stringify(_.pluck(d, '_source')));
 			}
 		})
 		.on('error', function (error) {

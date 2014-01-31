@@ -4,6 +4,5 @@ app.controllers.controller('MenuController', ['$scope', 'SearchManager', functio
 
 	SearchManager.getMenu().then(function (data){
 		$scope.menu = data;
-		console.log(data)
 	});
 }]);
