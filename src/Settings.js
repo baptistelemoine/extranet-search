@@ -47,12 +47,49 @@ Settings.prototype = {
 				}, 1000);
 			});
 		}
-		else this._search(request, response);
+		else this._test(request, response);
 		
 		/*this._index().done(function (data){
 			response.type('application/json; charset=utf-8');
 			response.send(data);
 		});*/
+	},
+
+	_test:function(request, response){
+		
+		var query = url.parse(request.url,true).query;
+		var common = {
+			'fields':query.fields ? query.fields.split(',') : null,
+			'from':query.from,
+			'size':query.size
+		};
+
+		var qry = {
+			'query':{'match_all':{}},
+			'facets':{
+				'origin':{
+					'terms':{
+						'field':'origin',
+						'size':200,
+						'lang':'js',
+						'script':"term.substring(0, term.lastIndexOf('/'))"
+					}
+				}
+			}
+		};
+
+		this._es.search(this.indice, 'articles', _.extend(common,qry))
+		.on('data', function (data) {
+			if(query.pretty === 'true') response.send(JSON.parse(data));
+			else {
+				response.type('application/json; charset=utf-8');
+				response.send(JSON.stringify(JSON.parse(data)));
+			}
+		})
+		.on('error', function (error) {
+			response.send({result:error});
+		})
+		.exec();
 	},
 
 	_cleanIndex:function(){
@@ -88,8 +125,8 @@ Settings.prototype = {
 
 			self._iterate(result);
 			return result;
-			/*var search = new SearchManager();
-			return search.bulk(result, self.indice, self.type);*/
+			var search = new SearchManager();
+			return search.bulk(result, self.indice, self.type);
 
 		});
 	},
