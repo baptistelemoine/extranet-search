@@ -36,7 +36,7 @@ Settings.prototype = {
 		var self = this;
 		var query = url.parse(request.url,true).query;
 		
-		/*if(query.update) {
+		if(query.update) {
 			this._cleanIndex()
 			.then(function(){
 				return self._index();
@@ -47,14 +47,6 @@ Settings.prototype = {
 				}, 1000);
 			});
 		}
-		else this._countPerItem(request, response);*/
-
-		/*this._countPerItem()
-		.then(function (data){
-			response.type('application/json; charset=utf-8');
-			response.send(data);
-		});
-		*/
 
 		Q.spread([this._search(), this._countPerItem()], function (result, facets){
 			_.map(facets.origin.terms, function (value){
@@ -66,6 +58,12 @@ Settings.prototype = {
 			response.type('application/json; charset=utf-8');
 			response.send(data);
 		});
+
+		/*this._countPerItem()
+		.then(function (data){
+			response.type('application/json; charset=utf-8');
+			response.send(data);
+		});*/
 	},
 
 	_setItemCountProperty:function(item, obj){
@@ -94,9 +92,9 @@ Settings.prototype = {
 				'origin':{
 					'terms':{
 						'field':'origin',
-						'size':100,
+						'size':10000,
 						'lang':'js',
-						'script':"term.substring(0, term.lastIndexOf('/')).replace('http://extranet.fnsea.fr', '')"
+						'script':"term.substring(24, term.lastIndexOf('/'))"
 					}
 				}
 			}
