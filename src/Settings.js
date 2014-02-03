@@ -36,7 +36,7 @@ Settings.prototype = {
 		var self = this;
 		var query = url.parse(request.url,true).query;
 		
-		if(query.update) {
+		/*if(query.update) {
 			this._cleanIndex()
 			.then(function(){
 				return self._index();
@@ -47,17 +47,42 @@ Settings.prototype = {
 				}, 1000);
 			});
 		}
-		else this._countPerItem(request, response);
-		
-		/*this._index().done(function (data){
+		else this._countPerItem(request, response);*/
+
+		/*this._countPerItem()
+		.then(function (data){
 			response.type('application/json; charset=utf-8');
 			response.send(data);
-		});*/
+		});
+		*/
+
+		Q.spread([this._search(), this._countPerItem()], function (result, facets){
+			_.map(facets.origin.terms, function (value){
+				self._setItemCountProperty(result, value);
+			});
+			return result;
+		})
+		.then(function (data){
+			response.type('application/json; charset=utf-8');
+			response.send(data);
+		});
 	},
 
-	_countPerItem:function(request, response){
+	_setItemCountProperty:function(item, obj){
 		
-		var query = url.parse(request.url,true).query;
+		for(var key in item) {
+			var elem = item[key];
+			if(key === "hyperLink") {
+				if(elem === obj.term) item["count"] = obj.count;
+			}
+			if(typeof elem === "object") {
+				this._setItemCountProperty(elem, obj);
+			}
+		}
+	},
+
+	_countPerItem:function(){
+		
 		var common = {
 			'fields':'',
 			'size':0
@@ -77,18 +102,18 @@ Settings.prototype = {
 			}
 		};
 
+		var q = Q.defer();
+
 		this._es.search(this.indice, 'articles', _.extend(common,qry))
 		.on('data', function (data) {
-			if(query.pretty === 'true') response.send(JSON.parse(data));
-			else {
-				response.type('application/json; charset=utf-8');
-				response.send(JSON.stringify(JSON.parse(data)));
-			}
+			q.resolve(JSON.parse(data).facets);
 		})
 		.on('error', function (error) {
-			response.send({result:error});
+			q.reject(error);
 		})
 		.exec();
+
+		return q.promise;
 	},
 
 	_cleanIndex:function(){
@@ -130,27 +155,25 @@ Settings.prototype = {
 		});
 	},
 
-	_search:function(request, response){
-
-		var query = url.parse(request.url,true).query;
+	_search:function(){
 
 		var qry = {
 			'query':{'match_all':{}}
 		};
 
+		var q = Q.defer();
+
 		this._es.search(this.indice, this.type, qry)
 		.on('data', function (data) {
 			var d = JSON.parse(data).hits.hits;
-			if(query.pretty === 'true') response.send(_.pluck(d, '_source'));
-			else {
-				response.type('application/json; charset=utf-8');
-				response.send(JSON.stringify(_.pluck(d, '_source')));
-			}
+			q.resolve(_.pluck(d, '_source'));
 		})
 		.on('error', function (error) {
-			response.send({result:error});
+			q.reject(error);
 		})
 		.exec();
+
+		return q.promise;
 	},
 
 	//open and parse main root file
