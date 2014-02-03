@@ -70,7 +70,7 @@ Settings.prototype = {
 		
 		for(var key in item) {
 			var elem = item[key];
-			if(key === "hyperLink") {
+			if(key === "hyperLink" || key === "url") {
 				if(elem === obj.term) item["count"] = obj.count;
 			}
 			if(typeof elem === "object") {

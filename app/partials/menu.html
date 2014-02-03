@@ -2,7 +2,7 @@
 	<li ng-repeat="data in menu" ng-class="{'dropdown-submenu':data.menuItem.length}" ng-include="'tree_item_renderer.html'"></li>
 </ul>
 <script type="text/ng-template"  id="tree_item_renderer.html">
-    <a href="#">{{data.name}}</a>
+    <a href="#">{{data.name}} <span style="color:green;">({{data.count || 0}})</span></a>
     <ul class="dropdown-menu">
         <li ng-repeat="data in data.menuItem" ng-class="{'dropdown-submenu':data.menuItem.length}" ng-include="'tree_item_renderer.html'"></li>
     </ul>
