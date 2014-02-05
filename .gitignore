@@ -5,4 +5,4 @@
 *.DS_STORE
 *.sublime-workspace
 data
-/.sass-cache
+.sass-cache

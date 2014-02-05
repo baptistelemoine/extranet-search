@@ -1,7 +1,8 @@
 
 $c_darkenGrey:#272930;
 $c_green:#19b698;
-$c_red:#ea6153;
+$c_red:#d9534f;
+$c_blue:#4aa3df;
 
 
 body,html{
@@ -14,9 +15,17 @@ body,html{
 	height: 100%;
 	width: 100%;
 	position: relative;
+	overflow-x: hidden;
 }
 
 .btn{
 	border-radius: 0;
 	font-size: 12px;
+}
+
+a{
+	color: $c_blue;
+	&:hover{
+		color: $c_blue;
+	}
 }

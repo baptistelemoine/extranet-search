@@ -8,6 +8,22 @@
 	padding:50px;
 	padding-right: 350px;
 
+	.breadcrumb{
+		padding: 0;
+		background: none;
+
+		ol{
+			margin-bottom: 0;
+			padding: 4px;
+			margin-top: 5px;
+			list-style: none;
+
+			li{
+				display: inline-block;
+			}
+		}
+	}
+
 	.list-item{
 		font-size: 14px;
 		background-color: white;

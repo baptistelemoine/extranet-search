@@ -7,11 +7,17 @@ body, html {
 .main {
   height: 100%;
   width: 100%;
-  position: relative; }
+  position: relative;
+  overflow-x: hidden; }
 
 .btn {
   border-radius: 0;
   font-size: 12px; }
+
+a {
+  color: #4aa3df; }
+  a:hover {
+    color: #4aa3df; }
 
 .dropdown-submenu {
   position: relative; }
@@ -66,11 +72,17 @@ body, html {
 .main {
   height: 100%;
   width: 100%;
-  position: relative; }
+  position: relative;
+  overflow-x: hidden; }
 
 .btn {
   border-radius: 0;
   font-size: 12px; }
+
+a {
+  color: #4aa3df; }
+  a:hover {
+    color: #4aa3df; }
 
 .left {
   width: 300px;
@@ -94,7 +106,7 @@ body, html {
       .left .dropdown-menu li a:hover {
         background-color: #202228; }
       .left .dropdown-menu li a span.count {
-        background-color: #ea6153;
+        background-color: #d9534f;
         color: white;
         margin-left: 8px;
         padding: 2px 4px;
@@ -108,6 +120,16 @@ body, html {
   width: 100%;
   padding: 50px;
   padding-right: 350px; }
+  .right .breadcrumb {
+    padding: 0;
+    background: none; }
+    .right .breadcrumb ol {
+      margin-bottom: 0;
+      padding: 4px;
+      margin-top: 5px;
+      list-style: none; }
+      .right .breadcrumb ol li {
+        display: inline-block; }
   .right .list-item {
     font-size: 14px;
     background-color: white;
