@@ -1,14 +1,22 @@
 
+$c_darkenGrey:#272930;
+$c_green:#19b698;
+$c_red:#ea6153;
+
+
 body,html{
-	background-color:#F0F0F0;
+	background-color:$c_darkenGrey;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
 	height: 100%;
 }
 .main{
 	height: 100%;
+	width: 100%;
+	position: relative;
 }
 
-$c_darkenGrey:#272930;
-$c_green:#19b698;
-$c_red:#ea6153;
+.btn{
+	border-radius: 0;
+	font-size: 12px;
+}

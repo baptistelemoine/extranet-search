@@ -1,0 +1,28 @@
+
+.right{
+	position: absolute;
+	top: 0;
+	left: 300px;
+	background-color:#F0F0F0;
+	width: 100%;
+	padding:50px;
+	padding-right: 350px;
+
+	.list-item{
+		font-size: 14px;
+		background-color: white;
+		padding: 25px;
+		margin-bottom: 20px;
+
+		p{
+			font-weight: 300;
+
+			&.list-title{
+				font-size: 18px;
+			}
+			&.list-date{
+				opacity: .5;
+			}
+		}
+	}
+}
