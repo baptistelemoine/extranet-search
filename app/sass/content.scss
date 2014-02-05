@@ -3,10 +3,14 @@
 	position: absolute;
 	top: 0;
 	left: 300px;
-	background-color:#F0F0F0;
+	background-color:$c_grey;
 	width: 100%;
-	padding:50px;
-	padding-right: 350px;
+
+	.content{
+		padding:50px;
+		padding-top: 20px;
+		padding-right: 350px;
+	}
 
 	.breadcrumb{
 		padding: 0;
@@ -17,6 +21,7 @@
 			padding: 4px;
 			margin-top: 5px;
 			list-style: none;
+			font-weight: 200;
 
 			li{
 				display: inline-block;

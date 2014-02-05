@@ -27,7 +27,13 @@
       </div>
     </div>
     <div class="right">
-      <div ng-view></div>
+      <div ng-controller="SearchController" class="search-bar">
+          <div class="search-box">
+            <input type="text" class="form-control search" placeholder="Rechercher">
+            <i class="icon-search"></i>
+          </div>
+      </div>
+      <div class="content" ng-view></div>
     </div>
   </div>
 
