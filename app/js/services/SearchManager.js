@@ -96,11 +96,30 @@ app.services.factory('SearchManager', [
 
 		getMenu:function(){
 			var q = Q.defer();
-			var self= this;
 			$http.get('settings').success(function (data){
 				q.resolve(data);
 			});
 			return q.promise;
+		},
+
+		getItemFullName:function (item){
+			var self = this;
+			var q = Q.defer();
+			return this.getMenu().then(function (data){
+				return self.iterate(data, '/sites/fnsea/formation/form_prof_continue/salaries/reglem_accords/fimo_fcos');
+			});
+		},
+
+		iterate:function(obj, item){
+			for(var key in obj){
+				var elem = obj[key];
+				if(key === 'url' || key === 'hyperLink'){
+					if(item === elem) return obj;
+				}
+				if(typeof elem === "object") {
+					this.iterate(elem, item);
+				}
+			}
 		}
 
 	};

@@ -40,6 +40,13 @@ app.filters.filter('moment', [function (){
     };
 }]);
 
+app.filters.filter('menuUrl', [function (){
+    return function (input) {
+        return 'item'.concat(input.substring(12));
+    };
+}]);
+
+
 app.filters.filter('dateformat', [function (){
     return function (input) {
         if(input === parseInt(input)) return moment(parseInt(input, 10)).format('DD/MM/YYYY');

@@ -4,7 +4,6 @@
 .left{
 	width: 300px;
 	// background-color: $c_darkenGrey;
-	height: 100%;
 	padding-top: 55px;
 
 	.dropdown-menu{
@@ -16,6 +15,12 @@
 		padding-top: 0;
 		padding-bottom: 0;
 
+		&[role="menu"]{
+			display: block; 
+			position: static;
+			width: 300px;
+		}
+		
 		li {
 			&:not(:first-child){
 				a {
