@@ -137,6 +137,10 @@ a {
       font-weight: 200; }
       .right .breadcrumb ol li {
         display: inline-block; }
+        .right .breadcrumb ol li.active > a {
+          color: #999999;
+          text-decoration: none;
+          pointer-events: none; }
   .right .list-item {
     font-size: 14px;
     background-color: white;

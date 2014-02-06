@@ -1,8 +1,6 @@
 <div class="breadcrumb">
 	<ol class="breadcrumb">
-		<li><a href="#">Administratif</a></li>
-		<li><a href="#">Partenaires</a></li>
-		<li class="active">Vie interne</li>
+		<li ng-repeat="item in items" ng-class="{'active':$index===items.length-1}"><a ng-href="#">{{item.name}}</a></li>
 	</ol>
 </div>
 <div infinite-scroll="nextPage()" infinite-scroll-distance="0" infinite-scroll-immediate-check="true">
