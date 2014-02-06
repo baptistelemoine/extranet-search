@@ -44,7 +44,7 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 		for(var key in obj){
 			var elem = obj[key];
 			if(key === 'url' || key === 'hyperLink'){
-				if(elem.substring(elem.lastIndexOf('/') + 1, elem.length) === item)
+				if(elem === item)
 					$scope.items.push(obj);
 			}
 			if(typeof elem === "object") {
@@ -56,10 +56,15 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	$scope.breadcrumb = function(){
 		$scope.items = [];
 		var ar = $location.path().split('/');
-		_.each(ar.splice(ar.length-2, 2), function (val){
+		var rub = ar.splice(ar.length-2, 2);
+		console.log(rub)
+		// var path = '/sites/fnsea/'.concat(ar.splice(ar.length-2, 2).join('/'));
+
+		// $scope.iterate($scope.datamenu, ar.splice(ar.length-2, 2).join('/'));
+		/*_.each(ar.splice(ar.length-2, 2), function (val){
 			$scope.iterate($scope.datamenu, val);
 		});
-	};
+*/	};
 
 }]);
 
