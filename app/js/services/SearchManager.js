@@ -41,28 +41,33 @@ app.services.factory('SearchManager', [
 			$http.get(url.toLowerCase(), {params:params}, {cache:true})
 			.success(function (data){
 
-				var dataSource = data.result.hits.hits;
-				angular.forEach(dataSource, function (value, key){
-					if(value.fields) self.result.push(_.extend(value.fields, {'id':value._id}));
-					else self.result.push(_.extend(value._source, {'id':value._id}));
-				});
+				//if es return no error
+				if(data.result.hits){
 
-				if(self.term !== $location.url(url).search().q || self.start !== $location.search().start || self.end !== $location.search().end){
-					//rubs facet
-					if(data.result.facets.items){
-						self.items = data.result.facets.items.terms;
-						_.each(self.items, function (rub){ rub.checked = true; });
+					var dataSource = data.result.hits.hits;
+					angular.forEach(dataSource, function (value, key){
+						if(value.fields) self.result.push(_.extend(value.fields, {'id':value._id}));
+						else self.result.push(_.extend(value._source, {'id':value._id}));
+					});
+
+					if(self.term !== $location.url(url).search().q || self.start !== $location.search().start || self.end !== $location.search().end){
+						//rubs facet
+						if(data.result.facets.items){
+							self.items = data.result.facets.items.terms;
+							_.each(self.items, function (rub){ rub.checked = true; });
+						}
+						//years facet
+						self.years = data.result.facets.years.entries;
 					}
-					//years facet
-					self.years = data.result.facets.years.entries;
+					self.term = $location.url(url).search().q;
+					self.start = $location.url(url).search().start;
+					self.end = $location.url(url).search().end;
+					//total response
+					self.total = data.result.hits.total;
+					self.busy = false;
+					self.currentPage++;
 				}
-				self.term = $location.url(url).search().q;
-				self.start = $location.url(url).search().start;
-				self.end = $location.url(url).search().end;
-				//total response
-				self.total = data.result.hits.total;
-				self.busy = false;
-				self.currentPage++;
+				
 			});
 		},
 
