@@ -19,12 +19,6 @@ app.controllers.controller('SearchController',[
 	//direct access via url with search query
 	if($location.search().q) $scope.initSearch(true);
 
-	$scope.onSubmit = function(){
-		$location.path('/search').search('q', $scope.term);
-		SearchManager.suggests = [];
-		$scope.initSearch(true);
-	};
-
 	$scope.onRubChange = function(){
 		var items = _.where(SearchManager.items, {'checked':true});
 		if(!items.length) $location.search('items', null);
@@ -48,11 +42,6 @@ app.controllers.controller('SearchController',[
 	$scope.onDateCancel = function (e){
 		if($scope.startdate === null) $location.search('start', null);
 		if($scope.enddate === null) $location.search('end', null);
-	};
-
-	$scope.onSuggestClick = function(event, term){
-		$location.search('q', term);
-		SearchManager.suggests = [];
 	};
 
 	$scope.onDatePickerChange = function(){
