@@ -152,6 +152,23 @@ a {
         font-size: 18px; }
       .right .list-item p.list-date {
         opacity: .5; }
+      .right .list-item p.list-summary {
+        margin-bottom: 15px; }
+    .right .list-item.search-result {
+      font-weight: 200;
+      background-color: transparent; }
+      .right .list-item.search-result .term-result {
+        color: #5cb85c; }
+      .right .list-item.search-result .search-count {
+        color: #5cb85c; }
+      .right .list-item.search-result .checkbox {
+        font-weight: 200;
+        font-size: 12px; }
+      .right .list-item.search-result .rub-count {
+        color: #a2a6b4; }
+      .right .list-item.search-result hr {
+        margin-top: 10px;
+        margin-bottom: 10px; }
 
 .search-bar {
   width: 100%;
@@ -163,13 +180,17 @@ a {
   .search-bar .search-box {
     float: right;
     margin-right: 350px; }
-  .search-bar input[type="text"] {
+  .search-bar input[type="search"] {
     box-shadow: none;
     outline: none;
     border: 0; }
-    .search-bar input[type="text"]:focus {
+    .search-bar input[type="search"]:focus {
       outline: none;
       border: 0; }
+  .search-bar a {
+    color: inherit; }
+    .search-bar a:hover {
+      text-decoration: none; }
   .search-bar i {
     font-size: 16px;
     cursor: pointer; }
@@ -191,3 +212,47 @@ a {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   padding: 6px 8px;
   box-shadow: none; }
+
+.date-picker {
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: top;
+  position: relative;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border linear .2s,box-shadow linear .2s;
+  -moz-transition: border linear .2s,box-shadow linear .2s;
+  -o-transition: border linear .2s,box-shadow linear .2s;
+  transition: border linear .2s,box-shadow linear .2s;
+  padding: 4px 6px;
+  line-height: 20px;
+  color: #555;
+  margin-left: 10px;
+  width: 88px; }
+
+form.date-form i.icon-remove-sign {
+  font-size: 18px;
+  padding-top: 5px;
+  padding-left: 5px;
+  display: inline-block;
+  font-weight: bold; }
+
+form.date-form i.icon-remove-sign.ng-hide {
+  display: inline-block !important;
+  visibility: hidden; }
+
+form.date-form i.icon-remove-sign.ng-show {
+  visibility: visible; }
+
+input.date-picker::-webkit-input-placeholder {
+  color: #555; }
+
+input.date-picker::-moz-input-placeholder {
+  color: #555; }

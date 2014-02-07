@@ -50,6 +50,25 @@
 			&.list-date{
 				opacity: .5;
 			}
+			&.list-summary{margin-bottom: 15px;}
+		}
+		&.search-result{
+			font-weight: 200;
+			background-color: transparent;
+			
+			.term-result{color: $c_green; }
+			.search-count {color: $c_green;}
+
+			.checkbox{
+				font-weight: 200;
+				font-size: 12px;
+			}
+
+			.rub-count{color:lighten($c_darkenGrey, 50%);}
+			hr{
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
 		}
 	}
 }

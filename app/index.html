@@ -28,10 +28,7 @@
     </div>
     <div class="right">
       <div ng-controller="SearchController" class="search-bar">
-          <div class="search-box">
-            <input type="text" class="form-control search" placeholder="Rechercher">
-            <i class="icon-search"></i>
-          </div>
+        <div ng-include src="'partials/search-box.html'"></div>
       </div>
       <div class="content" ng-view></div>
     </div>

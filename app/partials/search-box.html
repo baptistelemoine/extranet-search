@@ -1,0 +1,6 @@
+<div class="search-box">
+	<form class="form-inline" action="{{term | searchURL}}" ng-submit="onSubmit()">
+		<input type="search" class="form-control search" ng-model="term" ng-change="search.suggest(term)" placeholder="Rechercher">
+		<a href="#" onclick="document.forms[0].submit();return false;"><i class="icon-search"></i></a>
+	<form>
+</div>
