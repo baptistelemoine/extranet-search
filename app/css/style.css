@@ -181,6 +181,23 @@ a {
   .search-bar .search-box {
     float: right;
     margin-right: 350px; }
+    .search-bar .search-box .suggest-container {
+      width: 500px;
+      background-color: white;
+      position: absolute;
+      top: 54px;
+      right: 300px;
+      z-index: 1000; }
+      .search-bar .search-box .suggest-container p {
+        margin: 20px;
+        font-size: 14px;
+        font-weight: 200;
+        text-transform: lowercase; }
+        .search-bar .search-box .suggest-container p:first-child {
+          margin-top: 0; }
+        .search-bar .search-box .suggest-container p:hover {
+          background-color: #f0f0f0;
+          cursor: pointer; }
   .search-bar input[type="search"] {
     box-shadow: none;
     outline: none;
@@ -197,7 +214,7 @@ a {
     cursor: pointer; }
 
 .search {
-  width: 250px;
+  width: 407px;
   display: inline-block;
   margin-right: 3px;
   border-radius: 0;

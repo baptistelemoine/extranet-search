@@ -46,7 +46,6 @@ app.filters.filter('menuUrl', [function (){
     };
 }]);
 
-
 app.filters.filter('dateformat', [function (){
     return function (input) {
         if(input === parseInt(input)) return moment(parseInt(input, 10)).format('DD/MM/YYYY');

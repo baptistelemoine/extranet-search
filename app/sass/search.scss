@@ -4,6 +4,31 @@
 	.search-box{
 		float: right;
 		margin-right: 350px;
+
+		.suggest-container{
+
+			width: 500px;
+			background-color: white;
+			position: absolute;
+			top: 54px;
+			right: 300px;
+			z-index: 1000;
+
+			p{
+				margin: 20px;
+				font-size: 14px;
+				font-weight: 200;
+				text-transform: lowercase;
+
+				&:first-child{
+					margin-top: 0;
+				}
+				&:hover{
+					background-color: $c_grey;
+					cursor: pointer;
+				}
+			}
+		}
 	}
 
 	width: 100%;
@@ -17,6 +42,7 @@
 		box-shadow: none;
 		outline:none;
 		border: 0;
+
 		&:focus{
 			outline:none;
 			border: 0;
@@ -35,7 +61,7 @@
 }
 
 .search {
-	width: 250px;
+	width: 407px;
 	display: inline-block;
 	margin-right: 3px;
 	border-radius: 0;
