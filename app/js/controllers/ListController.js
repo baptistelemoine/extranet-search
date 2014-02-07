@@ -1,6 +1,6 @@
 'use strict';
 
-app.controllers.controller('ListController', ['$scope', '$location', 'SearchManager', 'ConfigManager', '_', '$rootScope', '$q', function ($scope, $location, SearchManager, ConfigManager, _, $rootScope, $q){
+app.controllers.controller('ListController', ['$scope', '$location', 'SearchManager', 'ConfigManager', '_', '$rootScope', '$q', '$routeParams', function ($scope, $location, SearchManager, ConfigManager, _, $rootScope, $q, $routeParams){
 	
 	ConfigManager.fields = ['title,date,summary,origin','id'];
 	$scope.config = ConfigManager;
@@ -54,17 +54,18 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	};
 
 	$scope.breadcrumb = function(){
+		
 		$scope.items = [];
-		var ar = $location.path().split('/');
-		var rub = ar.splice(ar.length-2, 2);
-		console.log(rub)
-		// var path = '/sites/fnsea/'.concat(ar.splice(ar.length-2, 2).join('/'));
+		var p = '/sites/fnsea/';
+		var rubs = $routeParams.path.split('/');
 
-		// $scope.iterate($scope.datamenu, ar.splice(ar.length-2, 2).join('/'));
-		/*_.each(ar.splice(ar.length-2, 2), function (val){
-			$scope.iterate($scope.datamenu, val);
-		});
-*/	};
+		for (var i = rubs.length - 1; i >= 0; i--) {
+			$scope.iterate($scope.datamenu, p.concat(rubs.join('/')));
+			rubs.pop();
+		}
+		$scope.items.reverse();
+
+	};
 
 }]);
 
