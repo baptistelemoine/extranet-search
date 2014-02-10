@@ -41,7 +41,7 @@ app.services.factory('SearchManager', [
 			$http.get(url.toLowerCase(), {params:params}, {cache:true})
 			.success(function (data){
 
-				//if es return no error
+				//if es return no error@
 				if(data.result.hits){
 
 					var dataSource = data.result.hits.hits;

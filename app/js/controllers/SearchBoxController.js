@@ -10,8 +10,7 @@ app.controllers.controller('SearchBoxController', ['$scope', 'SearchManager', '$
 	};
 
 	$scope.onSuggestClick = function(event, term){
-		$location.path('/search');
-		$location.search('q', term);
+		$location.path('/search').search('q', term);
 		SearchManager.suggests = [];
 	};
 
