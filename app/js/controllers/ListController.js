@@ -1,6 +1,6 @@
 'use strict';
 
-app.controllers.controller('ListController', ['$scope', '$location', 'SearchManager', 'ConfigManager', '_', '$rootScope', '$q', '$routeParams', function ($scope, $location, SearchManager, ConfigManager, _, $rootScope, $q, $routeParams){
+app.controllers.controller('ListController', ['$scope', '$location', 'SearchManager', 'ConfigManager', '_', '$rootScope', '$q', '$routeParams', 'BreadCrumb', '$window', function ($scope, $location, SearchManager, ConfigManager, _, $rootScope, $q, $routeParams, BreadCrumb, $window){
 	
 	ConfigManager.fields = ['title,date,summary,origin','id'];
 	$scope.config = ConfigManager;
@@ -9,6 +9,10 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	$scope.search = SearchManager;
 
 	$scope.isNewRequest = true;
+
+	$scope.breadcrumb = BreadCrumb;
+
+	$window.scrollTo(0, 0);
 
 	$scope.onTypoSelect = function(typo, article){
 		$scope.save(_.extend(article, {'typo':typo.val}));
@@ -31,41 +35,13 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	$scope.$on('$locationChangeSuccess', function (e){
 		$scope.isNewRequest = true;
 		$scope.nextPage();
-		$scope.breadcrumb();
+		BreadCrumb.parse($scope.datamenu, $routeParams.path);
 	});
 
 	$rootScope.menu().then(function (data){
 		$scope.datamenu = data;
-		$scope.breadcrumb();
+		BreadCrumb.parse(data, $routeParams.path);
 	});
-
-	$scope.iterate = function (obj, item){
-
-		for(var key in obj){
-			var elem = obj[key];
-			if(key === 'url' || key === 'hyperLink'){
-				if(elem === item)
-					$scope.items.push(obj);
-			}
-			if(typeof elem === "object") {
-				$scope.iterate(elem, item);
-			}
-		}
-	};
-
-	$scope.breadcrumb = function(){
-		
-		$scope.items = [];
-		var p = '/sites/fnsea/';
-		var rubs = $routeParams.path.split('/');
-
-		for (var i = rubs.length - 1; i >= 0; i--) {
-			$scope.iterate($scope.datamenu, p.concat(rubs.join('/')));
-			rubs.pop();
-		}
-		$scope.items.reverse();
-
-	};
 
 }]);
 

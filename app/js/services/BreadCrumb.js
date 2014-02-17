@@ -20,14 +20,14 @@ app.services.factory('BreadCrumb', ['$routeParams', function ($routeParams) {
 			}
 		},
 		
-		getBreadCrumb:function(menu){
+		parse:function(menu, path){
 			
 			this.items = [];
 			var p = '/sites/fnsea/';
-			var rubs = $routeParams.path.split('/');
+			var rubs = path.split('/');
 
 			for (var i = rubs.length - 1; i >= 0; i--) {
-				this.iterate(menu.datamenu, p.concat(rubs.join('/')));
+				this.iterate(menu, p.concat(rubs.join('/')));
 				rubs.pop();
 			}
 			this.items.reverse();

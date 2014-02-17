@@ -1,6 +1,6 @@
 <div class="breadcrumb">
 	<ol class="breadcrumb">
-		<li ng-repeat="item in items" ng-class="{'active':$index===items.length-1}"><a ng-href="#{{item.url || item.hyperLink| menuUrl}}">{{item.name}} <span ng-if="item.count">({{item.count}})</span></a></li>
+		<li ng-repeat="item in breadcrumb.items" ng-class="{'active':$index===breadcrumb.items.length-1}"><a ng-href="#{{item.url || item.hyperLink| menuUrl}}">{{item.name}} <span ng-if="item.count">({{item.count}})</span></a></li>
 	</ol>
 </div>
 <div infinite-scroll="nextPage()" infinite-scroll-distance="0" infinite-scroll-immediate-check="true">
