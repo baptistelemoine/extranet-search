@@ -298,21 +298,18 @@ SearchManager.prototype = {
 
 	update:function(request, response){
 		
+		// ElasticSearchClient.prototype.update = function(indexName, typeName, documentId, document, options, cb)
 		if(request.body.id) response.send('success')
 			else response.send('error : no id');
 		
-		/*this._es.get(this.indice, this.type, id)
+		this._es.get(this.indice, this.type, request.body.id)
 		.on('data', function (data) {
-			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
-			else {
-				response.type('application/json; charset=utf-8');
-				response.send(JSON.stringify({result:JSON.parse(data)}));
-			}
+			console.log(data)
 		})
 		.on('error', function (error) {
 			response.send({result:error});
 		})
-		.exec();*/
+		.exec();
 		
 	}
 };
