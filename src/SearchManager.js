@@ -297,11 +297,11 @@ SearchManager.prototype = {
 	},
 
 	update:function(request, response){
-
-		var id = request.params['id'];
-		var query = url.parse(request.url,true).query;
 		
-		this._es.get(this.indice, this.type, id)
+		if(request.body.id) response.send('success')
+			else response.send('error : no id');
+		
+		/*this._es.get(this.indice, this.type, id)
 		.on('data', function (data) {
 			if(query.pretty === 'true') response.send({result:JSON.parse(data)});
 			else {
@@ -312,7 +312,7 @@ SearchManager.prototype = {
 		.on('error', function (error) {
 			response.send({result:error});
 		})
-		.exec();
+		.exec();*/
 		
 	}
 };

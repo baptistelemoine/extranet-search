@@ -96,7 +96,10 @@ app.services.factory('SearchManager', [
 		},
 
 		update:function(article){
-			// console.log(article.export);
+			$http.post('/update', {'id':article.id})
+			.success(function (response){
+				console.log(response);
+			});
 		},
 
 		getMenu:function(){

@@ -22,7 +22,7 @@ app.get('/item*', function (req, res){
 app.get('/suggest', function (req, res){
 	es.suggest(req, res);
 });
-app.get('/update/:id', function (req, res){
+app.post('/update', function (req, res){
 	es.update(req, res);
 });
 app.get('/settings', function (req, res){

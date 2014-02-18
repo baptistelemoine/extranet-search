@@ -12,8 +12,6 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 
 	$scope.breadcrumb = BreadCrumb;
 
-	$window.scrollTo(0, 0);
-
 	$scope.onTypoSelect = function(typo, article){
 		$scope.save(_.extend(article, {'typo':typo.val}));
 	};
