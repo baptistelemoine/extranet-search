@@ -2,7 +2,7 @@
 
 app.controllers.controller('ListController', ['$scope', '$location', 'SearchManager', 'ConfigManager', '_', '$rootScope', '$q', '$routeParams', 'BreadCrumb', '$window', function ($scope, $location, SearchManager, ConfigManager, _, $rootScope, $q, $routeParams, BreadCrumb, $window){
 	
-	ConfigManager.fields = ['title,date,summary,origin','id'];
+	ConfigManager.fields = ['title,date,summary,origin','id','export','typo'];
 	$scope.config = ConfigManager;
 	$scope.typo = ConfigManager.typos[0];
 
@@ -13,7 +13,7 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	$scope.breadcrumb = BreadCrumb;
 
 	$scope.onTypoSelect = function(typo, article){
-		$scope.save(_.extend(article, {'typo':typo.val}));
+		$scope.save(_.extend(article, {'typo':typo}));
 	};
 
 	$scope.onAdd = function(article){
