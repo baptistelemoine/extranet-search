@@ -14,5 +14,11 @@
 		<select ng-model="typo" style="margin-left:15px;" ng-show="art.export" ng-change="onTypoSelect(typo, art)">
 			<option ng-repeat="t in config.typos" value="{{t.val}}" ng-selected="art.typo===t.val">{{t.val}}</option>
 		</select>
+		<select ng-model="portail" style="margin-left:15px;" ng-show="art.export" ng-change="onPortailSelect(portail, art)">
+			<option ng-repeat="p in config.portails" value="{{p.val}}" ng-selected="art.portail===p.val">{{p.val}}</option>
+		</select>
+		<select ng-model="sous_portail" style="margin-left:15px;" ng-show="portail" ng-change="onSousPortailSelect(sous_portail, art)">
+			<option ng-repeat="sp in ss_portail" value="{{sp.val}}" ng-selected="art.ss_portail===sp.val">{{sp.val}}</option>
+		</select>
 	</div>
 </div>

@@ -30,6 +30,12 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 		$scope.isNewRequest = false;
 	};
 
+	$scope.onPortailSelect = function (portail, art){
+		$scope.ss_portail = _.find($scope.config.portails, function (obj){
+			return obj.val === portail;
+		}).sous_portail;
+	};
+
 	$scope.$on('$locationChangeSuccess', function (e){
 		$scope.isNewRequest = true;
 		$scope.nextPage();
