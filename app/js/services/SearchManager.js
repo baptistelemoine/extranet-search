@@ -96,7 +96,7 @@ app.services.factory('SearchManager', [
 		},
 
 		update:function(article){
-			$http.post('/update', {'id':article.id})
+			$http.post('/update', {'doc':article})
 			.success(function (response){
 				console.log(response);
 			});

@@ -298,19 +298,16 @@ SearchManager.prototype = {
 
 	update:function(request, response){
 		
-		// ElasticSearchClient.prototype.update = function(indexName, typeName, documentId, document, options, cb)
-		if(request.body.id) response.send('success')
-			else response.send('error : no id');
-		
-		this._es.get(this.indice, this.type, request.body.id)
-		.on('data', function (data) {
-			console.log(data)
+		var id = request.body.doc.id;
+
+		this._es.update(this.indice, this.type, id, {'doc':request.body.doc})
+		.on('data', function (data){
+			response.send(id.toString().concat(' : successful update'));
 		})
-		.on('error', function (error) {
-			response.send({result:error});
+		.on('error', function (err){
+			response.send(id.toString().concat(' : update failed'));
 		})
-		.exec();
-		
+		.exec();		
 	}
 };
 
