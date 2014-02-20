@@ -35,7 +35,18 @@ app.services.value('ConfigManager', {
 		typos:[{'val':'actualités'},{'val':'position'},{'val':'outils'},{'val':'fondamentaux'}],
 		portails:[
 			{
-				'val':'Economie', 'sous_portail':[{'val':'eco_one'}, {'val':'eco_two'}, {'val':'eco_three'}]
+				'val':'Economie',
+				'sous_portail':[
+					{
+						'val':'eco_one'
+					},
+					{
+						'val':'eco_two'
+					},
+					{
+						'val':'eco_three'
+					}
+				]
 			},
 			{
 				'val':'Syndical', 'sous_portail':[{'val':'synd_one'}, {'val':'synd_two'}, {'val':'synd_three'}]

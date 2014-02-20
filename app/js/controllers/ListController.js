@@ -2,7 +2,7 @@
 
 app.controllers.controller('ListController', ['$scope', '$location', 'SearchManager', 'ConfigManager', '_', '$rootScope', '$q', '$routeParams', 'BreadCrumb', '$window', function ($scope, $location, SearchManager, ConfigManager, _, $rootScope, $q, $routeParams, BreadCrumb, $window){
 	
-	ConfigManager.fields = ['title,date,summary,origin','id','export','typo'];
+	ConfigManager.fields = ['title,date,summary,origin','id','export','typo','portail','ss_portail'];
 	$scope.config = ConfigManager;
 	$scope.typo = ConfigManager.typos[0];
 
@@ -21,7 +21,6 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	};
 
 	$scope.save = function(article){
-		//save logic here
 		$scope.search.update(article);
 	};
 
@@ -34,6 +33,11 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 		$scope.ss_portail = _.find($scope.config.portails, function (obj){
 			return obj.val === portail;
 		}).sous_portail;
+		$scope.save(_.extend(art, {'portail':portail}));
+	};
+
+	$scope.onSousPortailSelect = function (ss_portail, art){
+		$scope.save(_.extend(art, {'ss_portail':ss_portail}));
 	};
 
 	$scope.$on('$locationChangeSuccess', function (e){
