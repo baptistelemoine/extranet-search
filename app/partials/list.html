@@ -14,11 +14,12 @@
 		<select ng-model="typo" style="margin-left:15px;" ng-show="art.export" ng-change="onTypoSelect(typo, art)">
 			<option ng-repeat="t in config.typos" value="{{t.val}}" ng-selected="art.typo===t.val">{{t.val}}</option>
 		</select>
-		<select ng-model="portail" style="margin-left:15px;" ng-show="art.export" ng-change="onPortailSelect(portail, art)">
+		<select ng-model="portail" style="margin-left:15px;" ng-show="art.export" ng-change="onPortailSelect(portail, art, true)">
 			<option ng-repeat="p in config.portails" value="{{p.val}}" ng-selected="art.portail===p.val">{{p.val}}</option>
 		</select>
-		<select ng-model="sous_portail" style="margin-left:15px;" ng-show="art.portail" ng-change="onSousPortailSelect(sous_portail, art)">
-			<option ng-repeat="sp in ss_portail" value="{{sp.val}}" ng-selected="art.ss_portail===sp.val">{{sp.val}}</option>
-		</select>
+		<!-- <input type="hidden" ng-if="art.export && art.portail" ng-init="onPortailSelect(art.portail, art, false)" /> -->
+		<!-- <select ng-model="ss_portail" style="margin-left:15px;" ng-show="portail" ng-change="onSousPortailSelect(ss_portail, art)">
+			<option ng-repeat="sp in sous_portail" value="{{sp.val}}" ng-selected="ss_portail===sp.val">{{sp.val}}</option>
+		</select> -->
 	</div>
 </div>

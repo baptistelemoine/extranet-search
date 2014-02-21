@@ -21,6 +21,8 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	};
 
 	$scope.save = function(article){
+		if(!article.export)
+			article.export = article.typo = article.portail = article.ss_portail = null;
 		$scope.search.update(article);
 	};
 
@@ -29,11 +31,11 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 		$scope.isNewRequest = false;
 	};
 
-	$scope.onPortailSelect = function (portail, art){
-		$scope.ss_portail = _.find($scope.config.portails, function (obj){
+	$scope.onPortailSelect = function (portail, art, save){
+		$scope.sous_portail = _.find($scope.config.portails, function (obj){
 			return obj.val === portail;
 		}).sous_portail;
-		$scope.save(_.extend(art, {'portail':portail}));
+		if(save) $scope.save(_.extend(art, {'portail':portail}));
 	};
 
 	$scope.onSousPortailSelect = function (ss_portail, art){
