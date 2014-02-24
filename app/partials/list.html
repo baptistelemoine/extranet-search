@@ -4,22 +4,7 @@
 	</ol>
 </div>
 <div infinite-scroll="nextPage()" infinite-scroll-distance="0" infinite-scroll-immediate-check="true">
-	<div class="list-item" ng-repeat="art in search.result">
-		<p class="list-title">{{art.title}}</p>
-		<p class="list-date">Publié le {{art.date | dateformat}}</p>
-		<p class="list-summary">{{art.summary}}</p>
-		<!-- <p><a ng-href="{{art.origin}}" target="_blank">Consulter la note sur l'extranet</a></p> -->
-		<button type="button" class="btn btn-danger" ng-hide="art.export" ng-click="typo=null;portail=null;onAdd(art)">Ajouter</button>
-		<button type="button" class="btn btn-success" ng-show="art.export" ng-click="onAdd(art)">Retirer</button>
-		<select ng-model="typo" style="margin-left:15px;" ng-show="art.export" ng-change="onTypoSelect(typo, art)">
-			<option ng-repeat="t in config.typos" value="{{t.val}}" ng-selected="typo===t.val">{{t.val}}</option>
-		</select>
-		<select ng-model="portail" style="margin-left:15px;" ng-show="art.export" ng-change="onPortailSelect(portail, art)">
-			<option ng-repeat="p in config.portails" value="{{p.val}}" ng-selected="portail===p.val">{{p.val}}</option>
-		</select>
-		<!-- <input type="hidden" ng-if="art.export && art.portail" ng-init="onPortailSelect(art.portail, art, false)" /> -->
-		<!-- <select ng-model="ss_portail" style="margin-left:15px;" ng-show="portail" ng-change="onSousPortailSelect(ss_portail, art)">
-			<option ng-repeat="sp in sous_portail" value="{{sp.val}}" ng-selected="ss_portail===sp.val">{{sp.val}}</option>
-		</select> -->
+	<div ng-repeat="art in search.result">
+		<list-item article="art" on-add="onAdd(art)"></list-item>
 	</div>
 </div>
