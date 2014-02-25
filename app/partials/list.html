@@ -5,6 +5,6 @@
 </div>
 <div infinite-scroll="nextPage()" infinite-scroll-distance="0" infinite-scroll-immediate-check="true">
 	<div ng-repeat="art in search.result">
-		<list-item article="art" on-add="onAdd(art)" typos="config.typos"></list-item>
+		<list-item article="art" on-add="onAdd(art)" typos="config.typos" on-typo-select="typoSelected(typo)"></list-item>
 	</div>
 </div>

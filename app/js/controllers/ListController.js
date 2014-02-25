@@ -4,7 +4,7 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	
 	ConfigManager.fields = ['title,date,summary,origin','id','export','typo','portail','ss_portail'];
 	$scope.config = ConfigManager;
-	$scope.typo = ConfigManager.typos[0];
+	// $scope.typo = ConfigManager.typos[0];
 
 	$scope.search = SearchManager;
 
@@ -12,9 +12,13 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 
 	$scope.breadcrumb = BreadCrumb;
 
-	$scope.onTypoSelect = function(typo, article){
+	$scope.typoSelected = function (typo){
+		console.log(typo);
+	}
+
+	$scope.onTypoSelect = function(typo){
 		// $scope.save(_.extend(article, {'typo':typo}));
-		console.log('hello', typo)
+		console.log('hello from main controller', $scope.typo);
 	};
 
 	$scope.onAdd = function(article){

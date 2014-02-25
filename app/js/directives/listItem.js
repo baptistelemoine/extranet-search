@@ -1,6 +1,6 @@
 'use strict';
 
-app.directives.directive('listItem', [function () {
+app.directives.directive('listItem', ['SearchManager', function (SearchManager) {
 	return {
 		require:'?ngModel',
 		templateUrl: 'partials/list-item.html',
@@ -8,11 +8,13 @@ app.directives.directive('listItem', [function () {
 		scope: {
 			art:'=article',
 			typos:'=typos',
-			add:'&onAdd'
+			add:'&onAdd',
+			onTypoSelect:'&'
 		},
 		controller:function($scope){
-			$scope.onTypoSelect = function (typo){
-				console.log(typo);
+
+			$scope.onChange = function (typo){
+				$scope.onTypoSelect({'typo':typo});
 			};
 		},
 		link: function (scope, iElement, iAttrs) {
