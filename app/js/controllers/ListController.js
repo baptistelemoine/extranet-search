@@ -12,13 +12,8 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 
 	$scope.breadcrumb = BreadCrumb;
 
-	$scope.typoSelected = function (typo){
-		console.log(typo);
-	}
-
-	$scope.onTypoSelect = function(typo){
-		// $scope.save(_.extend(article, {'typo':typo}));
-		console.log('hello from main controller', $scope.typo);
+	$scope.typoSelected = function (typo, article){
+		$scope.save(_.extend(article, {'typo':typo}));
 	};
 
 	$scope.onAdd = function(article){

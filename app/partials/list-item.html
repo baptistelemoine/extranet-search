@@ -4,7 +4,10 @@
 	<p class="list-summary">{{art.summary}}</p>
 	<button type="button" class="btn btn-danger" ng-hide="art.export" ng-click="add()">Ajouter</button>
 	<button type="button" class="btn btn-success" ng-show="art.export" ng-click="add()">Retirer</button>
-	<select ng-model="typo" style="margin-left:15px;" ng-show="art.export" ng-change="onChange(typo)">
+	<select ng-model="typo" style="margin-left:15px;" ng-show="art.export" ng-change="onTypoChange(typo)">
 		<option ng-repeat="t in typos" value="{{t.val}}" ng-selected="typo===t.val">{{t.val}}</option>
+	</select>
+	<select ng-model="portail" style="margin-left:15px;" ng-show="art.export" ng-change="onPortailChange(portail)">
+		<option ng-repeat="p in portails" value="{{p.val}}" ng-selected="portail===p.val">{{p.val}}</option>
 	</select>
 </div>

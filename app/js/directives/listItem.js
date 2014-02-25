@@ -1,23 +1,36 @@
 'use strict';
 
-app.directives.directive('listItem', ['SearchManager', function (SearchManager) {
+app.directives.directive('listItem', [function () {
 	return {
-		require:'?ngModel',
 		templateUrl: 'partials/list-item.html',
 		restrict: 'AE',
 		scope: {
 			art:'=article',
-			typos:'=typos',
+			typos:'=',
+			typo:'=',
+			portail:'=',
+			portails:'=',
 			add:'&onAdd',
-			onTypoSelect:'&'
+			onTypoSelect:'&',
+			onPortailSelect:'&'
 		},
 		controller:function($scope){
 
-			$scope.onChange = function (typo){
+			$scope.onTypoChange = function (typo){
 				$scope.onTypoSelect({'typo':typo});
+			};
+
+			$scope.onPortailChange = function (portail){
+				$scope.onPortailSelect({'portail':portail});
 			};
 		},
 		link: function (scope, iElement, iAttrs) {
+
+			scope.$watch('portail', function (n, o){
+				if(n !== o){
+					//populate here sous-portail select el
+				}
+			});
 
 		}
 	};
