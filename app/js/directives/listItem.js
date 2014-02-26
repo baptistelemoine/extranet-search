@@ -1,6 +1,6 @@
 'use strict';
 
-app.directives.directive('listItem', [function () {
+app.directives.directive('listItem', ['_', function (_) {
 	return {
 		templateUrl: 'partials/list-item.html',
 		restrict: 'AE',
@@ -28,7 +28,9 @@ app.directives.directive('listItem', [function () {
 
 			scope.$watch('portail', function (n, o){
 				if(n !== o){
-					//populate here sous-portail select el
+					var ss_portails = _.find(scope.portails, function (obj){
+						return obj.val === n;
+					}).sous_portail;
 				}
 			});
 
