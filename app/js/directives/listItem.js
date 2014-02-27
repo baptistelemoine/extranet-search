@@ -28,9 +28,10 @@ app.directives.directive('listItem', ['_', function (_) {
 
 			scope.$watch('portail', function (n, o){
 				if(n !== o){
-					var ss_portails = _.find(scope.portails, function (obj){
+					var p = _.find(scope.portails, function (obj){
 						return obj.val === n;
-					}).sous_portail;
+					});
+					if (p) var sous_portails = p.sous_portails;
 				}
 			});
 
