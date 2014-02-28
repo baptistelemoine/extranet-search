@@ -10,9 +10,11 @@ app.directives.directive('listItem', ['_', function (_) {
 			typo:'=',
 			portail:'=',
 			portails:'=',
+			sp:'=',
 			add:'&onAdd',
 			onTypoSelect:'&',
-			onPortailSelect:'&'
+			onPortailSelect:'&',
+			onSousportailSelect:'&'
 		},
 		controller:function($scope){
 
@@ -23,18 +25,19 @@ app.directives.directive('listItem', ['_', function (_) {
 			$scope.onPortailChange = function (portail){
 				$scope.onPortailSelect({'portail':portail});
 			};
+
+			$scope.onSousPortailChange = function (sousPortail){
+				$scope.onSousportailSelect({'sp':sousPortail});
+			};
 		},
 		link: function (scope, iElement, iAttrs) {
 
 			scope.$watch('portail', function (n, o){
-				if(n !== o){
-					var p = _.find(scope.portails, function (obj){
-						return obj.val === n;
-					});
-					if (p) var sous_portails = p.sous_portails;
-				}
+				var p = _.find(scope.portails, function (obj){
+					return obj.val === n;
+				});
+				if (p) scope.sousPortails = p.sous_portail;
 			});
-
 		}
 	};
 }]);

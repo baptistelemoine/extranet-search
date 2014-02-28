@@ -32,9 +32,6 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	};
 
 	$scope.onPortailSelect = function (portail, art){
-		/*$scope.sous_portail = _.find($scope.config.portails, function (obj){
-			return obj.val === portail;
-		}).sous_portail;*/
 		$scope.save(_.extend(art, {'portail':portail}));
 	};
 
