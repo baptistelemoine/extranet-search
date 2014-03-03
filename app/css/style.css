@@ -109,11 +109,14 @@ a {
       .left .dropdown-menu li a:hover {
         background-color: #202228; }
       .left .dropdown-menu li a span.count {
-        background-color: #d9534f;
+        background-color: #3e414c;
         color: white;
         margin-left: 8px;
+        margin-left: 5px;
         padding: 2px 4px;
         font-size: 10px; }
+        .left .dropdown-menu li a span.count.green {
+          background-color: #5cb85c; }
 
 .right {
   position: absolute;
