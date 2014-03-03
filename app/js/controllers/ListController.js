@@ -7,9 +7,7 @@ app.controllers.controller('ListController', ['$scope', '$location', 'SearchMana
 	// $scope.typo = ConfigManager.typos[0];
 
 	$scope.search = SearchManager;
-
 	$scope.isNewRequest = true;
-
 	$scope.breadcrumb = BreadCrumb;
 
 	$scope.typoSelected = function (typo, article){
