@@ -62,7 +62,7 @@ Prog.prototype = {
 			var comparedPath = completePath.slice(3).join('/');
 			var exist = _.indexOf(self.allPaths, comparedPath) !== -1;
 
-			var rubs = ['administratif'];
+			var rubs = ['administratif', 'communication', 'structures_territoires'];
 			if( _.indexOf(rubs, rub) !== -1) {
 				var newPath = p[2];
 				if(!exist && path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
