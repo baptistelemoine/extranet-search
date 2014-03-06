@@ -35,10 +35,9 @@ Prog.prototype = {
 		})
 		.done(function(){
 			self._parseDateCache(function (docs){
-				console.log('docs : ', docs)
-				/*self.totalfiles = docs.length;
+				self.totalfiles = docs.length;
 				if(docs.length) self._scanIndex(docs);
-				else console.log('no docs to index');*/
+				else console.log('no docs to index');
 			});
 		});
 	},
@@ -64,9 +63,9 @@ Prog.prototype = {
 			var exist = _.indexOf(self.allPaths, comparedPath) !== -1;
 
 			var rubs = ['administratif'];
-			if( _.indexOf(rubs, rub) !== -1 && !exist) {
+			if( _.indexOf(rubs, rub) !== -1) {
 				var newPath = p[2];
-				if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
+				if(!exist && path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
 					docs.push(newPath);
 				}
 			}
