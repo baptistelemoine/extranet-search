@@ -255,19 +255,6 @@ SearchManager.prototype = {
 
 		var p = "http://extranet.fnsea.fr/sites/fnsea" + request.params.toString();
 		var qryObj = {
-/*			'query':{
-				'bool':{
-					'must':[
-						{
-							'term' : {
-								'origin' : {
-									'value':p
-								}
-							}
-						}
-					]
-				}
-			},*/
 			'query':{'match_all':{}},
 			'filter':{
 				'bool':{
@@ -276,7 +263,7 @@ SearchManager.prototype = {
 							'origin' : {
 								'value':p
 							},
-							'export':true
+							// 'export':true
 						}
 					}]
 				}
