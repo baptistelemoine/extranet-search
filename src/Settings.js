@@ -49,7 +49,6 @@ Settings.prototype = {
 		}
 
 		Q.spread([this._search(), this._countPerItem()], function (result, facets){
-			console.log(facets.export)
 			_.map(facets.origin.terms, function (value){
 				self._setItemCountProperty(result, value);
 			});
@@ -96,13 +95,6 @@ Settings.prototype = {
 						'size':10000,
 						'lang':'js',
 						'script':"term.substring(24, term.lastIndexOf('/'))"
-					}
-				},
-				'export':{
-					'terms':{
-						'fields':['export','origin'],
-						'lang':'js',
-						'script':'term[0] === true'
 					}
 				}
 			}

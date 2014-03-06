@@ -307,7 +307,42 @@ SearchManager.prototype = {
 		.on('error', function (err){
 			response.send(id.toString().concat(' : update failed'));
 		})
-		.exec();		
+		.exec();
+	},
+
+	getAllPaths:function(){
+
+		var common = {
+			'fields':'',
+			'size':0
+		};
+
+		var qry = {
+			'query':{'match_all':{}},
+			'facets':{
+				'origin':{
+					'terms':{
+						'field':'origin',
+						'size':100000,
+						'lang':'js',
+						'script':"term.substring(24)"
+					}
+				}
+			}
+		};
+
+		var q = Q.defer();
+
+		this._es.search(this.indice, this.type, _.extend(common,qry))
+		.on('data', function (data) {
+			q.resolve(JSON.parse(data).facets);
+		})
+		.on('error', function (error) {
+			q.reject(error);
+		})
+		.exec();
+
+		return q.promise;
 	}
 };
 

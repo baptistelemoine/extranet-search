@@ -6,6 +6,7 @@ var BufferedReader = require('buffered-reader');
 var DataReader = BufferedReader.DataReader;
 var _ = require('underscore');
 var clc = require('cli-color');
+var Q = require('q');
 
 var er = clc.red.bold;
 var warn = clc.yellow;
@@ -13,6 +14,7 @@ var ok = clc.green;
 var info = clc.blue;
 
 var Prog = function(){
+	this.allPaths = [];
 	this.totalfiles = 0;
 	this.errors = 0;
 	this.i = 0;
@@ -25,13 +27,25 @@ Prog.prototype = {
 		
 		var self = this;
 		this.es = new SearchManager();
-		this._parseDateCache(function (docs){
-			self.totalfiles = docs.length;
-			self._scanIndex(docs);
+
+		this.es.getAllPaths().then(function (result){
+			return _.map(result.origin.terms, function (value, index){
+				self.allPaths.push(value.term.substring(1));
+			});
+		})
+		.done(function(){
+			self._parseDateCache(function (docs){
+				console.log('docs : ', docs)
+				/*self.totalfiles = docs.length;
+				if(docs.length) self._scanIndex(docs);
+				else console.log('no docs to index');*/
+			});
 		});
 	},
 
 	_parseDateCache:function(callback){
+
+		var self = this;
 
 		console.log(info('read date cache...'));
 		
@@ -41,10 +55,16 @@ Prog.prototype = {
 			console.log(error);
 		})
 		.on('line', function (line){
+
 			var p = line.toString().split('\t');
 			var rub = p[2].split('\\')[5];
+			
+			var completePath = p[2].split('\\');//sites/fnsea/syndical/aff_synd/infos_generales/090916sga_space.aspx
+			var comparedPath = completePath.slice(3).join('/');
+			var exist = _.indexOf(self.allPaths, comparedPath) !== -1;
+
 			var rubs = ['administratif'];
-			if( _.indexOf(rubs, rub) !== -1) {
+			if( _.indexOf(rubs, rub) !== -1 && !exist) {
 				var newPath = p[2];
 				if(path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
 					docs.push(newPath);
