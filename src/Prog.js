@@ -29,18 +29,27 @@ Prog.prototype = {
 		var self = this;
 		this.es = new SearchManager();
 
-		this.es.getAllPaths().then(function (result){
-			return _.map(result.origin.terms, function (value, index){
-				self.allPaths.push(value.term.substring(1));
+		if(!this.reset){
+			this.es.getAllPaths().then(function (result){
+				return _.map(result.origin.terms, function (value, index){
+					self.allPaths.push(value.term.substring(1));
+				});
+			})
+			.done(function(){
+				self._parseDateCache(function (docs){
+					self.totalfiles = docs.length;
+					if(docs.length) self._scanIndex(docs);
+					else console.log('no docs to index');
+				});
 			});
-		})
-		.done(function(){
-			self._parseDateCache(function (docs){
+		}
+		else {
+			this._parseDateCache(function (docs){
 				self.totalfiles = docs.length;
 				if(docs.length) self._scanIndex(docs);
 				else console.log('no docs to index');
 			});
-		});
+		}
 	},
 
 	_parseDateCache:function(callback){
@@ -61,8 +70,7 @@ Prog.prototype = {
 			
 			var completePath = p[2].split('\\');//sites/fnsea/syndical/aff_synd/infos_generales/090916sga_space.aspx
 			var comparedPath = completePath.slice(3).join('/');
-			var exist = false;
-			if(!self.reset) exist = _.indexOf(self.allPaths, comparedPath) !== -1;
+			var exist = _.indexOf(self.allPaths, comparedPath) !== -1;
 
 			var rubs = ['administratif'];
 			if( _.indexOf(rubs, rub) !== -1) {
