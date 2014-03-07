@@ -1,0 +1,59 @@
+{
+	"articles" : {
+		"properties" : {
+			"author" : {
+				"type" : "string"
+			},
+			"ispdf" : {
+				"type" : "boolean"
+			},
+			"hidden" : {
+				"type" : "boolean"
+			},
+			"date" : {
+				"type" : "date",
+				"format":"dateOptionalTime"
+			},
+			"summary" : {
+				"type" : "string",
+				"index_analyzer" : "custom_analyzer",
+				"search_analyzer" : "custom_search_analyzer"
+			},
+			"origin" : {
+				"type":"multi_field",
+				"fields":{
+					"origin":{
+						"analyzer":"path_analyzer",
+						"type" : "string"
+					},
+					"origin_keyword":{
+						"type":"string",
+						"analyzer":"keyword_analyzer"
+					}
+				}
+			},
+			"title" : {
+				"type" : "string",
+				"index_analyzer" : "custom_analyzer",
+				"search_analyzer" : "custom_search_analyzer"
+			},
+			"content" : {
+				"type" : "string",
+				"search_analyzer" : "custom_search_analyzer"
+			},
+			"pdfcontent" : {
+				"type" : "attachment",
+				"search_analyzer" : "custom_search_analyzer"
+			},
+			"links" : {
+				"type" : "string"
+			},
+			"suggest" : { 
+				"type" : "completion",
+			    "index_analyzer" : "simple",
+			    "search_analyzer" : "simple",
+			    "payloads" : true
+			}
+		}
+	}
+}
