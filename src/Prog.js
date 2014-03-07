@@ -13,18 +13,19 @@ var warn = clc.yellow;
 var ok = clc.green;
 var info = clc.blue;
 
-var Prog = function(){
+var Prog = function(options){
 	this.allPaths = [];
 	this.totalfiles = 0;
 	this.errors = 0;
 	this.i = 0;
+	this.reset = false;
+	if(options && options.reset) this.reset = true;
 	this._init();
 };
 
 Prog.prototype = {
 
 	_init:function(){
-		
 		var self = this;
 		this.es = new SearchManager();
 
@@ -60,9 +61,10 @@ Prog.prototype = {
 			
 			var completePath = p[2].split('\\');//sites/fnsea/syndical/aff_synd/infos_generales/090916sga_space.aspx
 			var comparedPath = completePath.slice(3).join('/');
-			var exist = _.indexOf(self.allPaths, comparedPath) !== -1;
+			var exist = false;
+			if(!self.reset) exist = _.indexOf(self.allPaths, comparedPath) !== -1;
 
-			var rubs = ['administratif', 'communication', 'structures_territoires'];
+			var rubs = ['administratif'];
 			if( _.indexOf(rubs, rub) !== -1) {
 				var newPath = p[2];
 				if(!exist && path.basename(newPath) !== 'default.aspx' && _.indexOf(path.basename(newPath).split('.'), 'lnk') === -1 && (path.extname(newPath) === '.pdf' || path.extname(newPath) === '.aspx')){
