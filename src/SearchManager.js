@@ -254,18 +254,22 @@ SearchManager.prototype = {
 	origin:function(request, response){
 
 		var p = "http://extranet.fnsea.fr/sites/fnsea" + request.params.toString();
+		var q = {
+			'term' : {
+				'origin' : {
+					'value':p
+				}
+			}
+		};
+
+		var query = url.parse(request.url,true).query;
+		if(query.export && query.export === 'true') _.extend(q.term, {'export':true});
+
 		var qryObj = {
 			'query':{'match_all':{}},
 			'filter':{
 				'bool':{
-					'must':[{
-						'term' : {
-							'origin' : {
-								'value':p
-							},
-							// 'export':true
-						}
-					}]
+					'must':q
 				}
 			}
 		};
