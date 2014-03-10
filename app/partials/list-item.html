@@ -1,7 +1,7 @@
 <div class="list-item">
 	<p class="list-title">{{art.title}}</p>
-	<p class="list-title">{{art.id}}</p>
-	<p class="list-date">Publié le {{art.date | dateformat}}</p>
+	<!-- <p class="list-title">{{art.id}}</p> -->
+	<p class="list-date">Publié le {{art.date | dateformat}}<span class="author">{{art.author}}</p>
 	<p class="list-summary">{{art.summary}}</p>
 	<button type="button" class="btn btn-danger" ng-hide="art.export" ng-click="add()">Ajouter</button>
 	<button type="button" class="btn btn-success" ng-show="art.export" ng-click="add()">Retirer</button>
