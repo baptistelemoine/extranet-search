@@ -12,7 +12,7 @@ var es = new SearchManager();
 var settings = new Settings();
 
 var users = [
-    { id: 1, username: 'bob', password: 'secret'}, { id: 2, username: 'joe', password: 'birthday'}
+    { id: 1, username: 'bob', password: 's'}, { id: 2, username: 'joe', password: 'birthday'}
 ];
 
 function findById(id, fn) {
@@ -32,6 +32,14 @@ function findByUsername(username, fn) {
     }
   }
   return fn(null, null);
+}
+
+function ensureAuthenticated(req, res, next) {
+  req.session.returnTo = req.path;
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
 }
 
 passport.serializeUser(function(user, done) {
@@ -58,16 +66,34 @@ passport.use(new LocalStrategy(
   }
 ));
 
-app.configure(function () {
-    app.use(express.bodyParser());
-    app.use(express.logger('dev'));
-    app.use(express.static(path.join(__dirname, 'app')));
+app.configure(function() {
+
+  app.set('views', __dirname);
+  app.set('view engine', 'ejs');
+  app.use(express.logger('dev'));
+  app.use(express.cookieParser());
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(express.session({ secret: 'keyboard cat' }));
+  // Initialize Passport!  Also use passport.session() middleware, to support
+  // persistent login sessions (recommended).
+  app.use(flash());
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(app.router);
+
+  app.use(express.static(path.join(__dirname, 'app')));
+
+});
+
+app.get('/login', function (req, res){
+  res.render('login', { user: req.user, message: req.flash('error') });
 });
 
 app.get('/search', function (req, res){
 	es.search(req, res);
 });
-app.get('/item*', function (req, res){
+app.get('/item*', ensureAuthenticated, function (req, res){
 	es.origin(req, res);
 });
 app.get('/suggest', function (req, res){
@@ -79,4 +105,12 @@ app.post('/update', function (req, res){
 app.get('/settings', function (req, res){
 	settings.getMenu(req, res);
 });
+
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
+  function (req, res) {
+    res.redirect(req.session.returnTo || '/');
+  });
+
 app.listen(process.env.PORT || 3000);
+
