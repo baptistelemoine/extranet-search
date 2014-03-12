@@ -90,19 +90,23 @@ app.get('/login', function (req, res){
   res.render('login', { user: req.user, message: req.flash('error') });
 });
 
-app.get('/search', function (req, res){
+app.get('/', ensureAuthenticated, function (req, res){
+  res.sendfile('app/index.html');
+});
+
+app.get('/search', ensureAuthenticated, function (req, res){
 	es.search(req, res);
 });
 app.get('/item*', ensureAuthenticated, function (req, res){
 	es.origin(req, res);
 });
-app.get('/suggest', function (req, res){
+app.get('/suggest', ensureAuthenticated, function (req, res){
 	es.suggest(req, res);
 });
-app.post('/update', function (req, res){
+app.post('/update', ensureAuthenticated, function (req, res){
 	es.update(req, res);
 });
-app.get('/settings', function (req, res){
+app.get('/settings', ensureAuthenticated, function (req, res){
 	settings.getMenu(req, res);
 });
 
