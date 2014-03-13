@@ -1,0 +1,33 @@
+
+.login-main{
+
+	height: 100%;
+	padding-top: 50px;
+
+	.login-container{
+		width: 300px;
+		background-color: white;
+		padding: 30px;
+		margin:0 auto;
+
+		input:not([type="submit"]) {
+			border:1px solid #ccc;
+			height: 25px;
+			float: right;
+		}
+
+		.input-container{
+			margin-bottom: 10px;
+		}
+
+		label{
+			font-size: 14px;
+			font-weight: 400;
+		}
+
+		.submit{
+			margin-top: 20px;
+			text-align: right;
+		}
+	}	
+}

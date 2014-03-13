@@ -1,17 +1,26 @@
-<% if (message) { %>
-<p><%= message %></p>
-<% } %>
-<form action="/login" method="post">
-	<div>
-	<label>Username:</label>
-	<input type="text" name="username"/><br/>
+<html>
+<head>
+	<link rel='stylesheet' href='../css/vendor/bootstrap.css' />
+	<link rel='stylesheet' href='../css/style.css' />
+</head>
+<div class="login-main">
+	<div class="login-container">
+	<% if (message) { %>
+	<p><%= message %></p>
+	<% } %>
+		<form action="/login" method="post">
+			<div class="input-container">
+				<label>Username :</label>
+				<input type="text" name="username"/>
+			</div>
+			<div class="input-container">
+				<label>Password :</label>
+				<input type="password" name="password"/>
+			</div>
+			<div class="submit">
+				<!-- <input type="submit" value="Submit"/> -->
+				<input type="submit" class="btn btn-danger" value="Envoyer"/>
+			</div>
+		</form>
 	</div>
-	<div>
-	<label>Password:</label>
-	<input type="password" name="password"/>
-	</div>
-	<div>
-	<input type="submit" value="Submit"/>
-	</div>
-</form>
-<p><small>Hint - bob:secret</small></p>
+</div>
