@@ -309,19 +309,20 @@ input.date-picker::-moz-input-placeholder {
   height: 100%;
   padding-top: 50px; }
   .login-main .login-container {
-    width: 300px;
+    width: 305px;
     background-color: white;
     padding: 30px;
     margin: 0 auto; }
     .login-main .login-container input:not([type="submit"]) {
       border: 1px solid #ccc;
       height: 25px;
-      float: right; }
+      margin-left: 5px; }
     .login-main .login-container .input-container {
-      margin-bottom: 10px; }
+      margin-bottom: 10px;
+      text-align: right; }
     .login-main .login-container label {
       font-size: 14px;
-      font-weight: 400; }
+      font-weight: 300; }
     .login-main .login-container .submit {
       margin-top: 20px;
       text-align: right; }

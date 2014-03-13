@@ -11,9 +11,7 @@ var flash = require('connect-flash');
 var es = new SearchManager();
 var settings = new Settings();
 
-var users = [
-    { id: 1, username: 'bob', password: 's'}, { id: 2, username: 'joe', password: 'birthday'}
-];
+var users = [{ id: 1, username: 'extranet', password: 'goodluck'}];
 
 function findById(id, fn) {
   var idx = id - 1;

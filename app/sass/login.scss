@@ -5,7 +5,7 @@
 	padding-top: 50px;
 
 	.login-container{
-		width: 300px;
+		width: 305px;
 		background-color: white;
 		padding: 30px;
 		margin:0 auto;
@@ -13,16 +13,17 @@
 		input:not([type="submit"]) {
 			border:1px solid #ccc;
 			height: 25px;
-			float: right;
+			margin-left: 5px;
 		}
 
 		.input-container{
 			margin-bottom: 10px;
+			text-align: right;
 		}
 
 		label{
 			font-size: 14px;
-			font-weight: 400;
+			font-weight: 300;
 		}
 
 		.submit{
