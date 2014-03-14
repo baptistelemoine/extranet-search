@@ -22,13 +22,16 @@
 	</div>
 </div>
 <div ng-if="term" infinite-scroll="initSearch(false)" infinite-scroll-disabled="false" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
-	<div class="list-item" ng-repeat="art in search.result">
+<!-- 	<div class="list-item" ng-repeat="art in search.result">
 		<p class="list-title">{{art.title}}</p>
 		<p class="list-date">Publié le {{art.date | dateformat}}</p>
 		<p class="list-summary">{{art.summary}}</p>
-		<!-- <p><a ng-href="{{art.origin}}" target="_blank">Consulter la note sur l'extranet</a></p> -->
+		<p><a ng-href="{{art.origin}}" target="_blank">Consulter la note sur l'extranet</a></p>
 		<button type="button" class="btn btn-danger" ng-hide="added" ng-click="onAdd(art);added=!added">Ajouter</button>
 		<button type="button" class="btn btn-success" ng-show="added" ng-click="onAdd(art);added=!added">Retirer</button>
 		<select ng-model="typo" style="margin-left:15px;" ng-show="added" ng-options="t.val for t in config.typos" ng-change="onTypoSelect(typo, art)"></select>
+	</div> -->
+	<div ng-controller="ListController">
+	  <div ng-include src="'partials/list.html'"></div>
 	</div>
 </div>
