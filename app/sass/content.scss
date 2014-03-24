@@ -52,9 +52,16 @@
 			font-weight: 300;
 			&.list-date{
 				opacity: .5;
+				margin-top: 10px;
 			}
 			&.list-summary{margin-bottom: 15px;}
 		}
+
+		span.portail-title{
+			margin-left: 10px;
+			font-size: 12px;
+		}
+
 		&.search-result{
 
 			margin-bottom: 0;

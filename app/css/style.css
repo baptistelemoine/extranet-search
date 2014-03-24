@@ -155,9 +155,13 @@ a {
     .right .list-item p {
       font-weight: 300; }
       .right .list-item p.list-date {
-        opacity: .5; }
+        opacity: .5;
+        margin-top: 10px; }
       .right .list-item p.list-summary {
         margin-bottom: 15px; }
+    .right .list-item span.portail-title {
+      margin-left: 10px;
+      font-size: 12px; }
     .right .list-item.search-result {
       margin-bottom: 0;
       font-weight: 200;

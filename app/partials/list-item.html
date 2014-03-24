@@ -1,17 +1,20 @@
-<div class="list-item">
+<div class="list-item" ng-if="art.title">
 	<a ng-href="{{art.origin}}" target="blank" class="list-title">{{art.title}}</a>
 	<!-- <p class="list-title">{{art.id}}</p> -->
 	<p class="list-date">Publié le {{art.date | dateformat}}<span class="author">{{art.author}}</p>
 	<p class="list-summary">{{art.summary}}</p>
 	<button type="button" class="btn btn-danger" ng-hide="art.export" ng-click="add()">Ajouter</button>
 	<button type="button" class="btn btn-success" ng-show="art.export" ng-click="add()">Retirer</button>
-	<select ng-model="typo" style="margin-left:15px;" ng-show="art.export" ng-change="onTypoChange(typo)">
+	<span class="portail-title" ng-show="art.export">Typologie : </span>
+	<select ng-model="typo" ng-show="art.export" ng-change="onTypoChange(typo)">
 		<option ng-repeat="t in typos" value="{{t.val}}" ng-selected="typo===t.val">{{t.val}}</option>
 	</select>
-	<select ng-model="portail" style="margin-left:15px;" ng-show="art.export" ng-change="onPortailChange(portail)">
+	<span ng-show="art.export" class="portail-title">Portail : </span>
+	<select ng-model="portail" ng-show="art.export" ng-change="onPortailChange(portail)">
 		<option ng-repeat="p in portails" value="{{p.val}}" ng-selected="portail===p.val">{{p.val}}</option>
 	</select>
-	<select ng-show="art.export && portail" ng-model="sp" style="margin-left:15px;" ng-change="onSousPortailChange(sp)">
+	<span ng-show="art.export && portail" class="portail-title">Sous-Portail : </span>
+	<select ng-show="art.export && portail" ng-model="sp" ng-change="onSousPortailChange(sp)">
 		<option ng-repeat="p in sousPortails" value="{{p.val}}" ng-selected="sp===p.val">{{p.val}}</option>
 	</select>
 </div>
