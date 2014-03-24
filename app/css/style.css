@@ -149,10 +149,11 @@ a {
     background-color: white;
     padding: 25px;
     margin-bottom: 20px; }
+    .right .list-item a.list-title {
+      color: inherit;
+      font-size: 18px; }
     .right .list-item p {
       font-weight: 300; }
-      .right .list-item p.list-title {
-        font-size: 18px; }
       .right .list-item p.list-date {
         opacity: .5; }
       .right .list-item p.list-summary {

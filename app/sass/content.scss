@@ -41,12 +41,15 @@
 		padding: 25px;
 		margin-bottom: 20px;
 
-		p{
-			font-weight: 300;
-
+		a{
 			&.list-title{
+				color: inherit;
 				font-size: 18px;
 			}
+		}
+
+		p{
+			font-weight: 300;
 			&.list-date{
 				opacity: .5;
 			}
