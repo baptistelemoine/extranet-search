@@ -162,6 +162,10 @@ a {
     .right .list-item span.portail-title {
       margin-left: 10px;
       font-size: 12px; }
+    .right .list-item input.tags-input {
+      border: 1px solid #ccc;
+      width: 150px;
+      font-size: 12px; }
     .right .list-item.search-result {
       margin-bottom: 0;
       font-weight: 200;
