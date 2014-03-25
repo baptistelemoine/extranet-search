@@ -59,7 +59,7 @@ Prog.prototype = {
 		console.log(info('read date cache...'));
 		
 		var docs = [];
-		new DataReader('./data/DateCache.data', { encoding: "utf8" })
+		new DataReader('./data/_data/DateCache.data', { encoding: "utf8" })
 		.on('error', function (error){
 			console.log(error);
 		})

@@ -179,7 +179,7 @@ Settings.prototype = {
 
 		var self = this;
 
-		return this._fileParser('./data/menu_config/root.xml')
+		return this._fileParser('./data/_data/menu_config/root.xml')
 		.then(function (result){
 			return self._xmlParser(result);
 		})
@@ -187,7 +187,7 @@ Settings.prototype = {
 			return _.map(data.root.menuItem, function (value){
 				return {
 					'name':value.name,
-					'fileName':'./data/menu_config/rub_'.concat(value.lowName, '.xml'),
+					'fileName':'./data/_data/menu_config/rub_'.concat(value.lowName, '.xml'),
 					'url':value.hyperLink,
 					'color':value.squareColor
 				};
