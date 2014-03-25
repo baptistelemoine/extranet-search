@@ -5,6 +5,6 @@
 </div>
 <div infinite-scroll="nextPage()" infinite-scroll-distance="0" infinite-scroll-immediate-check="true">
 	<div ng-repeat="art in search.result">
-		<list-item ng-if="art.title" article="art" on-add="onAdd(art)" typo="art.typo" typos="config.typos" on-typo-select="typoSelected(typo, art)" portails="config.portails" portail="art.portail" on-portail-select="onPortailSelect(portail, art)" sp="art.ss_portail" on-sousportail-select="onSousPortailSelect(sp, art)"></list-item>
+		<list-item ng-if="art.title" article="art" on-add="onAdd(art)" typo="art.typo" typos="config.typos" on-typo-select="typoSelected(typo, art)" portails="config.portails" portail="art.portail" on-portail-select="onPortailSelect(portail, art)" sp="art.ss_portail" tags="art.tags" on-tag-select="onTag(tags, art)" on-sousportail-select="onSousPortailSelect(sp, art)"></list-item>
 	</div>
 </div>

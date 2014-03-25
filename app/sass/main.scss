@@ -11,14 +11,13 @@ body,html{
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
 	height: 100%;
+	overflow-x: hidden;
 }
 /*.main{
-	height: 100%;
 	width: 100%;
-	position: relative;
-	overflow-x: hidden;
-}*/
-
+	height: 100%;
+}
+*/
 .btn{
 	border-radius: 0;
 	font-size: 12px;

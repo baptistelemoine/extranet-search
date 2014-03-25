@@ -10,11 +10,13 @@ app.directives.directive('listItem', ['_', function (_) {
 			typo:'=',
 			portail:'=',
 			portails:'=',
+			tags:'=',
 			sp:'=',
 			add:'&onAdd',
 			onTypoSelect:'&',
 			onPortailSelect:'&',
-			onSousportailSelect:'&'
+			onSousportailSelect:'&',
+			onTagSelect:'&'
 		},
 		controller:function($scope){
 
@@ -29,6 +31,10 @@ app.directives.directive('listItem', ['_', function (_) {
 			$scope.onSousPortailChange = function (sousPortail){
 				$scope.onSousportailSelect({'sp':sousPortail});
 			};
+
+			$scope.onTagChange = function (tags){
+				$scope.onTagSelect({'tags':tags});
+			};
 		},
 		link: function (scope, iElement, iAttrs) {
 
@@ -38,6 +44,11 @@ app.directives.directive('listItem', ['_', function (_) {
 				});
 				if (p) scope.sousPortails = p.sous_portail;
 			});
+
+			/*scope.$watch('art.export', function (n, o){
+				if(n === null)
+					scope.typo = null;
+			});*/
 		}
 	};
 }]);
