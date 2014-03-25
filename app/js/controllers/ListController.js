@@ -2,7 +2,7 @@
 
 app.controllers.controller('ListController', ['$scope', '$location', 'SearchManager', 'ConfigManager', '_', '$rootScope', '$q', '$routeParams', 'BreadCrumb', '$window', function ($scope, $location, SearchManager, ConfigManager, _, $rootScope, $q, $routeParams, BreadCrumb, $window){
 	
-	ConfigManager.fields = ['title,date,summary,origin','id','export','typo','portail','ss_portail'];
+	ConfigManager.fields = ['title,date,summary,origin','id','export','typo','portail','ss_portail','tags'];
 	$scope.config = ConfigManager;
 	// $scope.typo = ConfigManager.typos[0];
 
