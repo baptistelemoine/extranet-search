@@ -48,12 +48,13 @@ Settings.prototype = {
 			});
 		}
 
-		Q.spread([this._search(), this._countPerItem()], function (result, facets){
+		/*Q.spread([this._search(), this._countPerItem()], function (result, facets){
 			_.map(facets.origin.terms, function (value){
 				self._setItemCountProperty(result, value);
 			});
 			return result;
-		})
+		})*/
+		this._index()
 		.then(function (data){
 			response.type('application/json; charset=utf-8');
 			response.send(data);
@@ -146,7 +147,7 @@ Settings.prototype = {
 		.then(function (result){
 
 			self._iterate(result);
-			return result;
+			// return result;
 			var search = new SearchManager();
 			return search.bulk(result, self.indice, self.type);
 
